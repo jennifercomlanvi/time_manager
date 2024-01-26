@@ -1,0 +1,5 @@
+# .dockerignore
+/back/node_modules
+/front/.nuxt
+/front/.output
+/front/node_modules

@@ -1,0 +1,26 @@
+{
+  "development": {
+    "username": "root",
+    "password": "web",
+    "database": "time_manager",
+    "host": "127.0.0.1",
+    "port" : 3307,
+    "dialect": "mariadb"
+  },
+  "test": {
+    "username": "root",
+    "password": "web",
+    "database": "time_manager",
+    "host": "127.0.0.1",
+    "port" : 3307,
+    "dialect": "mariadb"
+  },
+  "production": {
+    "username": "root",
+    "password": "web",
+    "database": "time_manager",
+    "host": "db",
+    "port" : 3307,
+    "dialect": "mariadb"
+  }
+}

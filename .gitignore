@@ -1,0 +1,22 @@
+# Dépendances
+node_modules/
+/back/node_modules/
+/front/node_modules/
+
+# Fichiers de logs
+*.log
+*.log.*
+
+# Dossiers générés par le processus de build ou les gestionnaires de paquets
+/front/.nuxt/
+/front/.nitro/
+/front/.cache/
+/front/.output/
+/front/dist/
+
+# Variables d'environnement (ignorer tous sauf l'exemple)
+**/.env.*
+!**/.env.example
+
+# Ignorer des fichiers spécifiques dans le répertoire front
+/front/.env.*

@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+
+  db:
+    container_name: time_manager_dev_db
+    hostname: db
+    restart: always
+    build:
+      context: .
+      dockerfile: db.dockerfile
+    environment:
+      - MYSQL_ROOT_PASSWORD=web
+      - TZ=Europe/Paris
+    volumes:
+      - dbdrive_dev:/var/lib/mysql
+      - ./db/scripts:/scripts
+      - ./db/dump:/dump
+    ports:
+      - "3307:3306"
+    mem_limit: 1536m
+
+volumes:
+  dbdrive_dev:
+    driver: local

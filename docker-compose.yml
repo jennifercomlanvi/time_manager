@@ -1,0 +1,32 @@
+version: '3.9'
+
+services:
+
+  back:
+    restart: always
+    container_name: time_manager_back
+    build:
+      context: .
+      dockerfile: back.dockerfile
+    ports:
+      - "3001:3001"
+
+  db:
+    container_name: time_manager_db
+    hostname: db
+    restart: always
+    build:
+      context: .
+      dockerfile: db.dockerfile
+    environment:
+      - MYSQL_ROOT_PASSWORD=web
+      - TZ=Europe/Paris
+    volumes:
+      - dbdrive:/var/lib/mysql
+      - ./db/scripts:/scripts
+      - ./db/dump:/dump
+    mem_limit: 1536m
+
+volumes:
+  dbdrive:
+    driver: local
