@@ -14,9 +14,9 @@ node_modules/
 /front/.output/
 /front/dist/
 
-# Variables d'environnement (ignorer tous sauf l'exemple)
-**/.env.*
-!**/.env.example
+# Variables d'environnement ne pas ignorer l'exemple
+!front/.env.example
+!back/.env.example
 
 # Ignorer des fichiers spécifiques dans le répertoire front
 /front/.env.*

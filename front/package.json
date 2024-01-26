@@ -10,16 +10,16 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
-    "nuxt": "^3.9.3",
-    "vue": "^3.4.14",
-    "vue-router": "^4.2.5",
     "eslint": "^8.51.0",
-    "nuxt-primevue": "^0.0.3"
+    "nuxt": "^3.9.3",
+    "nuxt-primevue": "^0.0.3",
+    "vue": "^3.4.14",
+    "vue-router": "^4.2.5"
   },
   "dependencies": {
     "@pinia/nuxt": "^0.4.11",
     "primeflex": "^3.3.1",
     "primeicons": "^6.0.1",
-    "primevue": "^3.39.0"
+    "primevue": "^3.47.2"
   }
 }
