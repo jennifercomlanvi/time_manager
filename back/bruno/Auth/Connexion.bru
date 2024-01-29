@@ -1,0 +1,30 @@
+meta {
+  name: Connexion
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{URL}}/signin
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "{{email}}",
+    "password": "Timem@gager12!"
+  }
+}
+
+script:pre-request {
+  const id = Math.floor(Date.now() / 1000);
+        
+  bru.setVar("email", "email" + id + "@timemanager.org");
+  
+  req.setBody({
+     "username": "User " + id,
+      "email": "email" + id + "@timemanager.org",
+      "password": "Timem@gager12!",
+  });
+}
