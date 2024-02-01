@@ -1,0 +1,24 @@
+.container-login {
+    display: flex;
+    min-height: 100vh;
+}
+
+.grid {
+    display: flex;
+    flex-grow: 1;
+}
+
+.login-form {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.overlay-container {
+    background-color: black;
+    flex-grow: 1;
+    color: white;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 2rem;
+}

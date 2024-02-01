@@ -20,6 +20,8 @@ export default defineNuxtConfig({
     'primevue/resources/themes/md-light-indigo/theme.css',
     'primeflex/primeflex.css',
     'primeicons/primeicons.css',
+    '~/assets/styles/global.scss'
+
   ]
   // // OTHER ----------------------------------------------------------------------------------------
   // imports: {

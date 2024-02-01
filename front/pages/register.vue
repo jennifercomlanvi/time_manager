@@ -1,9 +1,12 @@
 <template>
-  <main class="container-login">
+  <main class="container">
     <div class="grid">
       <div class="col">
-        <form @submit.prevent="onSubmit" class="login-form">
-          <h1>Connexion</h1>
+        <p>Connectez vous à votre compte pour commencer à optimiser votre productivité Nous sommes ravis de vous avoir parmi nous !</p>
+      </div>
+      <div class="col">
+        <form @submit.prevent="onSubmit">
+          <h1>Creer un compte</h1>
           <div class="social-container">
             <a href="#" class="social"
               ><i class="pi pi-facebook" style="font-size: 2rem"></i
@@ -15,23 +18,12 @@
               ><i class="pi pi-apple" style="font-size: 2rem"></i
             ></a>
           </div>
-          <p>ou utiliser votre email pour connexion</p>
+          <p>ou utiliser votre email pour inscription</p>
           <LoginAuthForm />
         </form>
-      </div>
-      <div class="col overlay-container">
-        <p>
-          Connectez vous à votre compte pour commencer à optimiser votre
-          productivité.
-        </p>
-        <p>Nous sommes ravis de vous avoir parmi nous !</p>
       </div>
     </div>
   </main>
 </template>
 
 <script setup></script>
-<style scoped>
-
-
-</style>
