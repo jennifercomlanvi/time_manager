@@ -7,10 +7,10 @@ WORKDIR /src
 # Build
 FROM base as build
 
-COPY --link package.json package-lock.json .
+COPY --link front/package.json front/package-lock.json .
 RUN npm install --production=false
 
-COPY --link . .
+COPY --link front/ .
 
 RUN npm run build
 RUN npm prune

@@ -13,6 +13,15 @@ services:
     depends_on:
       - db
 
+  front:
+    container_name: time_manager_front
+    hostname: front
+    build:
+      context: .
+      dockerfile: front.dockerfile
+    ports:
+      - "3000:3000"
+
   db:
     container_name: time_manager_db
     hostname: db
