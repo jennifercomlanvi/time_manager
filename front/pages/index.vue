@@ -16,18 +16,23 @@
           </a>
         </template>
         <template #end>
-          <PButton label="Connexion" plain text @click="redirectTo('/login')" />
+          <PButton
+            label="Connexion"
+            plain
+            text
+            @click="navigateTo({ name: 'login' })"
+          />
           <PButton
             label="Inscription"
             severity="contrast"
             rounded
-            @click="redirectTo('/inscription')"
+            @click="navigateTo({ name: 'register' })"
           />
         </template>
       </PMegaMenu>
     </div>
     <div class="grid mt-4">
-      <div class="col text">
+      <div class="col">
         <div class="fadeinleft animation-duration-1000">
           <h1>Gérez votre temps, optimisez vos projets.</h1>
         </div>

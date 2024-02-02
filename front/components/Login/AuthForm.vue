@@ -1,11 +1,28 @@
 <template>
   <form @submit.prevent="onSubmit">
-    <div class="flex flex-column gap-2">
-      <PInputText
-        placeholder="Adresse mail"
-        v-model="form.email"
-        type="email"
-      />
+    <div div class="flex flex-column gap-2">
+      <span class="p-input-icon-left">
+        <i class="pi pi-user" />
+        <PInputText
+          id="input"
+          v-model="name"
+          type="text"
+          placeholder="Name"
+          autofocus
+          style="width: 100%"
+        />
+      </span>
+    </div>
+    <div class="flex flex-column gap-2 mt-2">
+      <span class="p-input-icon-left">
+        <i class="pi pi-envelope" />
+        <PInputText
+          placeholder="Adresse mail"
+          v-model="form.email"
+          type="email"
+          style="width: 100%"
+        />
+      </span>
       <small v-if="form.errors.email">{{ form.errors.email }}</small>
     </div>
     <div class="flex flex-column gap-2">
@@ -36,7 +53,14 @@
     </div>
 
     <div class="my-2">
-      <PButton class="col-12" type="submit" label="Connexion" />
+      <PButton
+        class="col-12"
+        rounded
+        raised
+        type="submit"
+        severity="contrast"
+        label="Connexion"
+      />
     </div>
   </form>
 </template>

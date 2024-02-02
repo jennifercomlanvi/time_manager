@@ -14,11 +14,23 @@
 }
 
 .overlay-container {
+    display: flex;
     background-color: black;
-    flex-grow: 1;
     color: white;
     justify-content: center;
     align-items: center;
     text-align: center;
     font-size: 2rem;
 }
+
+.custom-button {
+    background-color: #dbdbdb;
+    color: black;
+    font-weight: normal;
+  }
+  .custom-button .pi {
+    color: black;
+  }
+  .custom-button:hover {
+    background-color: #c8c8c8;
+  }
