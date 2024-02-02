@@ -1,14 +1,15 @@
-ARG NODE_VERSION=20.11.0
+FROM node:20.11.0-slim
 
-FROM node:${NODE_VERSION}-slim as base
-
+ENV NODE_ENV=production
 WORKDIR /src
 
-COPY back/package.json back/package-lock.json .
+RUN npm i -g sequelize-cli
+COPY --link back/package.json back/package-lock.json .
 RUN npm install
 
-COPY back/ .
+COPY --link back/ .
+RUN chmod +x startup.sh
 
-EXPOSE 3001
+EXPOSE 3000
 
-CMD [ "npm", "run", "pm2"]
+ENTRYPOINT [ "./startup.sh" ]

@@ -1,8 +1,4 @@
-ARG NODE_VERSION=20.11.0
-
-FROM node:${NODE_VERSION}-slim as base
-
-ARG PORT=3000
+FROM node:20.11.0-slim as base
 
 ENV NODE_ENV=production
 
@@ -22,7 +18,7 @@ RUN npm prune
 # Run
 FROM base
 
-ENV PORT=$PORT
+ENV PORT=3000
 
 COPY --from=build /src/.output /src/.output
 # Optional, only needed if you rely on unbundled dependencies
