@@ -6,9 +6,9 @@ const compress = require("koa-compress");
 const cors = require("@koa/cors");
 const bodyParser = require("koa-bodyparser");
 const router = require("./router.js");
-const errorHandler = require('./middleware/error.js');
-const env = process.env.NODE_ENV || "development"
-const config = require(`./config/${env}.json`)
+const errorHandler = require("./middleware/error.js");
+const env = process.env.NODE_ENV || "development";
+const config = require(`./config/${env}.json`);
 
 const app = new Koa();
 
