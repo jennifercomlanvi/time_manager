@@ -28,9 +28,29 @@
     color: black;
     font-weight: normal;
   }
+
   .custom-button .pi {
     color: black;
   }
+
   .custom-button:hover {
     background-color: #c8c8c8;
   }
+
+  .no-underline {
+    text-decoration: none;
+}
+
+.logo {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 125px;
+}
+
+.log-title {
+  color: #2c3e50; /* Couleur du texte */
+  font-weight: bold; /* Gras */
+  font-family: 'Arial', sans-serif; /* Police de caractères personnalisée */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Ombre portée */
+}

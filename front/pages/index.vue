@@ -81,10 +81,6 @@ const items = ref([
     id: "contact",
   },
 ]);
-
-function redirectTo(path) {
-  router.push(path);
-}
 </script>
 
 <style scoped>

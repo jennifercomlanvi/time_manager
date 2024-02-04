@@ -2,12 +2,12 @@
   <form @submit.prevent="onSubmit">
     <div div class="flex flex-column gap-2">
       <span class="p-input-icon-left">
-        <i class="pi pi-user" />
+        <i class="pi pi-user"/>
         <PInputText
           id="input"
           v-model="name"
           type="text"
-          placeholder="Name"
+          placeholder="Nom"
           autofocus
           style="width: 100%"
         />
@@ -26,15 +26,15 @@
       <small v-if="form.errors.email">{{ form.errors.email }}</small>
     </div>
     <div class="flex flex-column gap-2">
-      <PPassword
-        name="password"
-        class="mt-2"
-        v-model="form.password"
-        :input-style="{ width: '100%' }"
-        placeholder="Mot de passe"
-        toggle-mask
-        :feedback="false"
-      />
+        <PPassword
+          name="password"
+          class="mt-2"
+          v-model="form.password"
+          :input-style="{ width: '100%' }"
+          placeholder="Mot de passe"
+          toggle-mask
+          :feedback="false"
+        />
       <small v-if="form.errors.password">{{ form.errors.password }}</small>
     </div>
     <div class="flex flex-wrap justify-content-between">
@@ -48,7 +48,7 @@
         <label for="Auth-remember"> Rester connecter </label>
       </div>
       <div>
-        <a href="#"> Mot de passe oublié?</a>
+        <PButton label="Mot de passe oublié?" severity="help" text />
       </div>
     </div>
 
