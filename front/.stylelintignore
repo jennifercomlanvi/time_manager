@@ -1,0 +1,13 @@
+.output
+.vscode
+capacitor
+composables
+config
+middleware
+models
+node_modules
+plugins
+public
+stores
+stores
+utils
