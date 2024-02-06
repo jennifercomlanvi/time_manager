@@ -1,5 +1,5 @@
 // https://github.com/tonyghiani/koa-template
-
+require('@babel/register');
 const env = process.env.NODE_ENV || "development";
 const http = require("http");
 const app = require("./app.js");

@@ -5,19 +5,15 @@ meta {
 }
 
 post {
-  url: {{URL}}/signup
-  body: none
+  url: {{URL}}/api/v1/signup
+  body: json
   auth: none
 }
 
-script:pre-request {
-  const id = Math.floor(Date.now() / 1000);
-        
-  bru.setVar("email", "email" + id + "@timemanager.org");
-  
-  req.setBody({
-     "username": "User " + id,
-      "email": "email" + id + "@timemanager.org",
-      "password": "Timem@gager12!",
-  });
+body:json {
+  {
+    "username" : "jennifer",
+    "email": "jenn@timemanager.org",
+    "password": "Timem@gager12!"
+  }
 }

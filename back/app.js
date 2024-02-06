@@ -1,7 +1,7 @@
 // https://github.com/tonyghiani/koa-template
 
 const Koa = require("koa");
-const helmet = require("koa-helmet");
+const helmet = require("koa-helmet");//sécurité
 const compress = require("koa-compress");
 const cors = require("@koa/cors");
 const bodyParser = require("koa-bodyparser");
@@ -20,6 +20,7 @@ app.use(compress());
 app.use(cors());
 app.use(bodyParser());
 app.use(router.routes());
-app.use(router.allowedMethods());
+// app.use(router.allowedMethods());
+app.use(router.routes()).use(router.allowedMethods());
 
 module.exports = app;
