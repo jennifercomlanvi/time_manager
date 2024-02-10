@@ -1,10 +1,18 @@
 // require("babel-register");
 
-const path = require('path');
+// const path = require('path');
+
+// module.exports = {
+//     'config': path.resolve('config', 'database.json'),
+//     'models-path': path.resolve('models'),
+//     'seeders-path': path.resolve('seeders'),
+//     'migrations-path': path.resolve('migrations')
+// };
+const path = require("path");
 
 module.exports = {
-    'config': path.resolve('config', 'database.json'),
-    'models-path': path.resolve('models'),
-    'seeders-path': path.resolve('seeders'),
-    'migrations-path': path.resolve('migrations')
+  config: path.resolve(__dirname, "config", "database.js"),
+  "models-path": path.resolve(__dirname, "models"),
+  "seeders-path": path.resolve(__dirname, "seeders"),
+  "migrations-path": path.resolve(__dirname, "migrations"),
 };

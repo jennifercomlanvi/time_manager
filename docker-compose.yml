@@ -7,6 +7,8 @@ services:
     hostname: web
     restart: always
     image: nginx:latest
+    environment:
+      - TZ=Europe/Paris
     ports:
       - "${IP:-0.0.0.0}:${PORT:-8080}:80"
     volumes:
@@ -30,9 +32,12 @@ services:
     ports:
       - "3001:3000"
     depends_on:
-      - db
-    links:
-      - db
+      db:
+        condition: service_healthy
+    # depends_on:
+    #   - db
+    # links:
+    #   - db
 
   front:
     container_name: time_manager_front
@@ -40,6 +45,9 @@ services:
     build:
       context: .
       dockerfile: front.dockerfile
+    environment:
+      - NODE_ENV=production
+      - TZ=Europe/Paris
     ports:
       - "3000:3000"
 
@@ -59,6 +67,12 @@ services:
     mem_limit: 1024m
     ports:
       - "3307:3306"
+    healthcheck:
+      test: mariadb-admin ping -h 127.0.0.1 -u root --password=$$MYSQL_ROOT_PASSWORD
+      start_period: 5s
+      interval: 5s
+      timeout: 5s
+      retries: 55
 
 volumes:
   dbdrive:
