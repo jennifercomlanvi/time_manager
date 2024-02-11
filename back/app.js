@@ -1,12 +1,12 @@
 // https://github.com/tonyghiani/koa-template
 
 const Koa = require("koa");
-const helmet = require("koa-helmet");//sécurité
+const helmet = require("koa-helmet"); //sécurité
 const compress = require("koa-compress");
 const cors = require("@koa/cors");
 const bodyParser = require("koa-bodyparser");
 const router = require("./router.js");
-const errorHandler = require("./middleware/error.js");
+const errorHandler = require("./middleware/error");
 const env = process.env.NODE_ENV || "development";
 const config = require(`./config/${env}.json`);
 

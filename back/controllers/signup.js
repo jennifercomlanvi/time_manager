@@ -1,8 +1,8 @@
-const Form = require("../lib/validation/form.js");
-const HttpError = require("../lib/HttpError.js");
-const rules = require("../lib/validation/rules.js");
-const password = require("../lib/password.js");
-const otp = require("../lib/otp.js");
+const Form = require("../lib/validation/form");
+const HttpError = require("../lib/HttpError");
+const rules = require("../lib/validation/rules");
+const password = require("../lib/password");
+const otp = require("../lib/otp");
 const {
   request,
   summary,
@@ -11,7 +11,7 @@ const {
   responses,
 } = require("koa-swagger-decorator");
 class RegisterController {
-  @request("post", "/api/v1/signin")
+  @request("post", "/api/v1/signup")
   @summary("Inscription utilisateur")
   @tags(["Utilisateur"])
   @body({

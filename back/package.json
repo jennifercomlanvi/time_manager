@@ -1,5 +1,5 @@
 {
-  "name": "time-manager-front",
+  "name": "time-manager-back",
   "private": true,
   "scripts": {
     "dev": "nodemon  --env-file=.env.dev --exec babel-node index.js",
@@ -12,6 +12,7 @@
     "@koa/cors": "^4.0.0",
     "@koa/router": "^12.0.0",
     "bcrypt": "^5.1.0",
+    "dotenv": "^16.4.2",
     "jsonwebtoken": "^9.0.0",
     "koa": "^2.14.2",
     "koa-bodyparser": "^4.4.0",

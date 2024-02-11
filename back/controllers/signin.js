@@ -1,7 +1,7 @@
-const Form = require("../lib/validation/form.js");
-const HttpError = require("../lib/HttpError.js");
-const rules = require("../lib/validation/rules.js");
-const password = require("../lib/password.js");
+const Form = require("../lib/validation/form");
+const HttpError = require("../lib/HttpError");
+const rules = require("../lib/validation/rules");
+const password = require("../lib/password");
 const jwt = require("jsonwebtoken");
 const { v4: uuidv4 } = require("uuid");
 const { DateTime } = require("luxon");
@@ -13,7 +13,7 @@ const {
   responses,
 } = require("koa-swagger-decorator");
 class LoginController {
-  @request("post", "/api/v1/login")
+  @request("post", "/api/v1/signin")
   @summary("Connexion utilisateur")
   @tags(["Authentification"])
   @body({
@@ -32,7 +32,6 @@ class LoginController {
     200: { description: "Connexion réussie" },
     400: { description: "Données de requête invalides" },
   })
-
   static async index(ctx) {
     const form = new Form();
     form.stringField("email", (value) => {
