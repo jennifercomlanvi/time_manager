@@ -1,6 +1,6 @@
-const Form = require("../lib/validation/form");
-const HttpError = require("../lib/HttpError");
-const rules = require("../lib/validation/rules");
+const Form = require("../../../lib/validation/form");
+const HttpError = require("../../../lib/HttpError");
+const rules = require("../../../lib/validation/rules");
 const jwt = require("jsonwebtoken");
 const { v4: uuidv4 } = require("uuid");
 const { DateTime } = require("luxon");

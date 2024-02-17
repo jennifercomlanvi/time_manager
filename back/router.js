@@ -1,5 +1,5 @@
 // const Router = require("@koa/router");
-const auth = require("./middleware/auth.js");
+const auth = require("./middleware/auth");
 const { SwaggerRouter } = require("koa-swagger-decorator");
 const router = new SwaggerRouter();
 // const router = new Router();
@@ -15,16 +15,25 @@ router.get("/", (ctx, next) => {
 });
 
 // router.get('/swagger-html', router.swaggerUi);
-router.post("/api/v1/signin", require("./controllers/signin.js"));
-router.post("/api/v1/signup", require("./controllers/signup.js"));
-router.post("/api/v1/refresh", require("./controllers/refresh.js"));
+
+//Auth
+router.post("/api/v1/signin", require("./controllers/users/auth/signin.js"));
+router.post("/api/v1/signup", require("./controllers/users/auth/signup.js"));
+router.post("/api/v1/refresh", require("./controllers/users/auth/refresh.js"));
+
+//Test
 router.get("/api/v1/test", require("./controllers/test.js"));
 router.get("/test", auth, require("./controllers/test.js"));
+
+//Team
 router.post("/api/v1/team", auth, require("./controllers/team/create.js"));
+router.get("/api/v1/team", auth, require("./controllers/team/all.js"));
+
+//Control
 router.get(
   "/api/v1/user/{userId}/control",
   auth,
-  require("./controllers/control/search.js")
+  require("./controllers/users/control/search.js")
 );
 
 module.exports = router;

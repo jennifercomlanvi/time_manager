@@ -1,4 +1,4 @@
-const HttpError = require("../../lib/HttpError");
+const HttpError = require("../../../lib/HttpError");
 const {
   request,
   summary,

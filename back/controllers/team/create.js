@@ -9,7 +9,7 @@ const {
   responses,
 } = require("koa-swagger-decorator");
 // Fonction pour créer une équipe
-class TeamController {
+class Create {
   @request("post", "/api/v1/team")
   @summary("Crée une nouvelle équipe")
   @tags(["Équipe"])
@@ -31,7 +31,6 @@ class TeamController {
       rules.required(value, "Un nom est requis");
     });
 
-    // Vérifier si la description n'est pas nulle avant d'appliquer les règles
     const description = form.value("description");
     if (description !== null) {
       rules.minLen(
@@ -46,7 +45,6 @@ class TeamController {
       );
     }
 
-    // Valider les champs
     if (!form.validate(ctx.request.body)) {
       throw new HttpError(400, "Validation", form.errors());
     }
@@ -76,4 +74,4 @@ class TeamController {
     ctx.response.body = { team: team };
   }
 }
-module.exports = TeamController.index;
+module.exports = Create.index;

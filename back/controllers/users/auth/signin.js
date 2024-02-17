@@ -1,7 +1,7 @@
-const Form = require("../lib/validation/form");
-const HttpError = require("../lib/HttpError");
-const rules = require("../lib/validation/rules");
-const password = require("../lib/password");
+const Form = require("../../../lib/validation/form");
+const HttpError = require("../../../lib/HttpError");
+const rules = require("../../../lib/validation/rules");
+const password = require("../../../lib/password");
 const jwt = require("jsonwebtoken");
 const { v4: uuidv4 } = require("uuid");
 const { DateTime } = require("luxon");
@@ -12,7 +12,7 @@ const {
   tags,
   responses,
 } = require("koa-swagger-decorator");
-class LoginController {
+class Login {
   @request("post", "/api/v1/signin")
   @summary("Connexion utilisateur")
   @tags(["Authentification"])
@@ -96,4 +96,4 @@ class LoginController {
   }
 }
 
-module.exports = LoginController.index;
+module.exports = Login.index;
