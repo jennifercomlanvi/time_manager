@@ -1,6 +1,7 @@
 {
   "name": "time-manager-back",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "nodemon  --env-file=.env.dev --exec babel-node index.js",
     "start": "node   --env-file=.env index.js",

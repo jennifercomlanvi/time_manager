@@ -8,7 +8,7 @@ const {
 } = require("koa-swagger-decorator");
 
 class UserControlController {
-  @request("get", "/api/v1/user/{userId}/control")
+  @request("get", "/api/v1/user/control/:id")
   @summary("Récupère le UserControl le plus ancien pour un utilisateur")
   @tags(["UserControl"])
   @path({

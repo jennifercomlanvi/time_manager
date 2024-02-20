@@ -31,7 +31,7 @@ router.get("/api/v1/team", auth, require("./controllers/team/all.js"));
 
 //Control
 router.get(
-  "/api/v1/user/{userId}/control",
+  "/api/v1/user/control/:id",
   auth,
   require("./controllers/users/control/search.js")
 );
