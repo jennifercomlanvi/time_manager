@@ -3,6 +3,8 @@ const HttpError = require("../../../lib/HttpError");
 const rules = require("../../../lib/validation/rules");
 const password = require("../../../lib/password");
 const otp = require("../../../lib/otp");
+const sendEmail = require('../../../emailSender');
+
 const {
   request,
   summary,
@@ -71,11 +73,17 @@ class Register {
       value: await password.hash(form.value("password")),
     });
 
+    const otpCode = otp.generateOtp();
+
     await ctx.db.UserControl.create({
       control_user: user.user_id,
       control_type: ctx.db.UserControl.CTRL_REGISTER,
-      control_otp: await otp.generateOtp(),
+      control_otp: otpCode,
     });
+
+    console.log('code otp:', otpCode);
+    // await sendEmail(user.user_email,"Votre code de vérification",`<p>Votre code de vérification pour l'inscription est : <strong>${otpCode}</strong></p>`,
+    // );
 
     ctx.response.body = { user: user };
   }

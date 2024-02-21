@@ -1,13 +1,7 @@
-const Form = require("../../lib/validation/form");
-const rules = require("../../lib/validation/rules");
-const HttpError = require("../../lib/HttpError");
-const {
-  request,
-  summary,
-  body,
-  tags,
-  responses,
-} = require("koa-swagger-decorator");
+import Form from "../../lib/validation/form";
+import { required as _required, minLen, maxLen } from "../../lib/validation/rules";
+import HttpError from "../../lib/HttpError";
+import { request, summary, body, tags, responses } from "koa-swagger-decorator";
 // Fonction pour créer une équipe
 class Create {
   @request("post", "/api/v1/team")
@@ -28,17 +22,17 @@ class Create {
   static async index(ctx) {
     const form = new Form();
     form.stringField("name", (value) => {
-      rules.required(value, "Un nom est requis");
+      _required(value, "Un nom est requis");
     });
 
     const description = form.value("description");
     if (description !== null) {
-      rules.minLen(
+      minLen(
         description,
         10,
         "La description doit avoir au moins 10 caractères"
       );
-      rules.maxLen(
+      maxLen(
         description,
         255,
         "La description ne doit pas dépasser 255 caractères"

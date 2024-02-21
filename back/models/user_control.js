@@ -5,11 +5,13 @@ module.exports = (sequelize, DataTypes) => {
   const CTRL_REGISTER = 1;
   const CTRL_EMAIL_CHECK = 2;
   const CTRL_DELETE = 3;
+  const CTRL_PASSWORD = 4;
   class UserControl extends Model {
   static types = {
     [CTRL_REGISTER]: "Enregistrement",
     [CTRL_DELETE]: "Suppression du compte",
     [CTRL_EMAIL_CHECK]: "Changement de mail",
+    [CTRL_PASSWORD]: "Changement de mot de passe",
   };
     static associate(models) {
       UserControl.belongsTo(models.User);
@@ -37,6 +39,7 @@ module.exports = (sequelize, DataTypes) => {
             CTRL_REGISTER,
             CTRL_EMAIL_CHECK,
             CTRL_DELETE,
+            CTRL_PASSWORD
           ],
         ],
       },
@@ -64,5 +67,6 @@ module.exports = (sequelize, DataTypes) => {
   UserControl.CTRL_DELETE = CTRL_DELETE;
   UserControl.CTRL_EMAIL_CHECK = CTRL_EMAIL_CHECK;
   UserControl.CTRL_REGISTER = CTRL_REGISTER;
+  UserControl.CTRL_PASSWORD = CTRL_PASSWORD;
   return UserControl;
 };

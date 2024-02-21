@@ -1,17 +1,11 @@
-const Form = require("../../../lib/validation/form");
-const HttpError = require("../../../lib/HttpError");
-const rules = require("../../../lib/validation/rules");
-const password = require("../../../lib/password");
-const jwt = require("jsonwebtoken");
-const { v4: uuidv4 } = require("uuid");
-const { DateTime } = require("luxon");
-const {
-  request,
-  summary,
-  body,
-  tags,
-  responses,
-} = require("koa-swagger-decorator");
+import Form from "../../../lib/validation/form";
+import HttpError from "../../../lib/HttpError";
+import { required as _required, isEmail } from "../../../lib/validation/rules";
+import { compare } from "../../../lib/password";
+import { sign } from "jsonwebtoken";
+import { v4 as uuidv4 } from "uuid";
+import { DateTime } from "luxon";
+import { request, summary, body, tags, responses } from "koa-swagger-decorator";
 class Login {
   @request("post", "/api/v1/signin")
   @summary("Connexion utilisateur")
@@ -35,11 +29,11 @@ class Login {
   static async index(ctx) {
     const form = new Form();
     form.stringField("email", (value) => {
-      rules.required(value, "Un email valide est requis");
-      rules.isEmail(value, "Un email valide est requis");
+      _required(value, "Un email valide est requis");
+      isEmail(value, "Un email valide est requis");
     });
     form.stringField("password", (value) => {
-      rules.required(value, "Un mot de passe valide est requis");
+      _required(value, "Un mot de passe valide est requis");
     });
 
     if (!form.validate(ctx.request.body)) {
@@ -62,7 +56,7 @@ class Login {
       throw new HttpError(400, "validation", form.errors());
     }
 
-    if (!password.compare(form.value("password"), userPassord.value)) {
+    if (!compare(form.value("password"), userPassord.value)) {
       form.setError("email", "bad");
       throw new HttpError(400, "validation", form.errors());
     }
@@ -70,7 +64,7 @@ class Login {
     const now = Math.floor(Date.now() / 1000);
     const exp = now + 3600;
 
-    const token = jwt.sign(
+    const token = sign(
       {
         sub: user.user_id,
         iat: now,

@@ -1,10 +1,5 @@
-const {
-  request,
-  summary,
-  tags,
-  middlewares,
-  responses,
-} = require("koa-swagger-decorator");
+import HttpError from "../../lib/HttpError";
+import { request, summary, tags, responses } from "koa-swagger-decorator";
 class All {
   @request("get", "/api/v1/teams")
   @summary("Récupère la liste de toutes les équipes")

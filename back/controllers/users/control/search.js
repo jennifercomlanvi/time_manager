@@ -7,7 +7,7 @@ const {
   responses,
 } = require("koa-swagger-decorator");
 
-class UserControlController {
+class UserControl {
   @request("get", "/api/v1/user/control/:id")
   @summary("Récupère le UserControl le plus ancien pour un utilisateur")
   @tags(["UserControl"])
@@ -23,7 +23,7 @@ class UserControlController {
     404: { description: "Utilisateur ou UserControl non trouvé" },
   })
   static async getUserControl(ctx) {
-    const userId = ctx.params.userId;
+    const userId = ctx.params.id;
     try {
       const userControl = await ctx.db.UserControl.findOne({
         where: { control_user: userId },
@@ -45,4 +45,4 @@ class UserControlController {
   }
 }
 
-module.exports = UserControlController.getUserControl;
+module.exports = UserControl.getUserControl;

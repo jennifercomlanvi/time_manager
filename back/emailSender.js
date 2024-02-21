@@ -1,13 +1,12 @@
-// emailSender.js
-const transporter = require("./config/emailConfig");
+import transporter from "./config/emailConfig";
 
-async function sendEmail(to, subject, text) {
+async function sendEmail(to, subject, html) {
   try {
     let info = await transporter.sendMail({
-      from: '"Time_manager" timemanager@brevo.com',
+      from: '"Time_manager" <timemanager@brevo.com>',
       to,
       subject,
-      text,
+      html
     });
 
     console.log("Message sent: %s", info.messageId);
@@ -16,4 +15,4 @@ async function sendEmail(to, subject, text) {
   }
 }
 
-module.exports = { sendEmail };
+module.exports = sendEmail;

@@ -5,6 +5,8 @@ module.exports = (sequelize, DataTypes) => {
   class Team extends Model {
     static associate(models) {
         Team.hasMany(models.Permission);
+        Team.belongsToMany(models.User, { through: models.Permission, foreignKey: 'team_id' });
+
     }
   }
   Team.init({

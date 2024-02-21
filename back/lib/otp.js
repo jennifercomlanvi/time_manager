@@ -13,12 +13,3 @@ function generateOtp(length = 6) {
 module.exports = {
   generateOtp,
 };
-// const OTPGenerator = require('otp-generator');
-
-// function generateOtp(length = 6) {
-//   return OTPGenerator.generate(length, { digits: true, alphabets: false, upperCase: false, specialChars: false });
-// }
-
-// module.exports = {
-//     generateOtp,
-// };

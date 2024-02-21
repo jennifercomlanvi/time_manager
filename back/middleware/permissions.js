@@ -1,4 +1,5 @@
-async function checkTeamPermission(ctx, next) {
+const HttpError = require("../lib/HttpError");
+module.exports = async (ctx, next) => {
   const user_id = ctx.state.user.id;
   const team_id = ctx.params.teamId;
 
@@ -10,12 +11,8 @@ async function checkTeamPermission(ctx, next) {
   });
 
   if (!permission || permission.level !== ctx.db.Permission.LEVELS.ADMIN) {
-    ctx.status = 403;
-    return (ctx.body = {
-      message:
-        "Vous n'avez pas les permissions nécessaires pour modifier cette équipe.",
-    });
+    throw new HttpError(403, "Vous n'avez pas les permissions nécessaires pour modifier cette équipe.");
   }
 
   await next();
-}
+};
