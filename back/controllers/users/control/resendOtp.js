@@ -15,19 +15,19 @@ class UserControl {
   static async resendOrGenerateOtp(ctx) {
     const userControlId = ctx.params.id;
     const userControl = await ctx.db.UserControl.findByPk(userControlId);
-
+     
       if (!userControl) {
         throw new HttpError(404, "Contrôle utilisateur non trouvé.");
       }
 
       const user = await ctx.db.User.findByPk(userControl.control_user);
+     
       if (!user) {
         throw new HttpError(404, "Utilisateur non trouvé.");
       }
 
       let otpCode = userControl.control_otp;
       const now = new Date();
-
       if (new Date(userControl.control_expired_at) <= now) {
         otpCode = otp.generateOtp();
         const newExpirationDate = new Date(now.getTime() + 10 * 60000);
@@ -44,7 +44,7 @@ class UserControl {
       //   `<p>Votre code de vérification pour l'inscription est : <strong>${otpCode}</strong></p>`
       // );
 
-      ctx.body = { message: "OTP envoyé avec succès." };
+      ctx.status = 204;
   }
 }
 

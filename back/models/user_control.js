@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     [CTRL_PASSWORD]: "Changement de mot de passe",
   };
     static associate(models) {
-      UserControl.belongsTo(models.User);
+      UserControl.belongsTo(models.User, { foreignKey: 'control_user' });
     }
     static typeToString(type) {
       return types[type] || 'INCONNU';

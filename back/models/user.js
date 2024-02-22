@@ -10,9 +10,9 @@ module.exports = (sequelize, DataTypes) => {
   };
   class User extends Model {
     static associate(models) {
-      User.hasOne(models.UserPassword, { foreignKey: "user_id" });
-      User.belongsToMany(models.Team, { through: models.Permission, foreignKey: 'user_id' });
-
+      User.hasOne(models.UserPassword);
+      User.belongsToMany(models.Team, { through: models.Permission });
+      User.hasMany(models.UserControl, { foreignKey: 'control_user' });
     }
   }
   User.init(

@@ -5,13 +5,11 @@ module.exports = (sequelize, DataTypes) => {
   class Permission extends Model {
     static associate(models) {
       Permission.belongsTo(models.User, {
-        foreignKey: "perm_user",
-        as: "user_permissions",
+        foreignKey: "perm_user"
       });
 
       Permission.belongsTo(models.Team, {
-        foreignKey: "perm_team",
-        as: "team_permissions",
+        foreignKey: "perm_team"
       });
     }
     static LEVELS = {

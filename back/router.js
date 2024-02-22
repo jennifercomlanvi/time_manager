@@ -30,15 +30,35 @@ router.get("/test", auth, require("./controllers/test"));
 router.get("/api/v1/user/profile", auth, require("./controllers/test"));
 
 //Team
-router.post("/api/v1/user/invitation/team", auth, permissions, require("./controllers/invitation/create"));
+router.post(
+  "/api/v1/user/invitation/team",
+  auth,
+  permissions,
+  require("./controllers/invitation/create")
+);
 
-router.get("/api/v1/teams", auth, permissions, require("./controllers/team/all"));
+router.get(
+  "/api/v1/teams",
+  auth,
+  permissions,
+  require("./controllers/team/all")
+);
 router.get("/api/v1/team/:id", auth, require("./controllers/team/search"));
 router.post("/api/v1/team", auth, require("./controllers/team/create"));
-router.put("/api/v1/team/:id", auth, permissions, require("./controllers/team/edit"));
-router.delete("/api/v1/team/:id", auth, permissions, require("./controllers/team/delete"));
+router.put(
+  "/api/v1/team/:id",
+  auth,
+  permissions,
+  require("./controllers/team/edit")
+);
+router.delete(
+  "/api/v1/team/:id",
+  auth,
+  permissions,
+  require("./controllers/team/delete")
+);
 
-//Control
+//UserControl
 router.get(
   "/api/v1/user/control/:id",
   auth,
@@ -53,6 +73,11 @@ router.post(
   "/api/v1/user/control/:id",
   auth,
   require("./controllers/users/control/resendOtp")
+);
+router.put(
+  "/api/v1/user/control/register",
+  auth,
+  require("./controllers/users/control/register")
 );
 
 module.exports = router;
