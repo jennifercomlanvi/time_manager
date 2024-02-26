@@ -65,7 +65,7 @@ router.get(
   require("./controllers/users/control/search")
 );
 router.get(
-  "/api/v1/user/control/:id",
+  "/api/v1/user/control",
   auth,
   require("./controllers/users/control/search")
 );

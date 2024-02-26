@@ -21,22 +21,22 @@
     "@nuxtjs/eslint-config": "^12.0.0",
     "@vue/eslint-config-airbnb": "^8.0.0",
     "eslint": "^8.56.0",
-    "nuxt": "^3.10.0",
-    "nuxt-primevue": "^0.2.2",
-    "prettier": "^3.2.4",
-    "sass": "^1.70.0",
-    "sass-loader": "^14.0.0",
-    "stylelint": "^16.2.0",
-    "vue": "^3.4.15",
+    "nuxt": "^3.10.2",
+    "nuxt-primevue": "^0.3.0",
+    "prettier": "^3.2.5",
+    "sass": "^1.71.1",
+    "sass-loader": "^14.1.1",
+    "stylelint": "^16.2.1",
+    "vue": "^3.4.19",
     "stylelint-config-recommended-scss": "^14.0.0",
     "stylelint-config-recommended-vue": "^1.5.0",
-    "vue-router": "^4.2.5"
+    "vue-router": "^4.3.0"
   },
   "dependencies": {
     "@pinia/nuxt": "^0.5.1",
     "primeflex": "^3.3.1",
     "primeicons": "^6.0.1",
-    "primevue": "^3.47.2",
+    "primevue": "^3.48.1",
     "pinia": "^2.1.7"
   }
 }

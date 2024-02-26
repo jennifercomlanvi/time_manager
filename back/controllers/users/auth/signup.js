@@ -3,7 +3,10 @@ const HttpError = require("../../../lib/HttpError");
 const rules = require("../../../lib/validation/rules");
 const password = require("../../../lib/password");
 const otp = require("../../../lib/otp");
-const sendEmail = require('../../../emailSender');
+import { sign } from "jsonwebtoken";
+import { DateTime } from "luxon";
+const sendEmail = require("../../../emailSender");
+import { v4 as uuidv4 } from "uuid";
 
 const {
   request,
@@ -81,11 +84,36 @@ class Register {
       control_otp: otpCode,
     });
 
-    console.log('code otp:', otpCode);
+    console.log("code otp:", otpCode);
     // await sendEmail(user.user_email,"Votre code de vérification",`<p>Votre code de vérification pour l'inscription est : <strong>${otpCode}</strong></p>`,
     // );
 
-    ctx.response.body = { user: user };
+    const now = Math.floor(Date.now() / 1000);
+    const exp = now + 3600;
+
+    const token = sign(
+      {
+        sub: user.user_id,
+        iat: now,
+        exp: exp,
+      },
+      ctx.config.jwt_secret
+    );
+    const refresh_token = uuidv4();
+    await ctx.db.UserToken.create({
+      user_id: user.user_id,
+      token: refresh_token,
+      expired_at: DateTime.now().plus({ hours: 24 }).toJSDate(),
+    });
+
+    ctx.response.body = {
+      useruuid: user.user_uuid,
+      username: user.user_name,
+      useremail: user.user_email,
+      token: token,
+      expire_in: exp,
+      has_control: true,
+    };
   }
 }
 

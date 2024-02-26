@@ -9,7 +9,7 @@
           <p class="flex justify-content-center">
             ou utiliser votre email pour connexion
           </p>
-          <LoginAuthForm />
+          <LoginAuthForm :isRegistering="false"/>
           <div class="mt-4 flex justify-content-center flex-wrap">
             Vous n'avez pas de compte ? <a href="#" class="no-underline" @click="navigateTo({ name: 'register' })">Inscrivez vous maintenant</a>
           </div>

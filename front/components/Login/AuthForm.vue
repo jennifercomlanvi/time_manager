@@ -1,11 +1,11 @@
 <template>
   <form @submit.prevent="onSubmit">
-    <div div class="flex flex-column gap-2">
+    <div v-if="isRegistering" class="flex flex-column gap-2">
       <span class="p-input-icon-left">
-        <i class="pi pi-user"/>
+        <i class="pi pi-user" />
         <PInputText
           id="input"
-          v-model="name"
+          v-model="form.name"
           type="text"
           placeholder="Nom"
           autofocus
@@ -26,18 +26,18 @@
       <small v-if="form.errors.email">{{ form.errors.email }}</small>
     </div>
     <div class="flex flex-column gap-2">
-        <PPassword
-          name="password"
-          class="mt-2"
-          v-model="form.password"
-          :input-style="{ width: '100%' }"
-          placeholder="Mot de passe"
-          toggle-mask
-          :feedback="false"
-        />
+      <PPassword
+        name="password"
+        class="mt-2"
+        v-model="form.password"
+        :input-style="{ width: '100%' }"
+        placeholder="Mot de passe"
+        toggle-mask
+        :feedback="false"
+      />
       <small v-if="form.errors.password">{{ form.errors.password }}</small>
     </div>
-    <div class="flex flex-wrap justify-content-between">
+    <div v-if="!isRegistering" class="flex flex-wrap justify-content-between">
       <div class="field-checkbox mt-2">
         <PCheckbox
           v-model="form.remember"
@@ -59,7 +59,7 @@
         raised
         type="submit"
         severity="contrast"
-        label="Connexion"
+        :label="isRegistering ? 'Enregistrer' : 'Se connecter'"
       />
     </div>
   </form>
@@ -70,7 +70,15 @@
 const router = useRouter();
 const route = useRoute();
 
+const props = defineProps({
+  isRegistering: {
+    type: Boolean,
+    default: false,
+  },
+});
+
 const form = ref({
+  name: "",
   email: "",
   password: "",
   remember: false,

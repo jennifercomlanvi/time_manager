@@ -24,6 +24,9 @@ module.exports = async (ctx, next) => {
 
   try {
     ctx.request.jwtPayload = jwt.verify(token, ctx.config.jwt_secret);
+    ctx.state.user = {
+      id: ctx.request.jwtPayload.sub,
+    };
   } catch (err) {
     throw new HttpError(401, err.message);
   }

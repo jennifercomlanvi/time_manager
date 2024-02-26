@@ -1,0 +1,15 @@
+meta {
+  name: Recuperer un user control
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{URL}}/api/v1/user/control
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTcwODk3OTc3MywiZXhwIjoxNzA4OTgzMzczfQ.gHsSDmnOVqlLPZd6hhw6gDP7rbWV1MB706QEDu2PtIY
+}

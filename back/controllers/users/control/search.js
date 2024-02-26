@@ -8,22 +8,15 @@ const {
 } = require("koa-swagger-decorator");
 
 class UserControl {
-  @request("get", "/api/v1/user/control/:id")
+  @request("get", "/api/v1/user/control")
   @summary("Récupère le UserControl le plus ancien pour un utilisateur")
   @tags(["UserControl"])
-  @path({
-    userId: {
-      type: "string",
-      required: true,
-      description: "ID de l'utilisateur",
-    },
-  })
   @responses({
     200: { description: "UserControl récupéré avec succès" },
     404: { description: "Utilisateur ou UserControl non trouvé" },
   })
   static async getUserControl(ctx) {
-    const userId = ctx.params.id;
+    const userId = ctx.state.user.id;
     try {
       const userControl = await ctx.db.UserControl.findOne({
         where: { control_user: userId },
