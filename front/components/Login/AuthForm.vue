@@ -1,8 +1,8 @@
 <template>
   <form @submit.prevent="onSubmit">
-    <div v-if="isRegistering" class="flex flex-column gap-2">
-      <span class="p-input-icon-left">
-        <i class="pi pi-user" />
+    <div v-if="register" class="flex flex-column gap-2">
+      <PIconField iconPosition="left">
+        <PInputIcon class="pi pi-user"> </PInputIcon>
         <PInputText
           id="input"
           v-model="form.name"
@@ -11,19 +11,19 @@
           autofocus
           style="width: 100%"
         />
-      </span>
+      </PIconField>
     </div>
     <div class="flex flex-column gap-2 mt-2">
-      <span class="p-input-icon-left">
-        <i class="pi pi-envelope" />
+      <PIconField iconPosition="left">
+        <PInputIcon class="pi pi-envelope"> </PInputIcon>
         <PInputText
           placeholder="Adresse mail"
           v-model="form.email"
           type="email"
           style="width: 100%"
         />
-      </span>
-      <small v-if="form.errors.email">{{ form.errors.email }}</small>
+      </PIconField>
+      <!-- <small v-if="form.errors.email">{{ form.errors.email }}</small> -->
     </div>
     <div class="flex flex-column gap-2">
       <PPassword
@@ -35,9 +35,9 @@
         toggle-mask
         :feedback="false"
       />
-      <small v-if="form.errors.password">{{ form.errors.password }}</small>
+      <!-- <small v-if="form.errors.password">{{ form.errors.password }}</small> -->
     </div>
-    <div v-if="!isRegistering" class="flex flex-wrap justify-content-between">
+    <div v-if="!register" class="flex flex-wrap justify-content-between">
       <div class="field-checkbox mt-2">
         <PCheckbox
           v-model="form.remember"
@@ -59,7 +59,8 @@
         raised
         type="submit"
         severity="contrast"
-        :label="isRegistering ? 'Enregistrer' : 'Se connecter'"
+        :label="register ? 'Enregistrer' : 'Se connecter'"
+        :loading="loading"
       />
     </div>
   </form>
@@ -67,50 +68,111 @@
 
 <script setup>
 // const session = useSessionStore();
-const router = useRouter();
 const route = useRoute();
+// const authTokenStore = useAuthTokenStore();
 
 const props = defineProps({
-  isRegistering: {
+  register: {
     type: Boolean,
     default: false,
   },
 });
-
-const form = ref({
-  name: "",
-  email: "",
-  password: "",
+const loading = ref(false);
+const form = reactive({
   remember: false,
-  error: "",
-  errors: {},
+  name: "jennifer",
+  email: "jennifer@sopheos.com",
+  password: "1234",
 });
 
-function onSubmit(e) {
-  e.preventDefault;
+function logUser() {
+  useHttp
+    .post("/api/v1/signin", {
+      email: form.email,
+      password: form.password,
+      remember: form.remember,
+    })
+    .then((r) => {
+      console.log(r);
+      // authTokenStore.setToken(r);
+      // const path = route.query.redirect
+      //   ? { path: route.query.redirect }
+      //   : { name: "user" };
+      // navigateTo(path, { replace: true });
+    })
+    .catch((e) => {
+      console.log(e);
+    })
+    .finally(() => {
+      loading.value = false;
+    });
+}
 
-  form.value.error = "";
-  form.value.errors = {};
+function registerUser() {
+  useHttp
+    .post("/api/v1/signup", {
+      name: form.name,
+      email: form.email,
+      password: form.password,
+      remember: form.remember,
+    })
+    .then((r) => {
+      // authTokenStore.setToken(r);
+      // const path = route.query.redirect
+      //   ? { path: route.query.redirect }
+      //   : { name: "user" };
+      // navigateTo(path, { replace: true });
+    })
+    .catch((e) => {
+      console.log(e);
+    })
+    .finally(() => {
+      loading.value = false;
+    });
+}
 
-  if (form.value.email.trim().length === 0) {
-    form.value.errors.email = "L'adresse email est requise";
-  }
-
-  if (form.value.password.trim().length === 0) {
-    form.value.errors.email = "Le mot de passe est requis";
-  }
-
-  if (Object.keys(form.value.errors).length > 0) {
-    form.value.error = "Le formulaire comporte des erreurs";
+function onSubmit() {
+  loading.value = true;
+  if (props.register) {
+    registerUser();
   } else {
-    session.token = "token";
-    session.username = form.value.errors.email;
-
-    if (route.query.redirect) {
-      router.push({ path: route.query.redirect });
-    } else {
-      router.push({ name: "home" });
-    }
+    logUser();
   }
 }
+// const form = ref({
+//   name: "",
+//   email: "",
+//   password: "",
+//   remember: false,
+//   error: "",
+//   errors: {},
+// });
+
+// function onSubmit(e) {
+//   e.preventDefault;
+
+//   form.value.error = "";
+//   form.value.errors = {};
+
+//   if (form.value.email.trim().length === 0) {
+//     form.value.errors.email = "L'adresse email est requise";
+//   }
+
+//   if (form.value.password.trim().length === 0) {
+//     form.value.errors.email = "Le mot de passe est requis";
+//   }
+
+//   if (Object.keys(form.value.errors).length > 0) {
+//     form.value.error = "Le formulaire comporte des erreurs";
+//   } else {
+//     session.token = "token";
+//     session.username = form.value.errors.email;
+
+//     if (route.query.redirect) {
+//       route.push({ path: route.query.redirect });
+//     } else {
+//       route.push({ name: "home" });
+//     }
+//   }
+// }
 </script>
