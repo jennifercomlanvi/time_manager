@@ -89,9 +89,7 @@ const useApi = async (url, options = {}) => {
             await authTokenStore.logout();
             break;
           case 403:
-            if (e.code === "default") {
-              await authTokenStore.logout();
-            }
+            await authTokenStore.logout();
             break;
           case 500:
             // TODO DIALOG ERROR
