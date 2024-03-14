@@ -83,7 +83,7 @@ class Login {
 
     ctx.response.body = {
       username: user.user_name,
-      token: token,
+      access_token: token,
       expire_in: exp,
       refresh_token: refresh_token,
     };

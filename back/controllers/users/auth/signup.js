@@ -99,19 +99,22 @@ class Register {
       },
       ctx.config.jwt_secret
     );
-    const refresh_token = uuidv4();
-    await ctx.db.UserToken.create({
-      user_id: user.user_id,
-      token: refresh_token,
-      expired_at: DateTime.now().plus({ hours: 24 }).toJSDate(),
-    });
-
+    if (form.value("remember")) {
+      const refresh_token = uuidv4();
+      refresh = await ctx.db.UserToken.create({
+        user_id: user.user_id,
+        token: refresh_token,
+        expired_at: DateTime.now().plus({ hours: 24 }).toJSDate(),
+      });
+    }
     ctx.response.body = {
-      useruuid: user.user_uuid,
-      username: user.user_name,
-      useremail: user.user_email,
-      token: token,
-      expire_in: exp,
+      uuid: user.user_uuid,
+      name: user.user_name,
+      email: user.user_email,
+      access_token: token,
+      access_expires_in: exp,
+      refresh_token: refresh ? refresh.token : null,
+      refresh_expires_in: refresh ? refresh.expired_at : null,
       has_control: true,
     };
   }

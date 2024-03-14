@@ -27,6 +27,10 @@ const index = async (ctx, next) => {
 
   const user = await userToken.getUser();
 
+  const userControlExists = await ctx.db.UserControl.findOne({
+    where: { control_user: user.user_id },
+  });
+
   const now = Math.floor(Date.now() / 1000);
   const exp = now + 3600;
 
@@ -48,11 +52,13 @@ const index = async (ctx, next) => {
   });
 
   ctx.response.body = {
-    username: user.user_name,
+    uuid: user.user_uuid,
+    name: user.user_name,
+    email: user.user_email,
     token: token,
     expire_in: exp,
     refresh_token: refresh_token,
+    has_control: !!userControlExists,
   };
 };
-
 module.exports = index;
