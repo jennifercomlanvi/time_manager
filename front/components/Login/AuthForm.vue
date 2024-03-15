@@ -86,49 +86,51 @@ const form = reactive({
 });
 
 function logUser() {
-  useHttp
-    .post("/api/v1/signin", {
-      email: form.email,
-      password: form.password,
-      remember: form.remember,
-    })
-    .then((r) => {
-      console.log(r);
-      // useAuthTokenStore.setToken(r);
-      // const path = route.query.redirect
-      //   ? { path: route.query.redirect }
-      //   : { name: "user" };
-      // navigateTo(path, { replace: true });
-    })
-    .catch((e) => {
-      console.log(e);
-    })
-    .finally(() => {
-      loading.value = false;
-    });
+  navigateTo({ name: "control" });
+  // useHttp
+  //   .post("/api/v1/signin", {
+  //     email: form.email,
+  //     password: form.password,
+  //     remember: form.remember,
+  //   })
+  //   .then((r) => {
+  //     console.log(r);
+  //     // authTokenStore.setToken(r);
+  //     // const path = route.query.redirect
+  //     //   ? { path: route.query.redirect }
+  //     //   : { name: "user" };
+  //     // navigateTo(path, { replace: true });
+  //   })
+  //   .catch((e) => {
+  //     console.log(e);
+  //   })
+  //   .finally(() => {
+  //     loading.value = false;
+  //   });
 }
 
 function registerUser() {
-  useHttp
-    .post("/api/v1/signup", {
-      name: form.name,
-      email: form.email,
-      password: form.password,
-      remember: form.remember,
-    })
-    .then((r) => {
-      // authTokenStore.setToken(r);
-      // const path = route.query.redirect
-      //   ? { path: route.query.redirect }
-      //   : { name: "user" };
-      // navigateTo(path, { replace: true });
-    })
-    .catch((e) => {
-      console.log(e);
-    })
-    .finally(() => {
-      loading.value = false;
-    });
+  navigateTo({ name: "control" });
+  // useHttp
+  //   .post("/api/v1/signup", {
+  //     name: form.name,
+  //     email: form.email,
+  //     password: form.password,
+  //     remember: form.remember,
+  //   })
+  //   .then((r) => {
+  //     // authTokenStore.setToken(r);
+  //     // const path = route.query.redirect
+  //     //   ? { path: route.query.redirect }
+  //     //   : { name: "user" };
+  //     // navigateTo(path, { replace: true });
+  //   })
+  //   .catch((e) => {
+  //     console.log(e);
+  //   })
+  //   .finally(() => {
+  //     loading.value = false;
+  //   });
 }
 
 function onSubmit() {

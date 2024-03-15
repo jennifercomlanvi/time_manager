@@ -9,6 +9,7 @@ module.exports = {
     "vue/multi-word-component-names": "off",
     "import/prefer-default-export": "off",
     // "consistent-return": "off",
+    "vue/no-v-model-argument": "off",
     "import/no-unresolved": [
       2,
       {
