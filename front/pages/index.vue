@@ -204,8 +204,7 @@
         </div>
 
         <div class="grid">
-          <div class="col flex align-items-center justify-content-center">
-            <!-- Mettez ici votre illustration -->
+          <div class="col-12 md:col-6 flex align-items-center justify-content-center">
             <img
               src="../assets/img/contact3.jpg"
               alt="Contactez-nous"
@@ -213,7 +212,7 @@
               style="max-width: 100%; height: auto"
             />
           </div>
-          <div class="col md:offset-3 mt-8">
+          <div class="col-12 md:col-6 mt-8">
             <form @submit.prevent="sendContactForm">
               <div class="p-fluid">
                 <div class="field">

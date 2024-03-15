@@ -82,8 +82,10 @@ class Login {
     });
 
     ctx.response.body = {
-      username: user.user_name,
-      token: token,
+      name: user.user_name,
+      uuid: user.user_uuid,
+      email: user.user_email,
+      access_token: token,
       expire_in: exp,
       refresh_token: refresh_token,
     };

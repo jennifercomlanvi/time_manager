@@ -69,7 +69,7 @@
 <script setup>
 // const session = useSessionStore();
 const route = useRoute();
-// const authTokenStore = useAuthTokenStore();
+const authTokenStore = useAuthTokenStore();
 
 const props = defineProps({
   register: {
@@ -81,8 +81,8 @@ const loading = ref(false);
 const form = reactive({
   remember: false,
   name: "jennifer",
-  email: "jennifer@sopheos.com",
-  password: "1234",
+  email: "comlanvihilary@gmail.com",
+  password: "Timem@gager12!",
 });
 
 function logUser() {
@@ -94,7 +94,7 @@ function logUser() {
     })
     .then((r) => {
       console.log(r);
-      // authTokenStore.setToken(r);
+      // useAuthTokenStore.setToken(r);
       // const path = route.query.redirect
       //   ? { path: route.query.redirect }
       //   : { name: "user" };
