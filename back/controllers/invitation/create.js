@@ -67,7 +67,8 @@ class Invitation {
     const invitationLink = `${FRONTEND_URL}/accept-invitation?token=${token}`;
 
     // Envoyer l'email d'invitation
-    await this.sendInvitationEmail(email, team.team_name, invitationLink);
+    // await this.sendInvitationEmail(email, team.team_name, invitationLink);
+    console.log(invitationLink)
   }
 
   static async sendInvitationEmail(email, teamName, invitationLink) {

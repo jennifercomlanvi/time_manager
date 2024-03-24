@@ -37,7 +37,7 @@
       />
       <!-- <small v-if="form.errors.password">{{ form.errors.password }}</small> -->
     </div>
-    <div v-if="!register" class="flex flex-wrap justify-content-between">
+    <div class="flex flex-wrap justify-content-between">
       <div class="field-checkbox mt-2">
         <PCheckbox
           v-model="form.remember"
@@ -47,7 +47,7 @@
         />
         <label for="Auth-remember"> Rester connecter </label>
       </div>
-      <div>
+      <div v-if="!register">
         <PButton label="Mot de passe oublié?" severity="help" text />
       </div>
     </div>
@@ -70,7 +70,7 @@
 // const session = useSessionStore();
 const route = useRoute();
 const authTokenStore = useAuthTokenStore();
-
+const errors = useFormError();
 const props = defineProps({
   register: {
     type: Boolean,
@@ -78,6 +78,7 @@ const props = defineProps({
   },
 });
 const loading = ref(false);
+
 const form = reactive({
   remember: false,
   name: "jennifer",
@@ -86,51 +87,53 @@ const form = reactive({
 });
 
 function logUser() {
-  navigateTo({ name: "control" });
-  // useHttp
-  //   .post("/api/v1/signin", {
-  //     email: form.email,
-  //     password: form.password,
-  //     remember: form.remember,
-  //   })
-  //   .then((r) => {
-  //     console.log(r);
-  //     // authTokenStore.setToken(r);
-  //     // const path = route.query.redirect
-  //     //   ? { path: route.query.redirect }
-  //     //   : { name: "user" };
-  //     // navigateTo(path, { replace: true });
-  //   })
-  //   .catch((e) => {
-  //     console.log(e);
-  //   })
-  //   .finally(() => {
-  //     loading.value = false;
-  //   });
+  console.log(form)
+  useHttp
+    .post("/api/v1/signin", {
+      email: form.email,
+      password: form.password,
+      remember: form.remember,
+    })
+    .then((r) => {
+      console.log(r);
+      authTokenStore.setToken(r);
+      const path = route.query.redirect
+        ? { path: route.query.redirect }
+        : { name: "user" };
+      navigateTo(path, { replace: true });
+    })
+    .catch((e) => {
+      errors.set(e);
+      console.log(e);
+    })
+    .finally(() => {
+      loading.value = false;
+    });
 }
 
 function registerUser() {
-  navigateTo({ name: "control" });
-  // useHttp
-  //   .post("/api/v1/signup", {
-  //     name: form.name,
-  //     email: form.email,
-  //     password: form.password,
-  //     remember: form.remember,
-  //   })
-  //   .then((r) => {
-  //     // authTokenStore.setToken(r);
-  //     // const path = route.query.redirect
-  //     //   ? { path: route.query.redirect }
-  //     //   : { name: "user" };
-  //     // navigateTo(path, { replace: true });
-  //   })
-  //   .catch((e) => {
-  //     console.log(e);
-  //   })
-  //   .finally(() => {
-  //     loading.value = false;
-  //   });
+  console.log(form)
+  useHttp
+    .post("/api/v1/signup", {
+      name: form.name,
+      email: form.email,
+      password: form.password,
+      remember: form.remember,
+    })
+    .then((r) => {
+      authTokenStore.setToken(r);
+      const path = route.query.redirect
+        ? { path: route.query.redirect }
+        : { name: "team" };
+      navigateTo(path, { replace: true });
+    })
+    .catch((e) => {
+      errors.set(e);
+      console.log(e);
+    })
+    .finally(() => {
+      loading.value = false;
+    });
 }
 
 function onSubmit() {

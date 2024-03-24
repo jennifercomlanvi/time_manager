@@ -351,7 +351,6 @@ const items = ref([
 
 const scrollToSection = (sectionId) => {
   const section = document.getElementById(sectionId);
-  console.log(sectionId);
   if (section) {
     section.scrollIntoView({ behavior: "smooth" });
   }

@@ -35,6 +35,9 @@ class Login {
     form.stringField("password", (value) => {
       _required(value, "Un mot de passe valide est requis");
     });
+    form.booleanField("remember", (value) => {
+      _required(value, "Le champ 'remember' doit être un booléen");
+    });
 
     if (!form.validate(ctx.request.body)) {
       throw new HttpError(400, "validation", form.errors());
@@ -61,6 +64,10 @@ class Login {
       throw new HttpError(400, "validation", form.errors());
     }
 
+    const userControlExists = await ctx.db.UserControl.findOne({
+      where: { control_user: user.user_id },
+    });
+
     const now = Math.floor(Date.now() / 1000);
     const exp = now + 3600;
 
@@ -72,22 +79,27 @@ class Login {
       },
       ctx.config.jwt_secret
     );
-
-    const refresh_token = uuidv4();
-
-    await ctx.db.UserToken.create({
-      user_id: user.user_id,
-      token: refresh_token,
-      expired_at: DateTime.now().plus({ hours: 24 }).toJSDate(),
-    });
-
+    let refresh = null;
+    let expiration = null;
+    console.log(form.value("remember"))
+    if (form.value("remember")) {
+      const refresh_token = uuidv4();
+      expiration = DateTime.now().plus({ hours: 24 });
+      refresh = await ctx.db.UserToken.create({
+        user_id: user.user_id,
+        token: refresh_token,
+        expired_at: expiration.toJSDate(),
+      });
+    }
     ctx.response.body = {
       name: user.user_name,
       uuid: user.user_uuid,
       email: user.user_email,
       access_token: token,
       expire_in: exp,
-      refresh_token: refresh_token,
+      refresh_token: refresh ? refresh.token : null,
+      refresh_in: refresh ? Math.floor(expiration.toSeconds()) : null,
+      has_control: !!userControlExists,
     };
   }
 }

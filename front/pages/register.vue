@@ -20,7 +20,7 @@
           <p class="flex justify-content-center">
             ou utiliser votre email pour inscription
           </p>
-          <LoginAuthForm :isRegistering="true" />
+          <LoginAuthForm :register="true" />
         </div>
         <div class="mt-4 flex justify-content-center flex-wrap">
           Vous avez déjà un compte ?

@@ -46,22 +46,31 @@
 <script setup>
 // const router = useRouter();
 // const route = useRoute();
-
+const loading = ref(false)
 const team = ref({
   name: "",
-  description: "",
-  error: "",
-  errors: {},
+  description: ""
 });
+const emits = defineEmits(['teamCreated']);
 
-function onSubmit(e) {
-  e.preventDefault;
-
-  team.value.error = "";
-  team.value.errors = {};
-
-  if (team.value.name.trim().length === 0) {
-    team.value.errors.name = "Le nom est requis";
-  }
+function onSubmit() {
+  useHttp
+    .post("/api/v1/team", team.value)
+    .then((res) => {
+      console.log(res)
+      emits('teamCreated', res.data);
+    })
+    .catch((e) => {
+      console.log(e);
+    })
+    .finally(() => {
+      loading.value = false;
+    });
 }
+  // team.value.error = "";
+  // team.value.errors = {};
+
+  // if (team.value.name.trim().length === 0) {
+  //   team.value.errors.name = "Le nom est requis";
+  // }
 </script>

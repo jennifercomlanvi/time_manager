@@ -42,7 +42,7 @@ class Register {
   })
   static async index(ctx) {
     const form = new Form();
-    form.stringField("username", (value) => {
+    form.stringField("name", (value) => {
       rules.required(value, "Un email valide est requis");
     });
     form.stringField("email", (value) => {
@@ -52,7 +52,10 @@ class Register {
     form.stringField("password", (value) => {
       rules.required(value, "Un mot de passe valide est requis");
     });
+    form.booleanField("remember", (value) => {
+      rules.required(value, "requis");
 
+    });
     if (!form.validate(ctx.request.body)) {
       throw new HttpError(400, "validation", form.errors());
     }
@@ -67,7 +70,7 @@ class Register {
     }
 
     user = await ctx.db.User.create({
-      user_name: form.value("username"),
+      user_name: form.value("name"),
       user_email: form.value("email"),
     });
 
@@ -99,12 +102,15 @@ class Register {
       },
       ctx.config.jwt_secret
     );
+    let refresh = null;
+    let expiration = null;
     if (form.value("remember")) {
       const refresh_token = uuidv4();
+      expiration = DateTime.now().plus({ hours: 24 });
       refresh = await ctx.db.UserToken.create({
         user_id: user.user_id,
         token: refresh_token,
-        expired_at: DateTime.now().plus({ hours: 24 }).toJSDate(),
+        expired_at: expiration.toJSDate(),
       });
     }
     ctx.response.body = {
@@ -112,9 +118,9 @@ class Register {
       name: user.user_name,
       email: user.user_email,
       access_token: token,
-      access_expires_in: exp,
+      access_in: exp,
       refresh_token: refresh ? refresh.token : null,
-      refresh_expires_in: refresh ? refresh.expired_at : null,
+      refresh_in: refresh ? Math.floor(expiration.toSeconds()) : null,
       has_control: true,
     };
   }

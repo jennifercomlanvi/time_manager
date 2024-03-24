@@ -25,12 +25,14 @@ export const useAuthTokenStore = defineStore("authToken", () => {
 
   function setToken(data) {
     const timestamp = Date.now();
+    console.log(data.has_control)
     // authLevel
-    authLevel.value = data.has_control ? CONNECTED : CONTROLED;
+    // authLevel.value = data.has_control ? CONNECTED : CONTROLED;
+    authLevel.value = data.has_control ? CONTROLED : CONNECTED;
 
     // api token
     apiToken.access = data.access_token;
-    apiToken.exp = timestamp + data.expires_in * 1000;
+    apiToken.exp = timestamp + data.expire_in * 1000;
     useLocaleStorage.set("access", {
       token: apiToken.access,
       exp: apiToken.exp,
@@ -38,6 +40,7 @@ export const useAuthTokenStore = defineStore("authToken", () => {
 
     // refresh token
     if (data.refresh_token && data.refresh_in) {
+      console.log(data.refresh_in)
       refreshToken.access = data.refresh_token;
       refreshToken.exp = timestamp + data.refresh_in * 1000;
       useLocaleStorage.set("refresh", {
@@ -67,7 +70,6 @@ export const useAuthTokenStore = defineStore("authToken", () => {
     useLocaleStorage.remove("refresh");
     authLevel.value = PUBLIC;
     userStore.resetUser();
-    eventStore.reset();
 
     const route = useRoute();
     const to = useRouteValidation(route);
@@ -100,10 +102,3 @@ export const useAuthTokenStore = defineStore("authToken", () => {
 if (import.meta.env.DEV && import.meta.hot) {
   import.meta.hot.accept(acceptHMRUpdate(useAuthTokenStore, import.meta.hot));
 }
-
-// export const useAuthTokenStore = defineStore('authToken', () => {
-//   const token = ref(null)
-//   const username = ref(null)
-
-//   return { token, username }
-// })
