@@ -5,7 +5,7 @@ const fakeStorage = {};
 const isSupported = () => {
   if (process.server || hasLocalStorage !== null) return hasLocalStorage;
   try {
-    const key = "TIME_MANAGER";
+    const key = "SUPPORT_TIME_MANAGER";
     localStorage.setItem(key, key);
     localStorage.removeItem(key);
     hasLocalStorage = true;

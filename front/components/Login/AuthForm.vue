@@ -87,7 +87,7 @@ const form = reactive({
 });
 
 function logUser() {
-  console.log(form)
+  console.log(form);
   useHttp
     .post("/api/v1/signin", {
       email: form.email,
@@ -112,7 +112,7 @@ function logUser() {
 }
 
 function registerUser() {
-  console.log(form)
+  console.log(form);
   useHttp
     .post("/api/v1/signup", {
       name: form.name,

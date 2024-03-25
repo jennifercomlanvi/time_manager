@@ -9,7 +9,7 @@
             <span class="inline-flex align-items-center gap-2">
               <img
                 alt="logo"
-                src="../assets/img/logo.png"
+                src="../assets/img/TM.png"
                 height="56"
                 width="120"
               />

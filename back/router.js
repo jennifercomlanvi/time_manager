@@ -20,7 +20,7 @@ router.get("/", (ctx, next) => {
 //Auth
 router.post("/api/v1/signin", require("./controllers/users/auth/signin"));
 router.post("/api/v1/signup", require("./controllers/users/auth/signup"));
-router.post("/api/v1/refresh", require("./controllers/users/auth/refresh"));
+router.get("/api/v1/refresh", require("./controllers/users/auth/refresh"));
 
 //Test
 router.get("/api/v1/test", require("./controllers/test"));

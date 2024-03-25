@@ -3,65 +3,6 @@
     <div class="col-12 sm:col-10 md:col-5">
       <h1 class="text-primary text-center">Bienvenue sur Time Manager !</h1>
       <!-- Compte contrôlé -->
-       <template v-if="authTokenStore.isControled">
-        <PMessage severity="success" :closable="false">
-          <p>Mes informations sont à jour.</p>
-        </PMessage>
-
-        <div class="flex justify-content-center">
-          <PButton
-            type="button"
-            label="Poursuivre vers le site"
-            @click="navigateTo({ name: 'user' }, { replace: true })"
-          />
-        </div>
-      </template> 
-
-      <!-- Chargement -->
-       <div class="flex justify-content-center">
-        <PProgressSpinner
-          style="width: 50px; height: 50px"
-          stroke-width="8"
-          fill="var(--surface-ground)"
-          animation-duration=".5s"
-          aria-label="Custom ProgressSpinner"
-        />
-      </div>
-      <!-- <ControlCheckEmailForm /> -->
-      <template> 
-      <!-- Erreurs -->
-      <PMessage
-          v-if="errorsControl.getMessage('form')"
-          severity="error"
-          :closable="false"
-        >
-          <p>{{ errorsControl.getMessage("form") }}</p>
-        </PMessage> 
-
-      <!-- Affichage des contrôles -->
-       <component
-          :is="getCompoName"
-          class="mb-3"
-          :control="control"
-          @refresh="refresh"
-          @error="errorsControl.init"
-        />
-
-      <!-- Actions -->
-       <div class="flex justify-content-center">
-          <PButton
-            type="button"
-            label="Déconnexion"
-            severity="danger"
-            icon="pi pi-power-off"
-            @click="logout"
-          />
-        </div> 
-      </template> 
-    </div>
-  </div>
-   <div class="flex flex-row justify-content-center">
-    <div class="col-12 sm:col-10 md:col-5">
       <template v-if="authTokenStore.isControled">
         <PMessage severity="success" :closable="false">
           <p>Mes informations sont à jour.</p>
@@ -76,6 +17,7 @@
         </div>
       </template>
 
+      <!-- Chargement -->
       <div v-else-if="refreshLoading" class="flex justify-content-center">
         <PProgressSpinner
           style="width: 50px; height: 50px"
@@ -85,24 +27,33 @@
           aria-label="Custom ProgressSpinner"
         />
       </div>
-
+      <!-- <ControlCheckEmailForm /> -->
       <template v-else>
-        <PMessage
+        <!-- Erreurs -->
+        <!-- <PMessage
           v-if="errorsControl.getMessage('form')"
           severity="error"
           :closable="false"
         >
           <p>{{ errorsControl.getMessage("form") }}</p>
-        </PMessage>
+        </PMessage> -->
 
+        <!-- Affichage des contrôles -->
         <component
           :is="getCompoName"
           class="mb-3"
           :control="control"
           @refresh="refresh"
-          @error="errorsControl.init"
         />
+        <!-- <component
+          :is="getCompoName"
+          class="mb-3"
+          :control="control"
+          @refresh="refresh"
+          @error="errorsControl.init"
+        /> -->
 
+        <!-- Actions -->
         <div class="flex justify-content-center">
           <PButton
             type="button"

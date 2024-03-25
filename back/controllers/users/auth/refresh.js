@@ -7,21 +7,21 @@ const { DateTime } = require("luxon");
 
 const index = async (ctx, next) => {
   const form = new Form();
-  form.stringField("refresh_token", (value) => {
+  form.stringField("token", (value) => {
     rules.required(value, "Un refresh_token valide est requis");
     rules.equalLen(value, 36, "Un refresh_token valide est requis");
   });
-
-  if (!form.validate(ctx.request.body)) {
+  console.log(form.value("token"));
+  if (!form.validate(ctx.request.query)) {
     throw new HttpError(400, "validation", form.errors());
   }
 
   const userToken = await ctx.db.UserToken.findOne({
-    where: { refresh_token: form.value("refresh_token") },
+    where: { token: form.value("token") },
   });
 
   if (!userToken) {
-    form.setError("refresh_token", "bad");
+    form.setError("token", "bad");
     throw new HttpError(400, "validation", form.errors());
   }
 
