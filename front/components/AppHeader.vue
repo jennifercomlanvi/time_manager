@@ -1,5 +1,13 @@
 <template>
-  <div>
+  <div class="relative">
+    <PButton
+      size="large"
+      text
+      class="z-0"
+      :class="visible ? 'displayed' : 'undisplayed'"
+      icon="pi pi-bars"
+      @click="(visible = !visible), emits('expanded', true)"
+    />
     <PSidebar v-model:visible="visible" :dismissable="false" :modal="false">
       <template #container="">
         <div class="flex flex-column h-full">
@@ -215,11 +223,6 @@
         </div>
       </template>
     </PSidebar>
-    <PButton
-      icon="pi pi-bars"
-      @click="(visible = !visible), emits('expanded', true)"
-      :class="visible ? 'displayed' : 'undisplayed'"
-    />
   </div>
 </template>
 
