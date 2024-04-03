@@ -1,5 +1,10 @@
 module.exports = {
-  extends: ["@nuxtjs", "@vue/eslint-config-airbnb", "prettier"],
+  extends: [
+    "@nuxtjs",
+    "@vue/eslint-config-airbnb",
+    "plugin:vue/vue3-recommended",
+    "prettier",
+  ],
   rules: {
     "no-undef": "off",
     // "import/no-cycle": "off",
@@ -10,16 +15,11 @@ module.exports = {
     "import/prefer-default-export": "off",
     // "consistent-return": "off",
     "vue/no-v-model-argument": "off",
+    "vue/valid-v-model": "off",
     "import/no-unresolved": [
       2,
       {
-        ignore: [
-          "~assetsG/.*",
-          "~assets/.*",
-          "~publicG/.*",
-          "~public/.*",
-          "~lang/.*",
-        ],
+        ignore: ["~assets/.*", "~public/.*", "~lang/.*"],
       },
     ],
   },

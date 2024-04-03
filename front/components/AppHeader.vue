@@ -1,9 +1,11 @@
 <template>
-  <div class="relative">
+  <div
+    class="flex justify-content-center container-sidebar"
+    style="position: relative"
+  >
     <PButton
       size="large"
       text
-      class="z-0"
       :class="visible ? 'displayed' : 'undisplayed'"
       icon="pi pi-bars"
       @click="(visible = !visible), emits('expanded', true)"
@@ -11,27 +13,13 @@
     <PSidebar v-model:visible="visible" :dismissable="false" :modal="false">
       <template #container="">
         <div class="flex flex-column h-full">
-          <div
-            class="flex align-items-center justify-content-between px-4 pt-3 flex-shrink-0"
-          >
-            <span class="inline-flex align-items-center gap-2">
-              <img
-                alt="logo"
-                src="../assets/img/TM.png"
-                height="56"
-                width="120"
-              />
-            </span>
-            <!-- <span>
-              <PButton
-                type="button"
-                @click="closeCallback"
-                icon="pi pi-times"
-                rounded
-                outlined
-                class="h-2rem w-2rem"
-              ></PButton>
-            </span> -->
+          <div class="pr-4 pt-3">
+            <img
+              alt="logo"
+              src="../assets/img/TM.png"
+              height="56"
+              width="120"
+            />
           </div>
           <div class="overflow-y-auto">
             <ul class="list-none p-3 m-0">
@@ -227,7 +215,7 @@
 </template>
 
 <script setup>
-const visible = ref(false);
+const visible = ref(true);
 const active = ref(0);
 
 const emits = defineEmits(["expanded"]);
