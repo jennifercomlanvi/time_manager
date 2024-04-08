@@ -1,4 +1,3 @@
-<!-- Dans votre layout ou composant -->
 <template>
   <div>
     <div :class="isExpanded ? 'side-off' : 'side-on'">
@@ -6,7 +5,6 @@
         v-if="!isExpanded"
         size="large"
         text
-        class="z-0"
         icon="pi pi-bars"
         @click="toggleSidebar"
       />
@@ -16,8 +14,8 @@
       <AppHeader @expanded="updateExpand" />
     </div>
 
-    <div class="container" :class="isExpanded ? 'side-off' : 'side-on'">
-      <NuxtPage />
+    <div class="container">
+      <NuxtPage :class="isExpanded ? 'side-off' : 'side-on'" />
     </div>
   </div>
 </template>
