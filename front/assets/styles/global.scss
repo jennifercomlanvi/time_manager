@@ -55,3 +55,38 @@
   font-family: 'Arial', sans-serif; /* Police de caractères personnalisée */
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Ombre portée */
 }
+.side-off {
+  width: calc(100vw - 22.5rem) !important;
+  margin-left: 0rem !important;
+}
+
+.side-on {
+  width: calc(100vw - 2.5rem) !important;
+  margin-left: -20rem !important;
+}
+
+button.displayed {
+  position: fixed;
+  left: 17rem;
+  top: 0.5rem;
+  z-index: 100000000000;
+
+  &:focus {
+    box-shadow: none;
+  }
+}
+
+button.undisplayed {
+  position: fixed;
+  left: 0.5rem;
+
+  &:focus {
+    box-shadow: none;
+  }
+  top: 0.5rem;
+}
+main {
+  &.side-on {
+    padding: 0.5rem;
+  }
+}

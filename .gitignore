@@ -19,4 +19,4 @@ node_modules/
 !back/.env.example
 
 # Ignorer des fichiers spécifiques dans le répertoire front
-/front/.env.*
+/front/.env
