@@ -54,7 +54,7 @@ module.exports = (sequelize, DataTypes) => {
       },
     control_expired_at: {
       type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
+      allowNull: false,
     },
   }, {
     sequelize,

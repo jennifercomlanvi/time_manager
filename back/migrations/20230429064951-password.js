@@ -4,10 +4,9 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('user_passwords', {
       user_id: {
-
         allowNull: false,
-      primaryKey: true,
-      type: Sequelize.INTEGER,
+        primaryKey: true,
+        type: Sequelize.INTEGER,
         references: {
           model: 'users',
           key: 'user_id',
