@@ -16,11 +16,12 @@ function fetchToken() {
     headers: {},
   };
   if (renew) {
-    url = `${import.meta.env.VITE_API_URL}api/v1/renew${hasRefresh ? `?token=${authTokenStore.refreshToken.access}` : ""}`;
+    url = `${import.meta.env.VITE_API_URL}api/v1/refresh${hasRefresh ? `?token=${authTokenStore.refreshToken.access}` : ""}`;
     init.headers.Authorization = `Bearer ${authTokenStore.apiToken.access}`;
-  } else {
-    url = `${import.meta.env.VITE_API_URL}api/v1/refresh?token=${authTokenStore.refreshToken.access}`;
   }
+  // else {
+  //   url = `${import.meta.env.VITE_API_URL}api/v1/refresh?token=${authTokenStore.refreshToken.access}`;
+  // }
 
   return fetch(url, init)
     .then(async (res) => {

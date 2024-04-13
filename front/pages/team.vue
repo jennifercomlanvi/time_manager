@@ -2,13 +2,17 @@
   <div class="flex flex-column align-items-center">
     <h1 class="text-primary">Bienvenue sur Time Manager !</h1>
     <div>
-      <TeamAdd @teamCreated="handleTeamCreated"/>
+      <TeamAdd @teamCreated="handleTeamCreated" />
     </div>
     <div v-if="teamCreated"><TeamInvitation /></div>
   </div>
 </template>
 
 <script setup>
+definePageMeta({
+  auth: useScope().CONTROLED,
+});
+
 const teamCreated = ref(false);
 
 function handleTeamCreated(teamData) {

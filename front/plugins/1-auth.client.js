@@ -23,7 +23,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
         headers: {},
       };
       if (hasAccess) {
-        url = `${import.meta.env.VITE_API_URL}api/v1/renew${hasRefresh ? `?token=${dataRefresh.token}` : ''}`;
+        url = `${import.meta.env.VITE_API_URL}api/v1/renew${hasRefresh ? `?token=${dataRefresh.token}` : ""}`;
         init.headers.Authorization = `Bearer ${dataAccess.token}`;
       } else {
         url = `${import.meta.env.VITE_API_URL}api/v1/refresh?token=${dataRefresh.token}`;
@@ -49,21 +49,15 @@ export default defineNuxtPlugin(async (nuxtApp) => {
 
           const route = useRoute();
 
-          let to = null;
-
-          if (!authTokenStore.isControled) {
-            // Redirect to user control
-            to = { name: "control", query: { redirect: route.query.redirect } };
-          } else if (route.query.redirect) {
-            // Redirect to the redirect URL
-            to = route.query.redirect;
-          } else {
-            // Check the route access (redirect if wrong privilege)
-            to = useRouteValidation(route);
-          }
-
-          if (to) {
-            return navigateTo(to, { replace: true });
+          if (
+            authTokenStore.isConnected &&
+            !authTokenStore.isControled &&
+            route.name !== "control"
+          ) {
+            return navigateTo({
+              path: "/control",
+              query: { redirect: route.fullPath },
+            });
           }
         })
         // eslint-disable-next-line consistent-return

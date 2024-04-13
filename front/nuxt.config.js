@@ -18,10 +18,6 @@ export default defineNuxtConfig({
   devServer: {
     port: config.port,
   },
-  // COMPONENTS -----------------------------------------------------------------------------------
-  components: {
-    dirs: [buildUrl(`components/${type}`), "~/components"],
-  },
   // MODULES --------------------------------------------------------------------------------------
   devtools: { enabled: true },
   modules: [

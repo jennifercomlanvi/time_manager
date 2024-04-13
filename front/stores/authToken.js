@@ -27,8 +27,8 @@ export const useAuthTokenStore = defineStore("authToken", () => {
     const timestamp = Date.now();
     console.log(data.has_control);
     // authLevel
-    // authLevel.value = data.has_control ? CONNECTED : CONTROLED;
-    authLevel.value = data.has_control ? CONTROLED : CONNECTED;
+    authLevel.value = data.has_control ? CONNECTED : CONTROLED;
+    // authLevel.value = data.has_control ? CONTROLED : CONNECTED;
     console.log(authLevel.value);
     // api token
     apiToken.access = data.access_token;

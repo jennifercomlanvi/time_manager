@@ -18,9 +18,9 @@ router.get("/", (ctx, next) => {
 // router.get('/swagger-html', router.swaggerUi);
 
 //Auth
-router.post("/api/v1/signin", require("./controllers/users/auth/signin"));
-router.post("/api/v1/signup", require("./controllers/users/auth/signup"));
-router.get("/api/v1/refresh", require("./controllers/users/auth/refresh"));
+router.post("/api/v1/signin", require("./controllers/user/auth/signin"));
+router.post("/api/v1/signup", require("./controllers/user/auth/signup"));
+router.get("/api/v1/refresh", require("./controllers/user/auth/refresh"));
 
 //Test
 router.get("/api/v1/test", require("./controllers/test"));
@@ -62,22 +62,22 @@ router.delete(
 router.get(
   "/api/v1/user/control/:id",
   auth,
-  require("./controllers/users/control/search")
+  require("./controllers/user/control/search")
 );
 router.get(
   "/api/v1/user/control",
   auth,
-  require("./controllers/users/control/search")
+  require("./controllers/user/control/search")
 );
 router.post(
   "/api/v1/user/control/:id",
   auth,
-  require("./controllers/users/control/resendOtp")
+  require("./controllers/user/control/resendOtp")
 );
 router.put(
   "/api/v1/user/control/register",
   auth,
-  require("./controllers/users/control/register")
+  require("./controllers/user/control/register")
 );
 
 module.exports = router;

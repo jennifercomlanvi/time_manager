@@ -2,9 +2,10 @@ import Form from "../../../lib/validation/form";
 import HttpError from "../../../lib/HttpError";
 import { required as _required, isEmail } from "../../../lib/validation/rules";
 import { compare } from "../../../lib/password";
-import { sign } from "jsonwebtoken";
-import { v4 as uuidv4 } from "uuid";
-import { DateTime } from "luxon";
+// import { sign } from "jsonwebtoken";
+// import { v4 as uuidv4 } from "uuid";
+// import { DateTime } from "luxon";
+const TokenManager = require("../../../lib/token");
 import { request, summary, body, tags, responses } from "koa-swagger-decorator";
 class Login {
   @request("post", "/api/v1/signin")
@@ -68,37 +69,41 @@ class Login {
       where: { control_user: user.user_id },
     });
 
-    const now = Math.floor(Date.now() / 1000);
-    const exp = now + 3600;
+    // const now = Math.floor(Date.now() / 1000);
+    // const exp = now + 3600;
 
-    const token = sign(
-      {
-        sub: user.user_id,
-        iat: now,
-        exp: exp,
-      },
-      ctx.config.jwt_secret
-    );
+    // const token = sign(
+    //   {
+    //     sub: user.user_id,
+    //     iat: now,
+    //     exp: exp,
+    //   },
+    //   ctx.config.jwt_secret
+    // );
+    // let refresh = null;
+    // let expiration = null;
+    const tokenManager = new TokenManager(ctx.config.jwt_secret);
+    const accessToken = tokenManager.generateAccess(user.user_id);
     let refresh = null;
-    let expiration = null;
-    console.log(form.value("remember"))
+    console.log(form.value("remember"));
     if (form.value("remember")) {
-      const refresh_token = uuidv4();
-      expiration = DateTime.now().plus({ hours: 24 });
+      const refreshToken = tokenManager.generateRefresh(user.user_id);
+      // const refresh_token = uuidv4();
+      // expiration = DateTime.now().plus({ hours: 24 });
       refresh = await ctx.db.UserToken.create({
         user_id: user.user_id,
-        token: refresh_token,
-        expired_at: expiration.toJSDate(),
+        token: refreshToken.token,
+        expired_at: refreshToken.expired_at,
       });
     }
     ctx.response.body = {
       name: user.user_name,
       uuid: user.user_uuid,
       email: user.user_email,
-      access_token: token,
-      expire_in: exp,
+      access_token: accessToken.token,
+      expire_in: accessToken.exp,
       refresh_token: refresh ? refresh.token : null,
-      refresh_in: refresh ? Math.floor(expiration.toSeconds()) : null,
+      refresh_in: refresh ? refresh.expired_at : null,
       has_control: !!userControlExists,
     };
   }

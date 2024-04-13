@@ -3,10 +3,8 @@ const HttpError = require("../../../lib/HttpError");
 const rules = require("../../../lib/validation/rules");
 const password = require("../../../lib/password");
 const otp = require("../../../lib/otp");
-import { sign } from "jsonwebtoken";
-import { DateTime } from "luxon";
+const TokenManager = require("../../../lib/token");
 const sendEmail = require("../../../emailSender");
-import { v4 as uuidv4 } from "uuid";
 
 const {
   request,
@@ -54,7 +52,6 @@ class Register {
     });
     form.booleanField("remember", (value) => {
       rules.required(value, "requis");
-
     });
     if (!form.validate(ctx.request.body)) {
       throw new HttpError(400, "validation", form.errors());
@@ -91,36 +88,26 @@ class Register {
     // await sendEmail(user.user_email,"Votre code de vérification",`<p>Votre code de vérification pour l'inscription est : <strong>${otpCode}</strong></p>`,
     // );
 
-    const now = Math.floor(Date.now() / 1000);
-    const exp = now + 3600;
-
-    const token = sign(
-      {
-        sub: user.user_id,
-        iat: now,
-        exp: exp,
-      },
-      ctx.config.jwt_secret
-    );
+    const tokenManager = new TokenManager(ctx.config.jwt_secret);
+    const accessToken = tokenManager.generateAccess(user.user_id);
     let refresh = null;
-    let expiration = null;
     if (form.value("remember")) {
-      const refresh_token = uuidv4();
-      expiration = DateTime.now().plus({ hours: 24 });
+      const refreshToken = tokenManager.generateRefresh(user.user_id);
+
       refresh = await ctx.db.UserToken.create({
         user_id: user.user_id,
-        token: refresh_token,
-        expired_at: expiration.toJSDate(),
+        token: refreshToken.token,
+        expired_at: refreshToken.expired_at,
       });
     }
     ctx.response.body = {
       uuid: user.user_uuid,
       name: user.user_name,
       email: user.user_email,
-      access_token: token,
-      access_in: exp,
+      access_token: accessToken.token,
+      expire_in: accessToken.exp,
       refresh_token: refresh ? refresh.token : null,
-      refresh_in: refresh ? Math.floor(expiration.toSeconds()) : null,
+      refresh_in: refresh ? refresh.expired_at : null,
       has_control: true,
     };
   }
