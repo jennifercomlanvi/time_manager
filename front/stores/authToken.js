@@ -25,14 +25,13 @@ export const useAuthTokenStore = defineStore("authToken", () => {
 
   function setToken(data) {
     const timestamp = Date.now();
-    console.log(data.has_control);
     // authLevel
     authLevel.value = data.has_control ? CONNECTED : CONTROLED;
-    // authLevel.value = data.has_control ? CONTROLED : CONNECTED;
-    console.log(authLevel.value);
     // api token
     apiToken.access = data.access_token;
     apiToken.exp = timestamp + data.expire_in * 1000;
+    console.log(apiToken.access);
+    console.log(apiToken.exp);
     useLocaleStorage.set("access", {
       token: apiToken.access,
       exp: apiToken.exp,

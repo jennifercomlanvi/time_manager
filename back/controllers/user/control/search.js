@@ -1,11 +1,5 @@
 const HttpError = require("../../../lib/HttpError");
-const {
-  request,
-  summary,
-  tags,
-  path,
-  responses,
-} = require("koa-swagger-decorator");
+const { request, summary, tags, responses } = require("koa-swagger-decorator");
 
 class UserControl {
   @request("get", "/api/v1/user/control")
@@ -31,7 +25,13 @@ class UserControl {
       }
 
       ctx.response.status = 200;
-      ctx.response.body = { userControl: userControl };
+      ctx.response.body = {
+        user: userControl.control_user,
+        type: userControl.control_type,
+        data: userControl.control_data,
+        created_at: userControl.createdAt,
+        expired_at: userControl.control_expired_at,
+      };
     } catch (err) {
       throw new HttpError(500, "Erreur serveur", { detail: err.message });
     }

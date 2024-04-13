@@ -27,7 +27,6 @@
           aria-label="Custom ProgressSpinner"
         />
       </div>
-      <!-- <ControlCheckEmailForm /> -->
       <template v-else>
         <!-- Erreurs -->
         <!-- <PMessage
@@ -45,13 +44,6 @@
           :control="control"
           @refresh="refresh"
         />
-        <!-- <component
-          :is="getCompoName"
-          class="mb-3"
-          :control="control"
-          @refresh="refresh"
-          @error="errorsControl.init"
-        /> -->
 
         <!-- Actions -->
         <div class="flex justify-content-center">
@@ -77,7 +69,7 @@ definePageMeta({
 
 const { CONTROLED } = useScope();
 const authTokenStore = useAuthTokenStore();
-const errorsControl = useFormError();
+// const errorsControl = useFormError();
 
 const control = ref();
 const refreshLoading = ref(true);
@@ -100,18 +92,20 @@ const getCompoName = computed(() => {
 // // Méthode ----------------------------------------------------------------------------------------
 
 function refresh() {
-  errorsControl.reset();
+  // errorsControl.reset();
   refreshLoading.value = true;
   useHttp
     .get("api/v1/user/control")
     .then((res) => {
+      console.log(res);
       control.value = res;
       if (!res) {
         authTokenStore.setAuthLevel(CONTROLED);
       }
     })
     .catch((e) => {
-      errorsControl.set(e);
+      // errorsControl.set(e);
+      console.log(e);
     })
     .finally(() => {
       refreshLoading.value = false;
@@ -120,7 +114,7 @@ function refresh() {
 
 function logout() {
   authTokenStore.logout();
-  return navigateTo({ name: "login" }, { replace: true });
+  return navigateTo({ name: "index" }, { replace: true });
 }
 
 // // Created ----------------------------------------------------------------------------------------

@@ -3,6 +3,13 @@
     class="flex justify-content-center container-sidebar"
     style="position: relative"
   >
+    <!-- <PButton
+      size="large"
+      text
+      :class="visible ? 'displayed' : 'undisplayed'"
+      icon="pi pi-bars"
+      @click="(visible = !visible), emits('expanded', true)"
+    /> -->
     <PButton
       size="large"
       text
@@ -201,11 +208,17 @@
               v-ripple
               class="m-3 flex align-items-center cursor-pointer p-3 gap-2 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple"
             >
-              <PAvatar
+              <!-- <PAvatar
                 image="https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png"
                 shape="circle"
+              /> -->
+              <PAvatar
+                :label="firstNameLetter"
+                class="mr-2"
+                size="large"
+                shape="circle"
               />
-              <span class="font-bold">Amy Elsner</span>
+              <span class="font-bold">{{ userStore.user.name }}</span>
             </a>
           </div>
         </div>
@@ -217,7 +230,10 @@
 <script setup>
 const visible = ref(true);
 const active = ref(0);
-
+const userStore = useUserStore();
+const firstNameLetter = computed(() => {
+  return userStore.user.name ? userStore.user.name.charAt(0).toUpperCase() : "";
+});
 const emits = defineEmits(["expanded"]);
 const activeIndex = (e) => {
   active.value = e.index;

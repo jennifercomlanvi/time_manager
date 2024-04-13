@@ -60,7 +60,7 @@ router.delete(
 
 //UserControl
 router.get(
-  "/api/v1/user/control/:id",
+  "/api/v1/user/control",
   auth,
   require("./controllers/user/control/search")
 );
@@ -70,7 +70,7 @@ router.get(
   require("./controllers/user/control/search")
 );
 router.post(
-  "/api/v1/user/control/:id",
+  "/api/v1/user/control/resendOtp",
   auth,
   require("./controllers/user/control/resendOtp")
 );

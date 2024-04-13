@@ -7,13 +7,19 @@ class ControlRegister {
   @summary("Vérifie le code OTP pour un utilisateur authentifié")
   @tags(["UserControl"])
   @body({
-    otp: { type: "string", required: true, description: "Code OTP soumis par l'utilisateur" }
+    otp: {
+      type: "string",
+      required: true,
+      description: "Code OTP soumis par l'utilisateur",
+    },
   })
   @responses({
-    200: { description: "OTP vérifié avec succès, contrôle utilisateur supprimé" },
+    200: {
+      description: "OTP vérifié avec succès, contrôle utilisateur supprimé",
+    },
     400: { description: "Code OTP incorrect ou expiré" },
     404: { description: "Contrôle utilisateur correspondant non trouvé" },
-    500: { description: "Erreur interne du serveur" }
+    500: { description: "Erreur interne du serveur" },
   })
   static async index(ctx) {
     const userId = ctx.state.user.id;
@@ -22,12 +28,15 @@ class ControlRegister {
     const userControl = await ctx.db.UserControl.findOne({
       where: {
         control_user: userId,
-        control_type: ctx.db.UserControl.CTRL_REGISTER
-      }
+        control_type: ctx.db.UserControl.CTRL_REGISTER,
+      },
     });
 
     if (!userControl) {
-      throw new HttpError(404, "Contrôle utilisateur correspondant non trouvé.");
+      throw new HttpError(
+        404,
+        "Contrôle utilisateur correspondant non trouvé."
+      );
     }
 
     const now = new Date();
@@ -40,8 +49,13 @@ class ControlRegister {
     }
 
     await userControl.destroy();
+    const remainingControls = await ctx.db.UserControl.findOne({
+      where: {
+        control_user: userId,
+      },
+    });
 
-    ctx.status = 204;
+    ctx.body = { has_control: !!remainingControls };
   }
 }
 

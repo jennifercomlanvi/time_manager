@@ -66,6 +66,7 @@ const useApi = async (url, options = {}) => {
   return (
     fetch(input, init)
       .then(async (res) => {
+        if (res.status === 204) return null;
         const body = await useResponseBody(res);
         if (res.ok) {
           return body;

@@ -8,26 +8,32 @@ export default defineNuxtPlugin(async (nuxtApp) => {
   function login() {
     httpStore.setAuthPending(httpStore.SYNC);
 
-    const dataAccess = useLocaleStorage.get("access");
+    // const dataAccess = useLocaleStorage.get("access");
     const dataRefresh = useLocaleStorage.get("refresh");
 
     const timestamp = Date.now();
-    const hasAccess = dataAccess?.token && dataAccess.exp > timestamp;
+    // const hasAccess = dataAccess?.token && dataAccess.exp > timestamp;
     const hasRefresh = dataRefresh?.token && dataRefresh.exp > timestamp;
 
     // Active refresh token found
-    if (hasAccess || hasRefresh) {
+    // if (hasAccess || hasRefresh) {
+    //   let url = null;
+    //   const init = {
+    //     method: "GET",
+    //     headers: {},
+    //   };
+    if (hasRefresh) {
       let url = null;
       const init = {
         method: "GET",
         headers: {},
       };
-      if (hasAccess) {
-        url = `${import.meta.env.VITE_API_URL}api/v1/renew${hasRefresh ? `?token=${dataRefresh.token}` : ""}`;
-        init.headers.Authorization = `Bearer ${dataAccess.token}`;
-      } else {
-        url = `${import.meta.env.VITE_API_URL}api/v1/refresh?token=${dataRefresh.token}`;
-      }
+      // if (hasAccess) {
+      //   url = `${import.meta.env.VITE_API_URL}api/v1/renew${hasRefresh ? `?token=${dataRefresh.token}` : ""}`;
+      //   init.headers.Authorization = `Bearer ${dataAccess.token}`;
+      // } else {
+      url = `${import.meta.env.VITE_API_URL}api/v1/refresh?token=${dataRefresh.token}`;
+      // }
 
       // Refresh access token
       fetch(url, init)
@@ -64,9 +70,9 @@ export default defineNuxtPlugin(async (nuxtApp) => {
         .catch(() => {
           // Delete access/refresh token
           useLocaleStorage.remove("access");
-          if (hasAccess) {
-            return login();
-          }
+          // if (hasAccess) {
+          //   return login();
+          // }
           useLocaleStorage.remove("refresh");
           httpStore.setAuthPending(httpStore.NONE);
           httpStore.launchApiQueue();

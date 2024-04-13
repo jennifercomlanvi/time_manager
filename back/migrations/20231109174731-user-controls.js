@@ -1,8 +1,8 @@
-'use strict';
+"use strict";
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) {
-    await queryInterface.createTable('user_controls', {
+  async up(queryInterface, Sequelize) {
+    await queryInterface.createTable("user_controls", {
       control_id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -13,11 +13,11 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'users',
-          key: 'user_id',
+          model: "users",
+          key: "user_id",
         },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
       },
       control_type: {
         type: Sequelize.INTEGER,
@@ -42,12 +42,12 @@ module.exports = {
       },
       control_expired_at: {
         type: Sequelize.DATE,
-        allowNull: false,
+        allowNull: true,
       },
     });
   },
 
-  async down (queryInterface, Sequelize) {
-    await queryInterface.dropTable('user_controls');
-  }
-}
+  async down(queryInterface, Sequelize) {
+    await queryInterface.dropTable("user_controls");
+  },
+};

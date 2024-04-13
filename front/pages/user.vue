@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <p>
       Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate
       consectetur numquam illum nam nihil doloremque labore dignissimos eos non
@@ -11,5 +11,6 @@
 <script setup>
 definePageMeta({
   layout: "authenticated",
+  auth: useScope().CONTROLED,
 });
 </script>

@@ -107,7 +107,9 @@ class Register {
       access_token: accessToken.token,
       expire_in: accessToken.exp,
       refresh_token: refresh ? refresh.token : null,
-      refresh_in: refresh ? refresh.expired_at : null,
+      refresh_in: refresh
+        ? Math.floor(new Date(refresh.expired_at).getTime() / 1000)
+        : null,
       has_control: true,
     };
   }

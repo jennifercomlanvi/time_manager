@@ -85,8 +85,26 @@ button.undisplayed {
   }
   top: 0.5rem;
 }
+// #app {
+//   margin-left: 320px;
+// }
+// main.container {
+//   padding: 1.5rem;
+// }
 main {
   &.side-on {
     padding: 0.5rem;
   }
+}
+.p-sidebar {
+  & a.router-link-active span.font-medium {
+    color: var(--green-500);
+  }
+}
+.p-sidebar-visible a {
+  text-decoration: none;
+}
+
+.p-sidebar-header {
+  height: 56px;
 }

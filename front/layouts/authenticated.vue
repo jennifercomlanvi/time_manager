@@ -1,6 +1,7 @@
 <template>
   <div>
-    <div :class="isExpanded ? 'side-off' : 'side-on'">
+    <!-- <div :class="isExpanded ? 'side-off' : 'side-on'"> -->
+    <div>
       <PButton
         v-if="!isExpanded"
         size="large"
@@ -47,3 +48,8 @@ const toggleSidebar = () => {
   isExpanded.value = !isExpanded.value;
 };
 </script>
+<style scoped>
+.container {
+  margin-left: 320px;
+}
+</style>
