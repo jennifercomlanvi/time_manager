@@ -35,8 +35,6 @@ function fetchToken() {
       });
     })
     .then(async (res) => {
-      // Nothing happen if the user control is created after the login/refresh
-      // If the user has user control on login/refresh but don't after renew the user auth level is updated
       if (renew && res.has_control && authTokenStore.isControled) {
         res.has_control = false;
       }

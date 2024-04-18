@@ -8,8 +8,6 @@ async function sendEmail(to, subject, html) {
       subject,
       html
     });
-
-    console.log("Message sent: %s", info.messageId);
   } catch (error) {
     console.error("Error sending email:", error);
   }

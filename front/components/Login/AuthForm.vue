@@ -67,7 +67,6 @@
 </template>
 
 <script setup>
-// const session = useSessionStore();
 const route = useRoute();
 const authTokenStore = useAuthTokenStore();
 const errors = useFormError();
@@ -87,7 +86,6 @@ const form = reactive({
 });
 
 function logUser() {
-  console.log(form);
   useHttp
     .post("/api/v1/signin", {
       email: form.email,
@@ -95,11 +93,10 @@ function logUser() {
       remember: form.remember,
     })
     .then((r) => {
-      console.log(r);
       authTokenStore.setToken(r);
       const path = route.query.redirect
         ? { path: route.query.redirect }
-        : { name: "user" };
+        : { name: "dashboard" };
       navigateTo(path, { replace: true });
     })
     .catch((e) => {

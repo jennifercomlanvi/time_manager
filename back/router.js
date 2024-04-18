@@ -27,7 +27,7 @@ router.get("/api/v1/test", require("./controllers/test"));
 router.get("/test", auth, require("./controllers/test"));
 
 //User
-router.get("/api/v1/user/profile", auth, require("./controllers/test"));
+router.get("/api/v1/user/profile", auth, require("./controllers/user/profil"));
 
 //Team
 router.post(
@@ -43,7 +43,7 @@ router.get(
   permissions,
   require("./controllers/team/all")
 );
-router.get("/api/v1/team/:id", auth, require("./controllers/team/search"));
+router.get("/api/v1/teams/user", auth, require("./controllers/team/search"));
 router.post("/api/v1/team", auth, require("./controllers/team/create"));
 router.put(
   "/api/v1/team/:id",

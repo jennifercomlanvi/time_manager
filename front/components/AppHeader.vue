@@ -3,13 +3,6 @@
     class="flex justify-content-center container-sidebar"
     style="position: relative"
   >
-    <!-- <PButton
-      size="large"
-      text
-      :class="visible ? 'displayed' : 'undisplayed'"
-      icon="pi pi-bars"
-      @click="(visible = !visible), emits('expanded', true)"
-    /> -->
     <PButton
       size="large"
       text
@@ -17,7 +10,7 @@
       icon="pi pi-bars"
       @click="(visible = !visible), emits('expanded', true)"
     />
-    <PSidebar v-model:visible="visible" :dismissable="false" :modal="false">
+    <PSidebar v-model:visible="visible" :dismissable="false" :modal="false" class="shadow-1">
       <template #container="">
         <div class="flex flex-column h-full">
           <div class="pr-4 pt-3">
@@ -32,41 +25,42 @@
             <ul class="list-none p-3 m-0">
               <li>
                 <ul class="list-none p-0 m-0 overflow-hidden">
-                  <li>
-                    <a
+                  <li @click="activeIndex(0)">
+                    <nuxt-link
+                      to="/dashboard"
                       v-ripple
                       class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple"
                     >
                       <i class="pi pi-home mr-2"></i>
                       <span class="font-medium">Tableau de bord</span>
-                    </a>
+                    </nuxt-link>
                   </li>
-                  <li>
-                    <a
+                  <li @click="activeIndex(1)">
+                    <nuxt-link
                       v-ripple
                       class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple"
                     >
                       <i class="pi pi-fw pi-folder-open mr-2"></i>
                       <span class="font-medium">Projects</span>
-                    </a>
+                    </nuxt-link>
                   </li>
-                  <li>
-                    <a
+                  <li @click="activeIndex(2)">
+                    <nuxt-link
                       v-ripple
                       class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple"
                     >
                       <i class="pi pi-fw pi-check-square mr-2"></i>
                       <span class="font-medium">Tâches</span>
-                    </a>
+                    </nuxt-link>
                   </li>
-                  <li>
-                    <a
+                  <li @click="activeIndex(3)">
+                    <nuxt-link
                       v-ripple
                       class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple"
                     >
                       <i class="pi pi-fw pi-calendar mr-2"></i>
                       <span class="font-medium">Feuilles de Temps</span>
-                    </a>
+                    </nuxt-link>
                   </li>
                   <!-- <li>
                     <a
@@ -137,14 +131,15 @@
                       </li>
                     </ul>
                   </li> -->
-                  <li>
-                    <a
+                  <li @click="activeIndex(4)">
+                    <nuxt-link
+                    to="/teams/list"
                       v-ripple
                       class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple"
                     >
                       <i class="pi pi-users mr-2"></i>
                       <span class="font-medium">Équipes</span>
-                    </a>
+                    </nuxt-link>
                   </li>
                   <!-- <li>
                     <a
@@ -180,22 +175,34 @@
                   <i class="pi pi-chevron-down"></i>
                 </div>
                 <ul class="list-none p-0 m-0 overflow-hidden">
-                  <li>
-                    <a
+                  <li @click="activeIndex(5)">
+                    <nuxt-link
+                    to="/stats"
                       v-ripple
                       class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple"
                     >
                       <i class="pi pi-chart-bar mr-2"></i>
                       <span class="font-medium">Performance</span>
-                    </a>
+                    </nuxt-link>
                   </li>
                   <li>
-                    <a
+                    <nuxt-link
+                      to="/user"
                       v-ripple
                       class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple"
                     >
                       <i class="pi pi-cog mr-2"></i>
-                      <span class="font-medium">Paramètres</span>
+                      <span class="font-medium">Profil</span>
+                    </nuxt-link>
+                  </li>
+                  <li>
+                    <a
+                      @click ="useAuthTokenStore().logout()"
+                      v-ripple
+                      class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple"
+                    >
+                      <i class="pi pi-sign-out mr-2"></i>
+                      <span class="font-medium">Déconnexion</span>
                     </a>
                   </li>
                 </ul>
@@ -240,4 +247,5 @@ const activeIndex = (e) => {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+</style>

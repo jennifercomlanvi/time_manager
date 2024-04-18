@@ -1,6 +1,4 @@
 const { request, summary, tags, responses } = require("koa-swagger-decorator");
-const { User } = require("../models");
-
 class User {
   @request("get", "/api/v1/user/profile")
   @summary("Récupère les informations de l'utilisateur connecté")
@@ -39,15 +37,20 @@ class User {
     const userId = ctx.state.user.id;
 
     try {
-      const user = await User.findByPk(userId);
+      const user = await ctx.db.User.findByPk(userId);
 
       if (!user) {
         ctx.status = 404;
         ctx.body = { message: "Utilisateur non trouvé" };
         return;
       }
-
-      ctx.body = { user: user.toJSON() };
+      // profil: user.toJSON()
+      ctx.body = { 
+        name : user.user_name,
+        email: user.user_email,
+        avatar : user.user_avatar,
+        description : user.user_description
+      };
     } catch (error) {
       console.error(
         "Erreur lors de la récupération du profil utilisateur:",

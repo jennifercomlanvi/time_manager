@@ -11,7 +11,7 @@ function minLen(value, min, message = 'min_len') {
 }
 
 function maxLen(value, min, message = 'max_len') {
-    if (value.length < min) {
+    if (value.length > min) {
         throw message;
     }
 }
@@ -37,20 +37,6 @@ function isEmail(value, message = 'is_email') {
     const regex = new RegExp("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?");
     matchRegex(value, regex, message);
 }
-
-// async function userExists(value, message = 'user_exists') {
-//     const user = await User.findByPk(value);
-//     if (!user) {
-//         throw message;
-//     }
-// }
-
-// async function teamExists(value, message = 'team_exists') {
-//     const team = await Team.findByPk(value);
-//     if (!team) {
-//         throw message;
-//     }
-// }
 
 module.exports = {
     required,

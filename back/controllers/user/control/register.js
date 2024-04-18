@@ -49,6 +49,14 @@ class ControlRegister {
     }
 
     await userControl.destroy();
+
+    const user = await ctx.db.User.findByPk(userId);
+    console.log(user)
+    if (user) {
+      user.user_state = ctx.db.User.USER_STATES.ACTIVE;
+      await user.save();
+    }
+
     const remainingControls = await ctx.db.UserControl.findOne({
       where: {
         control_user: userId,

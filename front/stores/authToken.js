@@ -1,6 +1,6 @@
 export const useAuthTokenStore = defineStore("authToken", () => {
   const { PUBLIC, CONNECTED, CONTROLED } = useScope();
-
+  const justRegistered = ref(false);
   const userStore = useUserStore();
 
   // States
@@ -29,9 +29,11 @@ export const useAuthTokenStore = defineStore("authToken", () => {
     authLevel.value = data.has_control ? CONNECTED : CONTROLED;
     // api token
     apiToken.access = data.access_token;
-    apiToken.exp = timestamp + data.expire_in * 1000;
-    console.log(apiToken.access);
-    console.log(apiToken.exp);
+    apiToken.exp = timestamp + data.expire_in;
+
+    console.log('',data)
+    console.log('',apiToken.exp)
+    console.log('',timestamp)
     useLocaleStorage.set("access", {
       token: apiToken.access,
       exp: apiToken.exp,
@@ -39,9 +41,8 @@ export const useAuthTokenStore = defineStore("authToken", () => {
 
     // refresh token
     if (data.refresh_token && data.refresh_in) {
-      console.log(data.refresh_in);
       refreshToken.access = data.refresh_token;
-      refreshToken.exp = timestamp + data.refresh_in * 1000;
+      refreshToken.exp = timestamp + data.refresh_in;
       useLocaleStorage.set("refresh", {
         token: refreshToken.access,
         exp: refreshToken.exp,
@@ -61,6 +62,7 @@ export const useAuthTokenStore = defineStore("authToken", () => {
   }
 
   function logout() {
+    justRegistered.value = false;
     apiToken.access = null;
     apiToken.exp = 0;
     refreshToken.access = null;
@@ -85,6 +87,7 @@ export const useAuthTokenStore = defineStore("authToken", () => {
   }
 
   return {
+    justRegistered,
     authLevel,
     apiToken,
     refreshToken,

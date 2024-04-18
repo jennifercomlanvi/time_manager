@@ -69,27 +69,12 @@ class Login {
       where: { control_user: user.user_id },
     });
 
-    // const now = Math.floor(Date.now() / 1000);
-    // const exp = now + 3600;
-
-    // const token = sign(
-    //   {
-    //     sub: user.user_id,
-    //     iat: now,
-    //     exp: exp,
-    //   },
-    //   ctx.config.jwt_secret
-    // );
-    // let refresh = null;
-    // let expiration = null;
     const tokenManager = new TokenManager(ctx.config.jwt_secret);
     const accessToken = tokenManager.generateAccess(user.user_id);
+
     let refresh = null;
-    console.log(form.value("remember"));
     if (form.value("remember")) {
       const refreshToken = tokenManager.generateRefresh(user.user_id);
-      // const refresh_token = uuidv4();
-      // expiration = DateTime.now().plus({ hours: 24 });
       refresh = await ctx.db.UserToken.create({
         user_id: user.user_id,
         token: refreshToken.token,

@@ -4,15 +4,25 @@ const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   // Constantes pour les états
   const USER_STATES = {
-    ACTIVE: 0,
-    BLOCKED: 1,
-    DELETED: 2,
+    CREATED: 0,
+    ACTIVE: 1,
+    BLOCKED: 2,
+    DELETED: 3,
   };
   class User extends Model {
     static associate(models) {
-      User.hasOne(models.UserPassword, { foreignKey: 'user_id' });
-      User.belongsToMany(models.Team, { through: models.Permission });
-      User.hasMany(models.UserControl, { foreignKey: 'control_user' });
+      User.hasOne(models.UserPassword, { foreignKey: "user_id" });
+      User.belongsToMany(models.Team, {
+        through: models.Permission,
+        foreignKey: "perm_user",
+        otherKey: 'perm_team',
+        as: 'Teams'
+      });
+      User.hasMany(models.Permission, {
+        foreignKey: "perm_user",
+        as: "Permissions",
+      });
+      User.hasMany(models.UserControl, { foreignKey: "control_user" });
     }
   }
   User.init(
@@ -30,7 +40,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       user_state: {
         type: DataTypes.INTEGER,
-        defaultValue: USER_STATES.ACTIVE,
+        defaultValue: USER_STATES.CREATED,
       },
       user_description: DataTypes.TEXT,
       user_avatar: DataTypes.STRING,

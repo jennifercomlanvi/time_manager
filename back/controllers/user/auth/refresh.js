@@ -9,7 +9,6 @@ const index = async (ctx, next) => {
     rules.required(value, "Un refresh_token valide est requis");
     rules.equalLen(value, 36, "Un refresh_token valide est requis");
   });
-  console.log(form.value("token"));
   if (!form.validate(ctx.request.query)) {
     throw new HttpError(400, "validation", form.errors());
   }

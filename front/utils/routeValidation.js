@@ -4,6 +4,8 @@ export const useRouteValidation = (to) => {
   const router = useRouter();
   let route = null;
 
+  const justRegistered = authTokenStore.justRegistered;
+
   // Not in control state
   if (!authTokenStore.isConnected || authTokenStore.isControled) {
     switch (to.meta.auth) {
@@ -14,7 +16,7 @@ export const useRouteValidation = (to) => {
         break;
       case CONNECTED:
         if (authTokenStore.isControled) {
-          route = { name: "user" };
+          route = { name: "dashboard" };
         } else if (!authTokenStore.isConnected) {
           route = { name: "login", query: { redirect: to.fullPath } };
         }
@@ -28,7 +30,13 @@ export const useRouteValidation = (to) => {
         break;
     }
   } else if (to.name !== "control") {
-    route = { name: "control", query: { redirect: to.fullPath } };
+    // route = { name: "control", query: { redirect: to.fullPath } };
+    if (justRegistered) {
+      route = { name: "team" };
+      authTokenStore.justRegistered = false; // Reset the registration flag
+    } else {
+      route = { name: "dashboard" };
+    }
   }
 
   // Can't have a route with ?redirect=/control

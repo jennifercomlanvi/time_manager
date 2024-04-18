@@ -2,7 +2,6 @@ import Form from "../../lib/validation/form";
 import { required as _required, minLen, maxLen } from "../../lib/validation/rules";
 import HttpError from "../../lib/HttpError";
 import { request, summary, body, tags, responses } from "koa-swagger-decorator";
-// Fonction pour créer une équipe
 class Create {
   @request("post", "/api/v1/team")
   @summary("Crée une nouvelle équipe")
@@ -24,44 +23,43 @@ class Create {
     form.stringField("name", (value) => {
       _required(value, "Un nom est requis");
     });
-
-    const description = form.value("description");
-    if (description !== null) {
-      minLen(
-        description,
-        10,
-        "La description doit avoir au moins 10 caractères"
-      );
-      maxLen(
-        description,
-        255,
-        "La description ne doit pas dépasser 255 caractères"
-      );
-    }
-
+    form.stringField("description", (value) => {
+      if (value){
+        minLen(
+          value,
+          10,
+          "La description doit avoir au moins 10 caractères"
+        );
+        maxLen(
+          value,
+          255,
+          "La description ne doit pas dépasser 255 caractères"
+        );
+      }
+    });
+    
     if (!form.validate(ctx.request.body)) {
       throw new HttpError(400, "Validation", form.errors());
     }
-
+    
     let team = await ctx.db.Team.findOne({
       where: { team_name: form.value("name") },
     });
-
+    
     if (team) {
       form.setError("name", "bad");
       throw new HttpError(400, "validation", form.errors());
     }
-
-    //Création de l'équipe dans la base de données
+    
     team = await ctx.db.Team.create({
-      name: form.value("name"),
-      description: description,
+      team_name: form.value("name"),
+      team_description: form.value("description"),
     });
 
     await ctx.db.Permission.create({
       perm_user: ctx.state.user.id,
-      perm_team: team.id,
-      level: ctx.db.Permission.LEVELS.ADMIN,
+      perm_team: team.team_id,
+      perm_level: ctx.db.Permission.LEVELS.ADMIN,
     });
 
     // Envoyer une réponse réussie

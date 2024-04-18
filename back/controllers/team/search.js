@@ -1,68 +1,55 @@
 const {
   request,
   summary,
-  path,
   tags,
   responses,
 } = require("koa-swagger-decorator");
 
 class Team {
-  @request("get", "/api/v1/teams/:teamId/users")
+  @request("get", "/api/v1/teams/user")
   @summary(
     "Récupère les utilisateurs d'une équipe spécifique et leurs permissions"
   )
   @tags(["Équipe"])
-  @path({
-    teamId: { type: "number", required: true, description: "ID de l'équipe" },
-  })
   @responses({
     200: { description: "Utilisateurs récupérés avec succès" },
     404: { description: "Équipe non trouvée" },
     500: { description: "Erreur interne du serveur" },
   })
   static async getTeamUsersWithPermissions(ctx) {
-    const teamId = ctx.params.id;
+    const userWithTeams = await ctx.db.User.findByPk(ctx.state.user.id, {
+      attributes: ['user_id'],
+      include: [{
+        model: ctx.db.Team,
+        as: 'Teams',
+        attributes: ['team_id','team_name','team_description'],
+        include: [{
+          model: ctx.db.User,
+          as: 'Users',
+          attributes: ['user_id', 'user_name', 'user_email'],
+        }]
+      }]
+    });
 
-    try {
-      const teamWithUsers = await Team.findByPk(teamId, {
-        include: [
-          {
-            model: User,
-            as: "users",
-            attributes: ["user_id", "user_name", "user_email"],
-            through: {
-              model: Permission,
-              as: "permissions",
-              attributes: ["level"],
-            },
-          },
-        ],
-      });
-
-      if (!teamWithUsers) {
+      if (!userWithTeams) {
         ctx.status = 404;
-        return (ctx.body = { message: "Équipe non trouvée" });
+        return (ctx.body = { message: "Aucune équipe trouvée pour cet utilisateur" });
       }
-
+      const formattedTeams = userWithTeams.Teams.map(team => ({
+        team_id: team.team_id,
+        team_name: team.team_name,
+        team_description: team.team_description,
+        Users: team.Users.map(user => ({
+            user_id: user.user_id,
+            user_name: user.user_name,
+            user_email: user.user_email,
+            permission: user.Permission.perm_level
+        }))
+    }));
       ctx.body = {
-        teamId: teamWithUsers.id,
-        users: teamWithUsers.users.map((user) => ({
-          id: user.user_id,
-          name: user.user_name,
-          email: user.user_email,
-          uuid: user.user_uuid,
-          permissions: user.permissions,
-        })),
+        user:userWithTeams.user_id,
+        teams : formattedTeams
       };
-    } catch (error) {
-      console.error(
-        "Erreur lors de la récupération des utilisateurs de l'équipe:",
-        error
-      );
-      ctx.status = 500;
-      ctx.body = { message: "Erreur interne du serveur" };
-    }
   }
 }
-
 module.exports = Team.getTeamUsersWithPermissions;

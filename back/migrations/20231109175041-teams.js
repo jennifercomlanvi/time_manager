@@ -18,11 +18,11 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: true,
       },
-      team_created_at: {
+      created_at: {
         type: Sequelize.DATE,
         allowNull: false,
       },
-      team_updated_at: {
+      updated_at: {
         type: Sequelize.DATE,
         allowNull: false,
       },

@@ -98,7 +98,7 @@ main {
 }
 .p-sidebar {
   & a.router-link-active span.font-medium {
-    color: var(--green-500);
+    color: #3F51B5;
   }
 }
 .p-sidebar-visible a {
@@ -108,3 +108,4 @@ main {
 .p-sidebar-header {
   height: 56px;
 }
+

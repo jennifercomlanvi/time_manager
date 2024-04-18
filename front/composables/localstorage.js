@@ -11,7 +11,6 @@ const isSupported = () => {
     hasLocalStorage = true;
   } catch {
     hasLocalStorage = false;
-    // TODO BUGSNAG
   }
   return hasLocalStorage;
 };

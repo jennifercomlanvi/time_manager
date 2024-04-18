@@ -4,12 +4,12 @@ const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Permission extends Model {
     static associate(models) {
-      Permission.belongsTo(models.User, {
-        foreignKey: "perm_user"
-      });
-
       Permission.belongsTo(models.Team, {
         foreignKey: "perm_team"
+      });
+      Permission.belongsTo(models.User, {
+        foreignKey: "perm_user",
+        as: 'User'
       });
     }
     static LEVELS = {
@@ -20,14 +20,14 @@ module.exports = (sequelize, DataTypes) => {
   Permission.init(
     {
       perm_user: {
-        type: DataTypes.INTEGER.UNSIGNED,
+        type: DataTypes.INTEGER,
         allowNull: false,
       },
       perm_team: {
-        type: DataTypes.INTEGER.UNSIGNED,
+        type: DataTypes.INTEGER,
         allowNull: false,
       },
-      level: {
+      perm_level: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
