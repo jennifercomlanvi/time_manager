@@ -48,7 +48,7 @@
           </div>
         </template>
         <PColumn expander />
-        <PColumn field="team_name" header="Nom d'équipe"></PColumn>
+        <PColumn field="team_name" header="Equipe"></PColumn>
         <PColumn field="team_description" header="Description"></PColumn>
         <PColumn>
           <template #body="slotProps">
@@ -57,7 +57,6 @@
               icon="pi pi-pencil"
               @click="editTeam(slotProps.data)"
               rounded
-              
             />
           </template>
         </PColumn>
@@ -244,9 +243,26 @@ const viewMemberInfo = (user) => {
 };
 
 const editTeam = (team) => {
-  console.log( "from team", team);
+  console.log("from team", team);
 };
-function saveTeam() {}
+
+function saveTeam() {
+  if (team.value.name !== null) {
+    useHttp
+      .post("/api/v1/team", team.value)
+      .then((res) => {
+        console.log(res);
+        open.value = false;
+        getTeams();
+      })
+      .catch((e) => {
+        console.log(e);
+      })
+      .finally(() => {
+        loading.value = false;
+      });
+  }
+}
 getTeams();
 </script>
 <style scoped></style>

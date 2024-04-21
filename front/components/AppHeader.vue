@@ -10,7 +10,12 @@
       icon="pi pi-bars"
       @click="(visible = !visible), emits('expanded', true)"
     />
-    <PSidebar v-model:visible="visible" :dismissable="false" :modal="false" class="shadow-1">
+    <PSidebar
+      v-model:visible="visible"
+      :dismissable="false"
+      :modal="false"
+      class="shadow-1"
+    >
       <template #container="">
         <div class="flex flex-column h-full">
           <div class="pr-4 pt-3">
@@ -37,6 +42,7 @@
                   </li>
                   <li @click="activeIndex(1)">
                     <nuxt-link
+                      to="/project"
                       v-ripple
                       class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple"
                     >
@@ -44,7 +50,7 @@
                       <span class="font-medium">Projects</span>
                     </nuxt-link>
                   </li>
-                  <li @click="activeIndex(2)">
+                  <!-- <li @click="activeIndex(2)">
                     <nuxt-link
                       v-ripple
                       class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple"
@@ -52,9 +58,10 @@
                       <i class="pi pi-fw pi-check-square mr-2"></i>
                       <span class="font-medium">Tâches</span>
                     </nuxt-link>
-                  </li>
+                  </li> -->
                   <li @click="activeIndex(3)">
                     <nuxt-link
+                      to="/times"
                       v-ripple
                       class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple"
                     >
@@ -133,7 +140,7 @@
                   </li> -->
                   <li @click="activeIndex(4)">
                     <nuxt-link
-                    to="/teams/list"
+                      to="/teams/list"
                       v-ripple
                       class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple"
                     >
@@ -177,7 +184,7 @@
                 <ul class="list-none p-0 m-0 overflow-hidden">
                   <li @click="activeIndex(5)">
                     <nuxt-link
-                    to="/stats"
+                      to="/stats"
                       v-ripple
                       class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple"
                     >
@@ -197,7 +204,7 @@
                   </li>
                   <li>
                     <a
-                      @click ="useAuthTokenStore().logout()"
+                      @click="useAuthTokenStore().logout()"
                       v-ripple
                       class="flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple"
                     >
@@ -247,5 +254,4 @@ const activeIndex = (e) => {
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

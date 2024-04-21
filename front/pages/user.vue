@@ -4,13 +4,13 @@
       <PTabMenu :model="items" v-model:activeIndex="active" />
     </div>
     <PProgressSpinner
-        v-if="loading"
-        style="width: 50px; height: 50px"
-        strokeWidth="8"
-        fill="var(--surface-ground)"
-        animationDuration=".5s"
-        aria-label="Custom ProgressSpinner"
-      />
+      v-if="loading"
+      style="width: 50px; height: 50px"
+      strokeWidth="8"
+      fill="var(--surface-ground)"
+      animationDuration=".5s"
+      aria-label="Custom ProgressSpinner"
+    />
     <!-- Détail du profil -->
     <div v-show="active === 0">
       <h2>Détail du profil</h2>
@@ -32,7 +32,7 @@
                 id="profile-description"
                 rows="5"
                 cols="30"
-                placeholder="Description de l'équipe"
+                placeholder="Description du profil"
                 v-model="data.description"
                 type="email"
                 style="width: 100%"
@@ -40,7 +40,7 @@
             </div>
           </div>
           <div class="col">
-            <div class="card pt-4">
+            <!-- <div class="card pt-4">
               <PFileUpload
                 name="demo[]"
                 url="/api/upload"
@@ -55,7 +55,7 @@
                   <p>Choisir une image maximum 30MB</p>
                 </template>
               </PFileUpload>
-            </div>
+            </div> -->
           </div>
         </div>
         <PButton
@@ -99,47 +99,55 @@
     </div>
     <!-- Mot de passe -->
     <div v-show="active === 2">
-    <h2>Changer de mot de passe</h2>
-    <form @submit.prevent="onChangePassword">
-      <div class="flex flex-column gap-2">
-        <label for="password">Nouveau mot de passe :</label>
-        <PPassword
-          id="password"
-          name="password"
-          class="mt-2"
-          v-model="form.password"
-          :input-style="{ width: '100%' }"
-          placeholder="Mot de passe"
-          toggle-mask
-          :feedback="false"
+      <h2>Changer de mot de passe</h2>
+      <form @submit.prevent="onChangePassword">
+        <div class="flex flex-column gap-2">
+          <label for="password">Nouveau mot de passe :</label>
+          <PPassword
+            id="password"
+            name="password"
+            class="mt-2"
+            v-model="form.password"
+            :input-style="{ width: '100%' }"
+            placeholder="Mot de passe"
+            toggle-mask
+            :feedback="false"
+          />
+        </div>
+        <div class="flex flex-column gap-2 mt-2">
+          <label for="confirm-password">Confirmer le mot de passe :</label>
+          <PPassword
+            id="confirm-password"
+            name="confirm-password"
+            class="mt-2"
+            v-model="form.confirmPassword"
+            :input-style="{ width: '100%' }"
+            placeholder="Confirmer le mot de passe"
+            toggle-mask
+            :feedback="false"
+          />
+        </div>
+        <PButton
+          type="submit"
+          severity="contrast"
+          label="Changer le mot de passe"
+          class="mt-4"
+          :disabled="
+            form.password !== form.confirmPassword || form.password === ''
+          "
         />
-      </div>
-      <div class="flex flex-column gap-2 mt-2">
-        <label for="confirm-password">Confirmer le mot de passe :</label>
-        <PPassword
-          id="confirm-password"
-          name="confirm-password"
-          class="mt-2"
-          v-model="form.confirmPassword"
-          :input-style="{ width: '100%' }"
-          placeholder="Confirmer le mot de passe"
-          toggle-mask
-          :feedback="false"
-        />
-      </div>
-      <PButton
-        type="submit"
-        severity="contrast"
-        label="Changer le mot de passe"
-        class="mt-4"
-        :disabled="form.password !== form.confirmPassword || form.password === ''"
-      />
-      <!-- Ajouter un message d'erreur si nécessaire -->
-      <div v-if="form.password !== form.confirmPassword && form.confirmPassword !== ''" class="text-error mt-2">
-        Les mots de passe ne correspondent pas.
-      </div>
-    </form>
-  </div>
+        <!-- Ajouter un message d'erreur si nécessaire -->
+        <div
+          v-if="
+            form.password !== form.confirmPassword &&
+            form.confirmPassword !== ''
+          "
+          class="text-error mt-2"
+        >
+          Les mots de passe ne correspondent pas.
+        </div>
+      </form>
+    </div>
   </div>
 </template>
 
@@ -149,17 +157,17 @@ definePageMeta({
   auth: useScope().CONTROLED,
 });
 const active = ref(0);
-const loading = ref(true)
+const loading = ref(true);
 const data = ref({
   name: "",
   email: "",
   description: "",
   avatar: null,
 });
-const email = ref(""); 
+const email = ref("");
 const form = ref({
-  password: '',
-  confirmPassword: ''
+  password: "",
+  confirmPassword: "",
 });
 const items = ref([
   { label: "Général", icon: "pi pi-home" },
@@ -168,16 +176,16 @@ const items = ref([
 ]);
 
 useHttp
-    .get("/api/v1/user/profile")
-    .then((res) => {
-      data.value = res
-    })
-    .catch((e) => {
-      console.log(e);
-    })
-    .finally(() => {
-      loading.value = false;
-    });
+  .get("/api/v1/user/profile")
+  .then((res) => {
+    data.value = res;
+  })
+  .catch((e) => {
+    console.log(e);
+  })
+  .finally(() => {
+    loading.value = false;
+  });
 
 const onChangeInfo = () => {
   // Implémenter la logique de mise à jour du profil
@@ -189,8 +197,8 @@ const onChangeEmail = () => {
 const onChangePassword = () => {
   if (form.password === form.confirmPassword) {
     console.log("Changement de mot de passe effectué pour:", form.password);
-    form.password = '';
-    form.confirmPassword = '';
+    form.password = "";
+    form.confirmPassword = "";
   } else {
     console.log("Les mots de passe ne correspondent pas");
   }

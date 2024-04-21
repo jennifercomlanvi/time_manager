@@ -1,6 +1,6 @@
 <template>
   <PCard style="width: 35rem; overflow: hidden">
-    <template #title> Création de votre premiere équipe</template>
+    <template #title> Création d'une équipe</template>
     <template #content>
       <form @submit.prevent="onSubmit">
         <div>
@@ -46,19 +46,19 @@
 <script setup>
 // const router = useRouter();
 // const route = useRoute();
-const loading = ref(false)
+const loading = ref(false);
 const team = ref({
   name: "",
-  description: ""
+  description: "",
 });
-const emits = defineEmits(['teamCreated']);
+const emits = defineEmits(["teamCreated"]);
 
 function onSubmit() {
   useHttp
     .post("/api/v1/team", team.value)
     .then((res) => {
-      console.log(res)
-      emits('teamCreated', res.data);
+      console.log(res);
+      emits("teamCreated", res.data);
     })
     .catch((e) => {
       console.log(e);
@@ -67,10 +67,10 @@ function onSubmit() {
       loading.value = false;
     });
 }
-  // team.value.error = "";
-  // team.value.errors = {};
+// team.value.error = "";
+// team.value.errors = {};
 
-  // if (team.value.name.trim().length === 0) {
-  //   team.value.errors.name = "Le nom est requis";
-  // }
+// if (team.value.name.trim().length === 0) {
+//   team.value.errors.name = "Le nom est requis";
+// }
 </script>
