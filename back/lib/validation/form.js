@@ -57,6 +57,14 @@ class Form {
   stringField(name, callback) {
     return this.#field(name, "string", callback);
   }
+  /**
+   * @param {string} name
+   * @param {function} callback
+   * @returns {this}
+   */
+  dateField(name, callback) {
+    return this.#field(name, "date", callback);
+  }
 
   /**
    * @param {string} name

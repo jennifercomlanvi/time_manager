@@ -1,51 +1,57 @@
-import HttpError from "../../lib/HttpError";
-import { request, summary, tags, responses, query, security } from "koa-swagger-decorator";
+import {
+  request,
+  summary,
+  tags,
+  responses,
+  path,
+  security,
+} from "koa-swagger-decorator";
 
 class All {
-  @request("get", "/api/v1/user/{uuid}/projects")
-  @summary("Récupère la liste des projets sur lesquels un utilisateur a des permissions")
+  @request("get", "/api/v1/projects/{id}")
+  @summary("Récupère la liste des projets d'une équipe")
   @tags(["Projet"])
-  @query({
-    uuid: { type: 'string', description: 'UUID de l\'utilisateur', required: true }
+  @path({
+    id: { type: "integer", description: "ID de l'équipe", required: true },
   })
   @security([{ BearerAuth: [] }])
   @responses({
     200: { description: "Liste des projets récupérée avec succès" },
     403: { description: "Accès refusé" },
-    404: { description: "Utilisateur non trouvé" }
+    404: { description: "Équipe non trouvée" },
+    500: { description: "Erreur interne du serveur" },
   })
-  static async getUserProjects(ctx) {
-    const { uuid } = ctx.request.query;
-    try {
-      // Trouver l'utilisateur par UUID
-      const user = await ctx.db.User.findOne({
-        where: { user_uuid: uuid },
-        include: [{
-          model: ctx.db.Team,
-          include: [{
-            model: ctx.db.Project
-          }]
-        }]
-      });
-
-      if (!user) {
-        ctx.status = 404;
-        ctx.body = { error: "Utilisateur non trouvé" };
-        return;
-      }
-
-      // Extraire les projets des équipes auxquelles l'utilisateur appartient
-      let projects = [];
-      user.Teams.forEach(team => {
-        projects = [...projects, ...team.Projects];
-      });
-
-      ctx.status = 200;
-      ctx.body = { projects };
-    } catch (error) {
-      throw new HttpError(500, error.message || "Erreur interne du serveur");
+  static async getProjects(ctx) {
+    const teamId = parseInt(ctx.params.id);
+    if (!teamId) {
+      ctx.status = 400;
+      ctx.body = { error: "ID d'équipe invalide" };
+      return;
     }
+
+    const projects = await ctx.db.Project.findAll({
+      where: { project_team: teamId },
+    });
+
+    if (!projects) {
+      ctx.status = 404;
+      ctx.body = { error: "Aucun projet trouvé pour cette équipe" };
+      return;
+    }
+
+    const formattedProjects = projects.map((project) => ({
+      name: project.project_name,
+      description: project.project_description,
+      deadline: project.project_deadline
+        ? project.project_deadline.toISOString().substring(0, 10)
+        : null,
+    }));
+
+    ctx.status = 200;
+    ctx.body = {
+      projects: formattedProjects,
+    };
   }
 }
 
-module.exports = All.getUserProjects;
+module.exports = All.getProjects;

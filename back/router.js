@@ -28,6 +28,12 @@ router.get("/test", auth, require("./controllers/test"));
 
 //User
 router.get("/api/v1/user/profile", auth, require("./controllers/user/profil"));
+router.get(
+  "/api/v1/user/teams/admin",
+  auth,
+  require("./controllers/user/userAdminTeams")
+);
+router.get("/api/v1/user/teams", auth, require("./controllers/user/userTeams"));
 
 //Team
 router.post(
@@ -43,6 +49,7 @@ router.get(
   permissions,
   require("./controllers/team/all")
 );
+
 router.get("/api/v1/teams/user", auth, require("./controllers/team/search"));
 router.post("/api/v1/team", auth, require("./controllers/team/create"));
 router.put(
@@ -80,4 +87,7 @@ router.put(
   require("./controllers/user/control/register")
 );
 
+//Project
+router.get("/api/v1/projects/:id", auth, require("./controllers/project/all"));
+router.post("/api/v1/project", auth, require("./controllers/project/create"));
 module.exports = router;
