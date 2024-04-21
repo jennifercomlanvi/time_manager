@@ -14,8 +14,6 @@ class UserControl {
   })
   static async resendOrGenerateOtp(ctx) {
     const userId = ctx.state.user.id;
-    // const userControlId = ctx.params.id;
-    // const userControl = await ctx.db.UserControl.findByPk(userControlId);
     const userControl = await ctx.db.UserControl.findOne({
       where: {
         control_user: userId,

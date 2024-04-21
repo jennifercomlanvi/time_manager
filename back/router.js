@@ -35,6 +35,10 @@ router.get(
 );
 router.get("/api/v1/user/teams", auth, require("./controllers/user/userTeams"));
 
+//Recovery
+router.post("/api/v1/recovery", require("./controllers/user/recovery/send"));
+// router.put('/api/v1/recovery', require("./controllers/user/recovery/password"));
+
 //Team
 router.post(
   "/api/v1/user/invitation/team",

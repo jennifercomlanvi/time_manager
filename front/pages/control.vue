@@ -78,12 +78,12 @@ const getCompoName = computed(() => {
   switch (control.value?.type) {
     case 1:
       return resolveComponent("ControlCheckEmailForm");
-    case 2:
-      return resolveComponent("ControlRequest");
-    case 3:
-      return resolveComponent("ControlDeleteForm");
-    case 4:
-      return resolveComponent("ControlChangeMdpForm");
+    // case 2:
+    //   return resolveComponent("ControlRequest");
+    // case 3:
+    //   return resolveComponent("ControlDeleteForm");
+    // case 4:
+    //   return resolveComponent("ControlChangeMdpForm");
     default:
       return null;
   }

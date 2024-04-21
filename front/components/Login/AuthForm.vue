@@ -48,7 +48,12 @@
         <label for="Auth-remember"> Rester connecter </label>
       </div>
       <div v-if="!register">
-        <PButton label="Mot de passe oublié?" severity="help" text />
+        <PButton
+          label="Mot de passe oublié?"
+          severity="help"
+          text
+          @click="navigateTo({ name: 'recovery' })"
+        />
       </div>
     </div>
 

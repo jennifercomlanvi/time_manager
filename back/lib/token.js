@@ -15,8 +15,8 @@ const crypto = require("crypto");
 class TokenManager {
   constructor(secretKey) {
     this.secretKey = secretKey;
-    // this.ACCESS_DELAY = 3600; // 1 hour
-    this.ACCESS_DELAY = 86400; // 1 hour
+    this.RESET_PASSWORD_EXPIRATION = 3600; // 1 hour
+    this.ACCESS_DELAY = 3600 * 24; // 1 day
     this.REFRESH_DELAY = 3600 * 24 * 31; // 31 days
   }
 
@@ -45,6 +45,17 @@ class TokenManager {
       user_id: userId,
       expired_at: new Date(expiresAt).toISOString(),
     };
+  }
+
+  generateResetPasswordToken(userId) {
+    const now = Math.floor(Date.now() / 1000);
+    const exp = now + this.RESET_PASSWORD_EXPIRATION;
+    const payload = {
+      sub: userId,
+      iat: now,
+      exp: exp,
+    };
+    return jwt.sign(payload, this.secretKey);
   }
 
   resetRefresh(userId) {

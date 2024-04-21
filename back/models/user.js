@@ -27,6 +27,7 @@ module.exports = (sequelize, DataTypes) => {
         as: "Timers",
       });
       User.hasMany(models.UserControl, { foreignKey: "control_user" });
+      User.hasMany(models.UserUpdate, { foreignKey: "userup_user" });
     }
   }
   User.init(

@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
       UserControl.belongsTo(models.User, { foreignKey: "control_user" });
     }
     static typeToString(type) {
-      return types[type] || "INCONNU";
+      return this.types[type] || "INCONNU";
     }
   }
   UserControl.init(
