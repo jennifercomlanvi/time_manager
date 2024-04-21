@@ -15,12 +15,16 @@ module.exports = (sequelize, DataTypes) => {
       User.belongsToMany(models.Team, {
         through: models.Permission,
         foreignKey: "perm_user",
-        otherKey: 'perm_team',
-        as: 'Teams'
+        otherKey: "perm_team",
+        as: "Teams",
       });
       User.hasMany(models.Permission, {
         foreignKey: "perm_user",
         as: "Permissions",
+      });
+      User.hasMany(models.Timer, {
+        foreignKey: "timer_user",
+        as: "Timers",
       });
       User.hasMany(models.UserControl, { foreignKey: "control_user" });
     }

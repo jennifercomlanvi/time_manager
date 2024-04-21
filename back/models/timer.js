@@ -4,7 +4,9 @@ const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Timer extends Model {
     static associate(models) {
-      Timer.belongsTo(models.Task, { foreignKey: "timer_user" });
+      Timer.belongsTo(models.Task, { foreignKey: "timer_task" });
+      Timer.belongsTo(models.User, { foreignKey: "timer_user" });
+      Timer.belongsTo(models.Project, { foreignKey: "timer_project" });
     }
   }
   Timer.init(
@@ -24,6 +26,14 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: true,
       },
       timer_task: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      timer_project: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      timer_user: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },

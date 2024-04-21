@@ -4,8 +4,11 @@ const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Task extends Model {
     static associate(models) {
-      Task.belongsTo(models.User, { foreignKey: "task_user" });
       Task.belongsTo(models.Project, { foreignKey: "task_project" });
+      Task.hasMany(models.Timer, {
+        foreignKey: "timer_task",
+        as: "Timers",
+      });
     }
     static STATES = {
       TODO: 1,
@@ -32,10 +35,6 @@ module.exports = (sequelize, DataTypes) => {
       task_state: {
         type: DataTypes.INTEGER,
         allowNull: false,
-      },
-      task_user: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
       },
       task_project: {
         type: DataTypes.INTEGER,
