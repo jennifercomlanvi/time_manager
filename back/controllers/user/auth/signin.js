@@ -2,9 +2,6 @@ import Form from "../../../lib/validation/form";
 import HttpError from "../../../lib/HttpError";
 import { required as _required, isEmail } from "../../../lib/validation/rules";
 import { compare } from "../../../lib/password";
-// import { sign } from "jsonwebtoken";
-// import { v4 as uuidv4 } from "uuid";
-// import { DateTime } from "luxon";
 const TokenManager = require("../../../lib/token");
 import { request, summary, body, tags, responses } from "koa-swagger-decorator";
 class Login {

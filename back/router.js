@@ -21,6 +21,7 @@ router.get("/", (ctx, next) => {
 router.post("/api/v1/signin", require("./controllers/user/auth/signin"));
 router.post("/api/v1/signup", require("./controllers/user/auth/signup"));
 router.get("/api/v1/refresh", require("./controllers/user/auth/refresh"));
+router.get("/api/v1/renew", auth, require("./controllers/user/auth/renew"));
 
 //Test
 router.get("/api/v1/test", require("./controllers/test"));
@@ -28,6 +29,11 @@ router.get("/test", auth, require("./controllers/test"));
 
 //User
 router.get("/api/v1/user/profile", auth, require("./controllers/user/profil"));
+router.put(
+  "/api/v1/user/:uuid",
+  auth,
+  require("./controllers/user/editNameDescription")
+);
 router.get(
   "/api/v1/user/teams/admin",
   auth,

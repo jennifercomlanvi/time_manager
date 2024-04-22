@@ -31,9 +31,6 @@ export const useAuthTokenStore = defineStore("authToken", () => {
     apiToken.access = data.access_token;
     apiToken.exp = timestamp + data.expire_in;
 
-    console.log('',data)
-    console.log('',apiToken.exp)
-    console.log('',timestamp)
     useLocaleStorage.set("access", {
       token: apiToken.access,
       exp: apiToken.exp,

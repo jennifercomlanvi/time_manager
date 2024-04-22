@@ -159,6 +159,7 @@ definePageMeta({
 const active = ref(0);
 const loading = ref(true);
 const data = ref({
+  uuid: "",
   name: "",
   email: "",
   description: "",
@@ -188,7 +189,21 @@ useHttp
   });
 
 const onChangeInfo = () => {
-  // Implémenter la logique de mise à jour du profil
+  useHttp
+    .put(`/api/v1/user/${data.value.uuid}`, {
+      name: data.value.name,
+      description: data.value.description,
+    })
+    .then((res) => {
+      data.value.name = res.name;
+      data.value.description = res.description;
+    })
+    .catch((e) => {
+      console.log(e);
+    })
+    .finally(() => {
+      loading.value = false;
+    });
 };
 const onChangeEmail = () => {
   // Implémenter la logique de mise à jour de l'email

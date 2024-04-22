@@ -45,11 +45,12 @@ class User {
         return;
       }
       // profil: user.toJSON()
-      ctx.body = { 
-        name : user.user_name,
+      ctx.body = {
+        name: user.user_name,
         email: user.user_email,
-        avatar : user.user_avatar,
-        description : user.user_description
+        avatar: user.user_avatar,
+        uuid: user.user_uuid,
+        description: user.user_description,
       };
     } catch (error) {
       console.error(
