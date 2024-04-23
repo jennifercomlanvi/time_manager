@@ -1,8 +1,16 @@
+const {
+  request,
+  summary,
+  tags,
+  body,
+  responses,
+} = require("koa-swagger-decorator");
 const otp = require("../../../lib/otp");
 import Form from "../../../lib/validation/form";
+const rules = require("../../../lib/validation/rules");
 const sendEmail = require("../../../emailSender");
-import { request, summary, body, tags, responses } from "koa-swagger-decorator";
-class Password {
+
+class Recovery {
   @request("post", "/api/v1/recovery")
   @summary("Demande de réinitialisation de mot de passe Etape 1")
   @tags(["Utilisateur"])
@@ -18,11 +26,11 @@ class Password {
     400: { description: "Email invalide ou non trouvé" },
     500: { description: "Erreur interne du serveur" },
   })
-  static async resetPassword(ctx) {
+  static async index(ctx) {
     const form = new Form();
     form.stringField("email", (value) => {
-      rules.required(value, "L'email est requis");
-      rules.isEmail(value, "L'email doit être valide");
+      rules.required(value, "Un email valide est requis");
+      rules.isEmail(value, "Un email valide est requis");
     });
 
     if (!form.validate(ctx.request.body)) {
@@ -32,49 +40,46 @@ class Password {
     const user = await ctx.db.User.findOne({
       where: {
         user_email: form.value("email"),
-        user_state: ctx.db.User.ACTIVE,
+        user_state: ctx.db.User.USER_STATES.ACTIVE,
       },
     });
 
     if (!user) {
-      ctx.status = 204; // Aucun utilisateur actif trouvé avec cet email.
+      ctx.body = { is_user: false }; // Aucun utilisateur actif trouvé avec cet email.
       return;
     }
-
-    const existingUpdate = await UserUpdate.findOne({
+    let recovery = ctx.db.UserUpdate.RECOVERY;
+    const existingUpdate = await ctx.db.UserUpdate.findOne({
       where: {
         userup_user: user.user_id,
-        userup_type: ctx.db.UserUpdate.RECOVERY,
+        userup_type: recovery,
       },
     });
 
-    if (!existingUpdate) {
-      await this.#upsertUserUpdate(ctx, user);
-    }
-
-    if (existingUpdate && existingUpdate.userup_expired_at < now) {
-      await this.#upsertUserUpdate(ctx, user, existingUpdate);
-    }
-
-    ctx.status = 204;
-  }
-
-  static async #upsertUserUpdate(ctx, user, existingUpdate) {
-    if (existingUpdate) {
+    if (existingUpdate && existingUpdate.userup_expired_at > new Date()) {
+      console.log("OTP:", existingUpdate.userup_otp);
+      ctx.body = { is_user: true };
+      return;
+    } else if (existingUpdate) {
       await existingUpdate.destroy();
     }
+
     const newOtp = otp.generateOtp();
+
     await ctx.db.UserUpdate.create({
       userup_user: user.user_id,
-      userup_type: ctx.db.UserUpdate.RECOVERY,
+      userup_type: recovery,
       userup_otp: newOtp,
     });
+
     console.log("New OTP:", newOtp); // Log temporaire pour le développement
+    // Envoyer l'email avec le nouveau OTP
     // await sendEmail(
     //   user.user_email,
     //   "Réinitialisation de votre mot de passe",
-    //   `Votre code de réinitialisation est: ${newOtp}`
+    //   `Votre nouveau code de réinitialisation est: ${newOtp}`
     // );
+    ctx.body = { is_user: true };
   }
 }
-module.exports = Password.resetPassword;
+module.exports = Recovery.index;

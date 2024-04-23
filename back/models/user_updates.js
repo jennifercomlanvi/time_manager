@@ -17,15 +17,6 @@ module.exports = (sequelize, DataTypes) => {
     static typeToString(type) {
       return this.types[type] || "INCONNU";
     }
-    static getExpiredDate(type) {
-      const expirationTimes = {
-        [RECOVERY]: 2 * 60 * 60 * 1000, // 2 heures
-        [NEW_PASSWORD]: 60 * 60 * 1000, // 1 heures
-        [NEW_EMAIL]: 2 * 60 * 60 * 1000, // 2 heures
-      };
-      const expirationTime = expirationTimes[type] || 30 * 60 * 1000; // Par défaut, 30 minutes
-      return new Date(new Date().getTime() + expirationTime);
-    }
   }
   UserUpdate.init(
     {
@@ -53,9 +44,6 @@ module.exports = (sequelize, DataTypes) => {
       userup_expired_at: {
         type: DataTypes.DATE,
         allowNull: true,
-        defaultValue: function () {
-          return UserUpdate.getExpiredDate(this.userup_type);
-        },
       },
     },
     {
@@ -64,11 +52,29 @@ module.exports = (sequelize, DataTypes) => {
       tableName: "user_updates",
       underscored: true,
       timestamps: true,
+      hooks: {
+        beforeCreate: (userUpdate, options) => {
+          if (!userUpdate.userup_expired_at) {
+            userUpdate.userup_expired_at = UserUpdate.getExpiredDate(
+              userUpdate.userup_type
+            );
+          }
+        },
+      },
     }
   );
 
   UserUpdate.NEW_PASSWORD = NEW_PASSWORD;
   UserUpdate.NEW_EMAIL = NEW_EMAIL;
   UserUpdate.RECOVERY = RECOVERY;
+  UserUpdate.getExpiredDate = function (type) {
+    const expirationTimes = {
+      [UserUpdate.RECOVERY]: 2 * 60 * 60 * 1000, // 2 heures
+      [UserUpdate.NEW_PASSWORD]: 60 * 60 * 1000, // 1 heure
+      [UserUpdate.NEW_EMAIL]: 2 * 60 * 60 * 1000, // 2 heures
+    };
+    const expirationTime = expirationTimes[type] || 30 * 60 * 1000; // Par défaut, 30 minutes
+    return new Date(Date.now() + expirationTime);
+  };
   return UserUpdate;
 };

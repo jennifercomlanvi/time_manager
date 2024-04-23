@@ -6,7 +6,7 @@ class TokenManager {
   constructor(secretKey) {
     this.secretKey = secretKey;
     this.RESET_PASSWORD_EXPIRATION = 3600; // 1 hour
-    this.ACCESS_DELAY = 3600 * 24; // 1 day
+    this.ACCESS_DELAY = 3600 * 2; // 2 hour
     this.REFRESH_DELAY = 3600 * 24 * 31; // 31 days
   }
 

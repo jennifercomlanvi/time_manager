@@ -16,6 +16,9 @@ router.get("/", (ctx, next) => {
 });
 
 // router.get('/swagger-html', router.swaggerUi);
+//Recovery
+router.post("/api/v1/recovery", require("./controllers/user/recovery/send"));
+// router.put('/api/v1/recovery', require("./controllers/user/recovery/password"));
 
 //Auth
 router.post("/api/v1/signin", require("./controllers/user/auth/signin"));
@@ -40,10 +43,6 @@ router.get(
   require("./controllers/user/userAdminTeams")
 );
 router.get("/api/v1/user/teams", auth, require("./controllers/user/userTeams"));
-
-//Recovery
-router.post("/api/v1/recovery", require("./controllers/user/recovery/send"));
-// router.put('/api/v1/recovery', require("./controllers/user/recovery/password"));
 
 //Team
 router.post(

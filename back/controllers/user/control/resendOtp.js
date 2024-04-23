@@ -1,4 +1,4 @@
-import { request, summary, tags, body, responses } from "koa-swagger-decorator";
+import { request, summary, tags, responses } from "koa-swagger-decorator";
 const HttpError = require("../../../lib/HttpError");
 const otp = require("../../../lib/otp");
 const sendEmail = require("../../../emailSender");
