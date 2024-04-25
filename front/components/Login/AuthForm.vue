@@ -12,6 +12,7 @@
           style="width: 100%"
         />
       </PIconField>
+      <small class="text-red-500">{{ errors.getMessage("name") }}</small>
     </div>
     <div class="flex flex-column gap-2 mt-2">
       <PIconField iconPosition="left">
@@ -23,7 +24,7 @@
           style="width: 100%"
         />
       </PIconField>
-      <!-- <small v-if="form.errors.email">{{ form.errors.email }}</small> -->
+      <small class="text-red-500">{{ errors.getMessage("email") }}</small>
     </div>
     <div class="flex flex-column gap-2">
       <PPassword
@@ -35,7 +36,7 @@
         toggle-mask
         :feedback="false"
       />
-      <!-- <small v-if="form.errors.password">{{ form.errors.password }}</small> -->
+      <small class="text-red-500">{{ errors.getMessage("password") }}</small>
     </div>
     <div class="flex flex-wrap justify-content-between">
       <div class="field-checkbox mt-2">
@@ -82,7 +83,11 @@ const props = defineProps({
   },
 });
 const loading = ref(false);
+const emit = defineEmits(["error"]);
 
+watch(errors.errors, (e) => {
+  emit("error", e);
+});
 const form = reactive({
   remember: false,
   name: "jennifer",
@@ -91,6 +96,7 @@ const form = reactive({
 });
 
 function logUser() {
+  errors.reset();
   useHttp
     .post("/api/v1/signin", {
       email: form.email,
@@ -146,40 +152,4 @@ function onSubmit() {
     logUser();
   }
 }
-// const form = ref({
-//   name: "",
-//   email: "",
-//   password: "",
-//   remember: false,
-//   error: "",
-//   errors: {},
-// });
-
-// function onSubmit(e) {
-//   e.preventDefault;
-
-//   form.value.error = "";
-//   form.value.errors = {};
-
-//   if (form.value.email.trim().length === 0) {
-//     form.value.errors.email = "L'adresse email est requise";
-//   }
-
-//   if (form.value.password.trim().length === 0) {
-//     form.value.errors.email = "Le mot de passe est requis";
-//   }
-
-//   if (Object.keys(form.value.errors).length > 0) {
-//     form.value.error = "Le formulaire comporte des erreurs";
-//   } else {
-//     session.token = "token";
-//     session.username = form.value.errors.email;
-
-//     if (route.query.redirect) {
-//       route.push({ path: route.query.redirect });
-//     } else {
-//       route.push({ name: "home" });
-//     }
-//   }
-// }
 </script>

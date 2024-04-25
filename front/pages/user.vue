@@ -11,6 +11,7 @@
       animationDuration=".5s"
       aria-label="Custom ProgressSpinner"
     />
+    <PToast />
     <!-- Détail du profil -->
     <div v-show="active === 0">
       <h2>Détail du profil</h2>
@@ -102,10 +103,10 @@
       <h2>Changer de mot de passe</h2>
       <form @submit.prevent="onChangePassword">
         <div class="flex flex-column gap-2">
-          <label for="password">Nouveau mot de passe :</label>
+          <label for="user_password">Nouveau mot de passe :</label>
           <PPassword
-            id="password"
-            name="password"
+            id="user_password"
+            name="user_password"
             class="mt-2"
             v-model="form.password"
             :input-style="{ width: '100%' }"
@@ -115,10 +116,10 @@
           />
         </div>
         <div class="flex flex-column gap-2 mt-2">
-          <label for="confirm-password">Confirmer le mot de passe :</label>
+          <label for="user_confirm-password">Confirmer le mot de passe :</label>
           <PPassword
-            id="confirm-password"
-            name="confirm-password"
+            id="user_confirm-password"
+            name="user_confirm-password"
             class="mt-2"
             v-model="form.confirmPassword"
             :input-style="{ width: '100%' }"
@@ -156,6 +157,10 @@ definePageMeta({
   layout: "authenticated",
   auth: useScope().CONTROLED,
 });
+import { useToast } from "primevue/usetoast";
+
+const toast = useToast();
+
 const active = ref(0);
 const loading = ref(true);
 const data = ref({
@@ -197,6 +202,11 @@ const onChangeInfo = () => {
     .then((res) => {
       data.value.name = res.name;
       data.value.description = res.description;
+      toast.add({
+        severity: "success",
+        summary: "Information mise a jour avec succès",
+        life: 3000,
+      });
     })
     .catch((e) => {
       console.log(e);

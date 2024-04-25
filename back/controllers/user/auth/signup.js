@@ -41,7 +41,8 @@ class Register {
   static async index(ctx) {
     const form = new Form();
     form.stringField("name", (value) => {
-      rules.required(value, "Un email valide est requis");
+      rules.required(value, "Un nom est requis");
+      rules.minLen(value, 4, "Minimum 4 caractères");
     });
     form.stringField("email", (value) => {
       rules.required(value, "Un email valide est requis");
@@ -62,7 +63,7 @@ class Register {
     });
 
     if (user) {
-      form.setError("email", "bad");
+      form.setError("email", "Cette adresse mail existe déjà");
       throw new HttpError(400, "validation", form.errors());
     }
 

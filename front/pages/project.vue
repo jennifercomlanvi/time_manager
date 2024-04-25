@@ -1,9 +1,7 @@
 <template>
   <div class="container">
     <PTabMenu :model="items" v-model:activeIndex="active" />
-    <div v-show="active === 0"><Timer /></div>
-    <div v-show="active === 1"><Project /></div>
-    <div v-show="active === 2"><Task /></div>
+    <component :is="currentTabComponent" />
   </div>
 </template>
 <script setup>
@@ -17,4 +15,17 @@ const items = ref([
   { label: "Tâches", icon: "pi pi-fw pi-list" },
 ]);
 const active = ref(0);
+
+const currentTabComponent = computed(() => {
+  switch (active.value) {
+    case 0:
+      return resolveComponent("Timer");
+    case 1:
+      return resolveComponent("Project");
+    case 2:
+      return resolveComponent("Task");
+    default:
+      return null;
+  }
+});
 </script>

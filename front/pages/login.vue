@@ -10,11 +10,18 @@
       <div class="col">
         <div class="login-form">
           <h1 class="flex justify-content-center log-title">Connexion</h1>
+          <!-- <PMessage
+            v-if="errors.getMessage('form')"
+            severity="error"
+            :closable="false"
+          >
+            <p>{{ errors.getMessage("form") }}</p>
+          </PMessage> -->
           <LoginSocialForm />
           <p class="flex justify-content-center">
             ou utiliser votre email pour connexion
           </p>
-          <LoginAuthForm :isRegistering="false" />
+          <LoginAuthForm @error="errors.init" />
           <div class="mt-4 flex justify-content-center flex-wrap">
             Vous n'avez pas de compte ?
             <a
@@ -39,5 +46,11 @@
   </main>
 </template>
 
-<script setup></script>
+<script setup>
+definePageMeta({
+  auth: useScope().PUBLIC,
+});
+
+const errors = useFormError();
+</script>
 <style scoped></style>
