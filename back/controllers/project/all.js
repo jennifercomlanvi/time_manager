@@ -35,7 +35,6 @@ class All {
 
     if (!projects) {
       ctx.status = 404;
-      ctx.body = { error: "Aucun projet trouvé pour cette équipe" };
       return;
     }
 

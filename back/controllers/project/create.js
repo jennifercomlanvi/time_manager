@@ -49,19 +49,21 @@ class Project {
   })
   static async index(ctx) {
     const form = new Form();
-    form.stringField("name", (value) => {
-      rules.required(value, "Un email valide est requis");
-    });
     form.integerField("team", (value) => {
       rules.required(value, "Une équipe est requise");
     });
     form.stringField("name", (value) => {
-      rules.required(value, "Un nom valide est requis");
+      rules.required(value, "Un nom est requis");
+      rules.minLen(value, 4, "Le nom doit comporter au moins 4 caractères");
     });
     form.stringField("description", (value) => {
       if (value) {
-        minLen(value, 10, "La description doit avoir au moins 10 caractères");
-        maxLen(
+        rules.minLen(
+          value,
+          10,
+          "La description doit avoir au moins 10 caractères"
+        );
+        rules.maxLen(
           value,
           255,
           "La description ne doit pas dépasser 255 caractères"

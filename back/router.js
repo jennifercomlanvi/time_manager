@@ -99,9 +99,28 @@ router.put(
 //Project
 router.get("/api/v1/projects/:id", auth, require("./controllers/project/all"));
 router.get(
+  "/api/v1/user/projects/admin",
+  auth,
+  require("./controllers/project/adminProjects")
+);
+router.get(
   "/api/v1/user/projects",
   auth,
   require("./controllers/project/teamProjects")
 );
 router.post("/api/v1/project", auth, require("./controllers/project/create"));
+router.delete(
+  "/api/v1/project/:id",
+  auth,
+  require("./controllers/project/delete")
+);
+
+//Task
+router.get(
+  "/api/v1/project/:id/tasks",
+  auth,
+  require("./controllers/task/all")
+);
+router.post("/api/v1/task", auth, require("./controllers/task/create"));
+
 module.exports = router;

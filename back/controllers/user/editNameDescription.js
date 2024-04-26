@@ -45,7 +45,7 @@ class User {
     const form = new Form();
     form.stringField("name", (value) => {
       if (value)
-        rules.minLen(value, 4, "Le nom doit comporter au moins 2 caractères");
+        rules.minLen(value, 4, "Le nom doit comporter au moins 4 caractères");
     });
     form.stringField("description", (value) => {
       if (value)

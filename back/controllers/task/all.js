@@ -1,34 +1,49 @@
 import HttpError from "../../lib/HttpError";
-import { request, summary, tags, responses, query } from "koa-swagger-decorator";
+import {
+  request,
+  summary,
+  tags,
+  responses,
+  query,
+} from "koa-swagger-decorator";
 
 class All {
-  @request("get", "/api/v1/projects/{projectId}/tasks")
+  @request("get", "/api/v1/project/{id}/tasks")
   @summary("Récupère la liste de toutes les tâches associées à un projet")
   @tags(["Tâche"])
   @query({
-    projectId: { type: 'number', description: 'ID du projet', required: true }
+    id: { type: "number", description: "ID du projet", required: true },
   })
   @responses({
     200: { description: "Liste des tâches récupérée avec succès" },
     403: { description: "Accès refusé" },
-    404: { description: "Projet non trouvé" }
+    404: { description: "Projet non trouvé" },
   })
   static async getTasksByProject(ctx) {
-    const { projectId } = ctx.params;
+    const { id } = ctx.params;
     try {
-      const project = await ctx.db.Project.findByPk(projectId);
+      const project = await ctx.db.Project.findByPk(id);
       if (!project) {
         ctx.status = 404;
-        ctx.body = { error: "Projet non trouvé" };
         return;
       }
 
       const tasks = await ctx.db.Task.findAll({
-        where: { task_project: projectId }
+        where: { task_project: id },
       });
-      
+      if (!tasks) {
+        ctx.status = 404;
+        return;
+      }
+
+      const formattedTasks = tasks.map((task) => ({
+        name: task.task_name,
+        description: task.task_description,
+        state: task.task_state,
+      }));
+
       ctx.status = 200;
-      ctx.body = { tasks };
+      ctx.body = { tasks: formattedTasks };
     } catch (error) {
       throw new HttpError(500, "Erreur interne du serveur");
     }
