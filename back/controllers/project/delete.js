@@ -1,12 +1,6 @@
-const {
-  request,
-  summary,
-  tags,
-  path,
-  responses,
-} = require("koa-swagger-decorator");
+import { request, summary, tags, path, responses } from "koa-swagger-decorator";
 
-class Project {
+class DeleteProject {
   @request("delete", "/api/v1/project/{id}")
   @summary("Supprime un projet spécifique")
   @tags(["Projet"])
@@ -23,7 +17,7 @@ class Project {
     403: { description: "Non autorisé à supprimer ce projet" },
     500: { description: "Erreur interne du serveur" },
   })
-  static async deleteProject(ctx) {
+  static async index(ctx) {
     const projectId = ctx.params.id;
     const project = await ctx.db.Project.findByPk(projectId);
     if (!project) {
@@ -49,4 +43,4 @@ class Project {
   }
 }
 
-module.exports = Project.deleteProject;
+module.exports = DeleteProject;

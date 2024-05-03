@@ -1,5 +1,9 @@
 import Form from "../../lib/validation/form";
-import { required as _required, minLen, maxLen } from "../../lib/validation/rules";
+import {
+  required as _required,
+  minLen,
+  maxLen,
+} from "../../lib/validation/rules";
 import HttpError from "../../lib/HttpError";
 import { request, summary, body, tags, responses } from "koa-swagger-decorator";
 class Create {
@@ -24,12 +28,8 @@ class Create {
       _required(value, "Un nom est requis");
     });
     form.stringField("description", (value) => {
-      if (value){
-        minLen(
-          value,
-          10,
-          "La description doit avoir au moins 10 caractères"
-        );
+      if (value) {
+        minLen(value, 10, "La description doit avoir au moins 10 caractères");
         maxLen(
           value,
           255,
@@ -37,20 +37,20 @@ class Create {
         );
       }
     });
-    
+
     if (!form.validate(ctx.request.body)) {
       throw new HttpError(400, "Validation", form.errors());
     }
-    
+
     let team = await ctx.db.Team.findOne({
       where: { team_name: form.value("name") },
     });
-    
+
     if (team) {
-      form.setError("name", "bad");
+      form.setError("name", "Cette équipe existe déjà");
       throw new HttpError(400, "validation", form.errors());
     }
-    
+
     team = await ctx.db.Team.create({
       team_name: form.value("name"),
       team_description: form.value("description"),
@@ -66,4 +66,5 @@ class Create {
     ctx.response.body = { team: team };
   }
 }
-module.exports = Create.index;
+// module.exports = Create.index;
+module.exports = Create;

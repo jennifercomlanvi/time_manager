@@ -93,4 +93,4 @@ class Login {
   }
 }
 
-module.exports = Login.index;
+module.exports = Login;

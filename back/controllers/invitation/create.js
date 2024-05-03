@@ -85,4 +85,5 @@ class Invitation {
     await sendEmail(email, subject, text);
   }
 }
-module.exports = Invitation.create;
+// module.exports = Invitation.create;
+module.exports = Invitation;

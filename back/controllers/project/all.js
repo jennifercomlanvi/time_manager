@@ -1,20 +1,12 @@
-import {
-  request,
-  summary,
-  tags,
-  responses,
-  path,
-  security,
-} from "koa-swagger-decorator";
+import { request, summary, tags, responses, path } from "koa-swagger-decorator";
 
-class All {
+class AllProject {
   @request("get", "/api/v1/projects/{id}")
   @summary("Récupère la liste des projets d'une équipe")
   @tags(["Projet"])
   @path({
     id: { type: "integer", description: "ID de l'équipe", required: true },
   })
-  @security([{ BearerAuth: [] }])
   @responses({
     200: { description: "Liste des projets récupérée avec succès" },
     403: { description: "Accès refusé" },
@@ -53,4 +45,4 @@ class All {
   }
 }
 
-module.exports = All.getProjects;
+module.exports = AllProject;

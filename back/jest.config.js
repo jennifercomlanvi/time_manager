@@ -1,5 +1,6 @@
-/** @type {import('ts-jest').JestConfigWithTsJest} */
-module.exports = {
-  preset: 'ts-jest',
-  testEnvironment: 'node',
+/** @returns {Promise<import('jest').Config>} */
+module.exports = async () => {
+  return {
+    verbose: true,
+  };
 };

@@ -1,4 +1,4 @@
-require('@babel/register');
+require("@babel/register");
 const env = process.env.NODE_ENV || "development";
 const http = require("http");
 const app = require("./app.js");
@@ -7,8 +7,7 @@ const port = env === "development" ? 3001 : 3000;
 
 async function bootstrap() {
   /**
-   * Add external services init as async operations (db, redis, etc...)
-   * e.g.
+   * Initialisation des services externes (ex: connexion base de données)
    * await sequelize.authenticate()
    */
   return http.createServer(app.callback()).listen(port);

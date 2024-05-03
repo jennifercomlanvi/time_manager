@@ -1,6 +1,6 @@
-const { request, summary, tags, responses } = require("koa-swagger-decorator");
+import { request, summary, tags, responses } from "koa-swagger-decorator";
 
-class ProjectController {
+class TeamProject {
   @request("get", "/api/v1/user/projects")
   @summary("Récupère les projets de l'utilisateur et les groupe par équipe")
   @tags(["Projet"])
@@ -8,7 +8,7 @@ class ProjectController {
     200: { description: "Projets récupérés avec succès" },
     404: { description: "Aucun projet trouvé pour cet utilisateur" },
   })
-  static async getUserProjects(ctx) {
+  static async index(ctx) {
     const userId = ctx.state.user.id;
 
     // Récupérer les équipes de l'utilisateur à partir de la table de permissions
@@ -57,4 +57,4 @@ class ProjectController {
   }
 }
 
-module.exports = ProjectController.getUserProjects;
+module.exports = TeamProject;

@@ -3,19 +3,23 @@ const auth = require("./middleware/auth");
 const permissions = require("./middleware/permissions");
 const { SwaggerRouter } = require("koa-swagger-decorator");
 const router = new SwaggerRouter();
-// const router = new Router();
+const path = require("path");
 
 router.swagger({
-  title: "Timer Manager API",
-  description: "API Documentation pour Timer Manager",
+  title: "Time Manager API",
+  description:
+    "Documentation API pour le système de gestion de temps de projet",
   version: "1.0.0",
+  swaggerHtmlEndpoint: "/swagger-html",
+  swaggerJsonEndpoint: "/swagger-json",
 });
-
+router.mapDir(path.resolve(__dirname, "./controllers"), {
+  recursive: true,
+});
 router.get("/", (ctx, next) => {
   ctx.body = "Hello";
 });
 
-// router.get('/swagger-html', router.swaggerUi);
 //Recovery
 router.post("/api/v1/recovery", require("./controllers/user/recovery/send"));
 // router.put('/api/v1/recovery', require("./controllers/user/recovery/password"));
@@ -27,8 +31,8 @@ router.get("/api/v1/refresh", require("./controllers/user/auth/refresh"));
 router.get("/api/v1/renew", auth, require("./controllers/user/auth/renew"));
 
 //Test
-router.get("/api/v1/test", require("./controllers/test"));
-router.get("/test", auth, require("./controllers/test"));
+router.get("/api/v1/test", require("./controllers/index"));
+router.get("/test", auth, require("./controllers/index"));
 
 //User
 router.get("/api/v1/user/profile", auth, require("./controllers/user/profil"));
@@ -59,7 +63,11 @@ router.get(
   require("./controllers/team/all")
 );
 
-router.get("/api/v1/teams/user", auth, require("./controllers/team/search"));
+router.get(
+  "/api/v1/teams/user",
+  auth,
+  require("./controllers/team/search").default
+);
 router.post("/api/v1/team", auth, require("./controllers/team/create"));
 router.put(
   "/api/v1/team/:id",
@@ -71,7 +79,7 @@ router.delete(
   "/api/v1/team/:id",
   auth,
   permissions,
-  require("./controllers/team/delete")
+  require("./controllers/team/delete").default
 );
 
 //UserControl

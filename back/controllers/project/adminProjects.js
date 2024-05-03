@@ -1,6 +1,6 @@
-const { request, summary, tags, responses } = require("koa-swagger-decorator");
+import { request, summary, tags, responses } from "koa-swagger-decorator";
 
-class ProjectController {
+class ProjectAdmin {
   @request("get", "/api/v1/user/projects/admin")
   @summary(
     "Récupère les projets des équipes dont l'utilisateur est administrateur"
@@ -13,7 +13,7 @@ class ProjectController {
         "Aucun projet trouvé pour cet utilisateur en tant qu'administrateur",
     },
   })
-  static async getUserAdminProjects(ctx) {
+  static async index(ctx) {
     const userId = ctx.state.user.id;
     const ADMIN_LEVEL = 1;
 
@@ -61,4 +61,4 @@ class ProjectController {
   }
 }
 
-module.exports = ProjectController.getUserAdminProjects;
+module.exports = ProjectAdmin;

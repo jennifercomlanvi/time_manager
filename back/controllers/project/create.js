@@ -8,7 +8,6 @@ const {
   body,
   tags,
   responses,
-  security,
 } = require("koa-swagger-decorator");
 
 class Project {
@@ -37,7 +36,6 @@ class Project {
       description: "Date limite du projet (format YYYY-MM-DD)",
     },
   })
-  @security([{ BearerAuth: [] }])
   @responses({
     200: { description: "Projet créé avec succès" },
     400: {

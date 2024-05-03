@@ -7,7 +7,7 @@ import { request, summary, body, tags, responses } from "koa-swagger-decorator";
 class Renew {
   @request("post", "/api/v1/renew")
   @summary("Renew access and refresh tokens for authenticated users")
-  @tags(["Authentication"])
+  @tags(["Authentification"])
   @body({
     token: {
       type: "string",
@@ -93,4 +93,4 @@ class Renew {
     }
   }
 }
-module.exports = Renew.index;
+module.exports = Renew;

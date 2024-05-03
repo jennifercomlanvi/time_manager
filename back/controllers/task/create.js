@@ -8,7 +8,6 @@ const {
   body,
   tags,
   responses,
-  security,
 } = require("koa-swagger-decorator");
 
 class Task {
@@ -32,7 +31,6 @@ class Task {
       description: "Description de la tâche",
     },
   })
-  @security([{ BearerAuth: [] }])
   @responses({
     200: { description: "Tâche créé avec succès" },
     400: {

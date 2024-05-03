@@ -18,7 +18,7 @@ class Register {
   @summary("Inscription utilisateur")
   @tags(["Utilisateur"])
   @body({
-    username: {
+    name: {
       type: "string",
       required: true,
       description: "Nom d'utilisateur",
@@ -116,4 +116,4 @@ class Register {
   }
 }
 
-module.exports = Register.index;
+module.exports = Register;

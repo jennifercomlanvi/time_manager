@@ -1,10 +1,4 @@
-const {
-  request,
-  summary,
-  tags,
-  path,
-  responses,
-} = require("koa-swagger-decorator");
+import { request, summary, tags, path, responses } from "koa-swagger-decorator";
 
 class Delete {
   @request("delete", "/api/v1/team/:id")
@@ -41,4 +35,4 @@ class Delete {
   }
 }
 
-module.exports = Delete.deleteTeam;
+export default Delete.deleteTeam;
