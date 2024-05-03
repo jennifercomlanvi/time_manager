@@ -5,11 +5,20 @@ import {
   maxLen,
 } from "../../lib/validation/rules";
 import HttpError from "../../lib/HttpError";
-import { request, summary, body, tags, responses } from "koa-swagger-decorator";
+import {
+  request,
+  summary,
+  body,
+  tags,
+  responses,
+  middlewaresAll,
+} from "koa-swagger-decorator";
+import auth from "../../middleware/auth";
 class CreateTeam {
   @request("post", "/api/v1/team")
   @summary("Crée une nouvelle équipe")
   @tags(["Team"])
+  @middlewaresAll([auth])
   @body({
     name: { type: "string", required: true, description: "Nom de l'équipe" },
     description: {

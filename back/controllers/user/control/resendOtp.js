@@ -1,12 +1,19 @@
-import { request, summary, tags, responses } from "koa-swagger-decorator";
+import {
+  request,
+  summary,
+  tags,
+  responses,
+  middlewaresAll,
+} from "koa-swagger-decorator";
 const HttpError = require("../../../lib/HttpError");
 const otp = require("../../../lib/otp");
 const sendEmail = require("../../../emailSender");
-
+import auth from "../../../middleware/auth";
 class UserControlOtp {
   @request("post", "/api/v1/user/control")
   @summary("Renvoie ou génère un nouveau code OTP")
   @tags(["UserControl"])
+  @middlewaresAll([auth])
   @responses({
     200: { description: "OTP envoyé avec succès" },
     404: { description: "Contrôle utilisateur non trouvé" },

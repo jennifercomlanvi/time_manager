@@ -4,14 +4,16 @@ import {
   summary,
   tags,
   responses,
-  query,
+  path,
+  middlewaresAll,
 } from "koa-swagger-decorator";
-
+import auth from "../../middleware/auth";
 class TasksByProject {
   @request("get", "/api/v1/project/{id}/tasks")
   @summary("Récupère la liste de toutes les tâches associées à un projet")
   @tags(["Task"])
-  @query({
+  @middlewaresAll([auth])
+  @path({
     id: { type: "number", description: "ID du projet", required: true },
   })
   @responses({
@@ -20,6 +22,7 @@ class TasksByProject {
     404: { description: "Projet non trouvé" },
   })
   static async index(ctx) {
+    console.log("dghj", ctx.params);
     const { id } = ctx.params;
     try {
       const project = await ctx.db.Project.findByPk(id);

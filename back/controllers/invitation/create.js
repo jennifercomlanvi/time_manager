@@ -2,12 +2,21 @@ import HttpError from "../../lib/HttpError";
 import Form from "../../lib/validation/form";
 import { generateToken } from "../../lib/token";
 const sendEmail = require("../../emailSender");
-import { request, summary, tags, body, responses } from "koa-swagger-decorator";
-
+import {
+  request,
+  summary,
+  tags,
+  body,
+  responses,
+  middlewaresAll,
+} from "koa-swagger-decorator";
+import auth from "../../middleware/auth";
+import permissions from "../../middleware/permissions";
 class Invitation {
   @request("post", "/api/v1/user/invitation/team")
   @summary("Crée une invitation pour rejoindre une équipe")
   @tags(["Invitation"])
+  @middlewaresAll([auth, permissions])
   @body({
     email: {
       type: "string",

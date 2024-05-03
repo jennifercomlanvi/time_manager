@@ -1,19 +1,21 @@
 const Form = require("../../lib/validation/form");
 const HttpError = require("../../lib/HttpError");
 const rules = require("../../lib/validation/rules");
-
+import auth from "../../middleware/auth";
 const {
   request,
   summary,
   body,
   tags,
   responses,
+  middlewaresAll,
 } = require("koa-swagger-decorator");
 
 class CreateTask {
   @request("post", "/api/v1/task")
   @summary("Créer une nouvelle tâche")
   @tags(["Task"])
+  @middlewaresAll([auth])
   @body({
     project: {
       type: "integer",

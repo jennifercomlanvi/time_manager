@@ -1,8 +1,17 @@
-const { request, summary, tags, responses } = require("koa-swagger-decorator");
+import {
+  request,
+  summary,
+  tags,
+  responses,
+  middlewaresAll,
+} from "koa-swagger-decorator";
+import auth from "../../middleware/auth";
+
 class UserProfile {
   @request("get", "/api/v1/user/profile")
   @summary("Récupère les informations de l'utilisateur connecté")
   @tags(["User"])
+  @middlewaresAll([auth])
   @responses({
     200: {
       description: "Informations de l'utilisateur récupérées avec succès",
@@ -20,11 +29,9 @@ class UserProfile {
           },
           user_avatar: {
             type: "string",
-            example: "123e4567-e89b-12d3-a456-426614174000",
           },
           user_last_visit: {
             type: "string",
-            example: "2020-01-01T00:00:00.000Z",
           },
         },
       },

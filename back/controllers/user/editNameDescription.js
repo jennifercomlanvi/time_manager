@@ -6,15 +6,18 @@ import {
   responses,
   path,
   security,
+  middlewaresAll,
 } from "koa-swagger-decorator";
 import HttpError from "../../lib/HttpError";
 import Form from "../../lib/validation/form";
 import { minLen } from "../../lib/validation/rules";
+import auth from "../../middleware/auth";
 
 class UserEdit {
   @request("put", "/api/v1/user/{uuid}")
   @summary("Modifier le nom et la description d'un utilisateur")
   @tags(["User"])
+  @middlewaresAll([auth])
   @path({
     uuid: {
       type: "string",

@@ -1,11 +1,19 @@
-import { request, summary, tags, body, responses } from "koa-swagger-decorator";
+import {
+  request,
+  summary,
+  tags,
+  body,
+  responses,
+  middlewaresAll,
+} from "koa-swagger-decorator";
 const HttpError = require("../../../lib/HttpError");
 const otpHelper = require("../../../lib/otp");
-
+import auth from "../../../middleware/auth";
 class ControlRegister {
   @request("put", "/api/v1/user/control/register")
   @summary("Vérifie le code OTP pour un utilisateur authentifié")
   @tags(["UserControl"])
+  @middlewaresAll([auth])
   @body({
     otp: {
       type: "string",
@@ -51,7 +59,6 @@ class ControlRegister {
     await userControl.destroy();
 
     const user = await ctx.db.User.findByPk(userId);
-    console.log(user);
     if (user) {
       user.user_state = ctx.db.User.USER_STATES.ACTIVE;
       await user.save();

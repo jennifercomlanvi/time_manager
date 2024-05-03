@@ -1,11 +1,18 @@
-import { request, summary, tags, responses } from "koa-swagger-decorator";
-
+import {
+  request,
+  summary,
+  tags,
+  responses,
+  middlewaresAll,
+} from "koa-swagger-decorator";
+import auth from "../../middleware/auth";
 class ProjectAdmin {
   @request("get", "/api/v1/user/projects/admin")
   @summary(
     "Récupère les projets des équipes dont l'utilisateur est administrateur"
   )
   @tags(["Project"])
+  @middlewaresAll([auth])
   @responses({
     200: { description: "Projets récupérés avec succès" },
     404: {

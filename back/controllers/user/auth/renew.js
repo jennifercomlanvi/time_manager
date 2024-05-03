@@ -2,12 +2,23 @@ const Form = require("../../../lib/validation/form");
 const HttpError = require("../../../lib/HttpError");
 const rules = require("../../../lib/validation/rules");
 const TokenManager = require("../../../lib/token");
-import { request, summary, body, tags, responses } from "koa-swagger-decorator";
+import {
+  request,
+  summary,
+  body,
+  tags,
+  responses,
+  middlewaresAll,
+} from "koa-swagger-decorator";
+import auth from "../../../middleware/auth";
 
 class Renew {
-  @request("post", "/api/v1/renew")
-  @summary("Renew access and refresh tokens for authenticated users")
+  @request("get", "/api/v1/renew")
+  @summary(
+    "Renouveler l'accès et actualiser les jetons pour les utilisateurs authentifiés"
+  )
   @tags(["Authentification"])
+  @middlewaresAll([auth])
   @body({
     token: {
       type: "string",

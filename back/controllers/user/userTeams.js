@@ -1,9 +1,16 @@
-const { request, summary, tags, responses } = require("koa-swagger-decorator");
-
+import {
+  request,
+  summary,
+  tags,
+  responses,
+  middlewaresAll,
+} from "koa-swagger-decorator";
+import auth from "../../middleware/auth";
 class UserTeam {
-  @request("get", "/api/v1/teams")
+  @request("get", "/api/v1/user/teams")
   @summary("Récupère toutes les équipes de l'utilisateur")
   @tags(["User"])
+  @middlewaresAll([auth])
   @responses({
     200: { description: "Liste des équipes récupérée avec succès" },
     404: { description: "Utilisateur n'appartient à aucune équipe" },

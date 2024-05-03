@@ -1,9 +1,17 @@
-import { request, summary, tags, path, responses } from "koa-swagger-decorator";
-
+import {
+  request,
+  summary,
+  tags,
+  path,
+  responses,
+  middlewaresAll,
+} from "koa-swagger-decorator";
+import auth from "../../middleware/auth";
 class DeleteProject {
   @request("delete", "/api/v1/project/{id}")
   @summary("Supprime un projet spécifique")
   @tags(["Project"])
+  @middlewaresAll([auth])
   @path({
     id: {
       type: "number",

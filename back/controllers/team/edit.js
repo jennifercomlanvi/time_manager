@@ -9,12 +9,15 @@ const {
   body,
   responses,
   path,
+  middlewaresAll,
 } = require("koa-swagger-decorator");
-
+import auth from "../../middleware/auth";
+import permissions from "../../middleware/permissions";
 class EditTeam {
   @request("put", "/api/v1/team/:id")
   @summary("Mettre à jour les informations d'une équipe")
   @tags(["Team"])
+  @middlewaresAll([auth, permissions])
   @path({
     id: { type: "number", required: true, description: "id de l'équipe" },
   })

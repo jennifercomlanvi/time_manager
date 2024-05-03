@@ -104,6 +104,7 @@ function logUser() {
       remember: form.remember,
     })
     .then((r) => {
+      console.log(r);
       authTokenStore.setToken(r);
       const path = route.query.redirect
         ? { path: route.query.redirect }
@@ -111,7 +112,7 @@ function logUser() {
       navigateTo(path, { replace: true });
     })
     .catch((e) => {
-      errors.set(e);
+      // errors.set(e);
       console.log(e);
     })
     .finally(() => {
@@ -129,6 +130,7 @@ function registerUser() {
       remember: form.remember,
     })
     .then((r) => {
+      console.log(r);
       authTokenStore.setToken(r);
       const path = route.query.redirect
         ? { path: route.query.redirect }

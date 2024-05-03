@@ -8,12 +8,14 @@ const {
   body,
   tags,
   responses,
+  middlewaresAll,
 } = require("koa-swagger-decorator");
-
+import auth from "../../middleware/auth";
 class CreateProject {
   @request("post", "/api/v1/project")
   @summary("Crée un nouveau projet")
   @tags(["Project"])
+  @middlewaresAll([auth])
   @body({
     team: {
       type: "integer",

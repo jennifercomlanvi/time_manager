@@ -46,6 +46,6 @@ app.use(
 app.use(compress());
 app.use(cors());
 app.use(bodyParser());
+// app.use(middleware.swaggerRouter(options));
 app.use(router.routes()).use(router.allowedMethods());
-
 module.exports = app;

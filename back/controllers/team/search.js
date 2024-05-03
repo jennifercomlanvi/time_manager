@@ -1,11 +1,18 @@
-import { request, summary, tags, responses } from "koa-swagger-decorator";
-
+import {
+  request,
+  summary,
+  tags,
+  responses,
+  middlewaresAll,
+} from "koa-swagger-decorator";
+import auth from "../../middleware/auth";
 class TeamUsersWithPermissions {
   @request("get", "/api/v1/teams/user")
   @summary(
     "Récupère les utilisateurs d'une équipe spécifique et leurs permissions"
   )
   @tags(["Team"])
+  @middlewaresAll([auth])
   @responses({
     200: { description: "Utilisateurs récupérés avec succès" },
     404: { description: "Équipe non trouvée" },

@@ -1,10 +1,17 @@
 const HttpError = require("../../../lib/HttpError");
-const { request, summary, tags, responses } = require("koa-swagger-decorator");
-
+const {
+  request,
+  summary,
+  tags,
+  responses,
+  middlewaresAll,
+} = require("koa-swagger-decorator");
+import auth from "../../../middleware/auth";
 class UserControl {
   @request("get", "/api/v1/user/control")
   @summary("Récupère le UserControl le plus ancien pour un utilisateur")
   @tags(["UserControl"])
+  @middlewaresAll([auth])
   @responses({
     200: { description: "UserControl récupéré avec succès" },
     404: { description: "Utilisateur ou UserControl non trouvé" },

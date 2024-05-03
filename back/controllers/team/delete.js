@@ -1,9 +1,18 @@
-import { request, summary, tags, path, responses } from "koa-swagger-decorator";
-
+import {
+  request,
+  summary,
+  tags,
+  path,
+  responses,
+  middlewaresAll,
+} from "koa-swagger-decorator";
+import auth from "../../middleware/auth";
+import permissions from "../../middleware/permissions";
 class DeleteTeam {
   @request("delete", "/api/v1/team/:id")
   @summary("Supprime une équipe spécifique")
   @tags(["Team"])
+  @middlewaresAll([auth, permissions])
   @path({
     id: {
       type: "number",

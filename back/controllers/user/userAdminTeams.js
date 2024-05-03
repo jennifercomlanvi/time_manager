@@ -1,15 +1,23 @@
-const { request, summary, tags, responses } = require("koa-swagger-decorator");
+const {
+  request,
+  summary,
+  tags,
+  responses,
+  middlewaresAll,
+} = require("koa-swagger-decorator");
+import auth from "../../middleware/auth";
 
 class UserAdminTeams {
   @request("get", "/api/v1/user/teams/admin")
   @summary("Récupère les équipes où l'utilisateur est admin")
   @tags(["User"])
+  @middlewaresAll([auth])
   @responses({
     200: { description: "Équipes administrées récupérées avec succès" },
     404: { description: "Aucune équipe d'administration trouvée" },
     500: { description: "Erreur interne du serveur" },
   })
-  static async getAdminTeams(ctx) {
+  static async index(ctx) {
     const adminTeams = await ctx.db.Team.findAll({
       include: [
         {

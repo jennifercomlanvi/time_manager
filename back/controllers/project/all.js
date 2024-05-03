@@ -1,9 +1,17 @@
-import { request, summary, tags, responses, path } from "koa-swagger-decorator";
-
+import {
+  request,
+  summary,
+  tags,
+  responses,
+  path,
+  middlewaresAll,
+} from "koa-swagger-decorator";
+import auth from "../../middleware/auth";
 class AllProject {
   @request("get", "/api/v1/projects/{id}")
   @summary("Récupère la liste des projets d'une équipe")
   @tags(["Project"])
+  @middlewaresAll([auth])
   @path({
     id: { type: "integer", description: "ID de l'équipe", required: true },
   })

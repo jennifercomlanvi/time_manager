@@ -11,7 +11,7 @@ import {
 } from "koa-swagger-decorator";
 
 class Refresh {
-  @request("post", "/api/v1/refresh")
+  @request("get", "/api/v1/refresh")
   @summary("Rafraîchir le token d’accès")
   @tags(["Authentification"])
   @query({
