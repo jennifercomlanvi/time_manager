@@ -10,10 +10,10 @@ const {
   responses,
 } = require("koa-swagger-decorator");
 
-class Project {
+class CreateProject {
   @request("post", "/api/v1/project")
   @summary("Crée un nouveau projet")
-  @tags(["Projet"])
+  @tags(["Project"])
   @body({
     team: {
       type: "integer",
@@ -117,4 +117,4 @@ class Project {
   }
 }
 
-module.exports = Project.index;
+module.exports = CreateProject;

@@ -11,10 +11,10 @@ const {
   path,
 } = require("koa-swagger-decorator");
 
-class Edit {
+class EditTeam {
   @request("put", "/api/v1/team/:id")
   @summary("Mettre à jour les informations d'une équipe")
-  @tags(["Équipe"])
+  @tags(["Team"])
   @path({
     id: { type: "number", required: true, description: "id de l'équipe" },
   })
@@ -32,7 +32,7 @@ class Edit {
     404: { description: "Équipe non trouvée" },
     500: { description: "Erreur interne du serveur" },
   })
-  static async updateTeam(ctx) {
+  static async index(ctx) {
     const { id } = ctx.params;
     const { name, description } = ctx.request.body;
     const form = new Form();
@@ -64,7 +64,6 @@ class Edit {
     const team = await ctx.db.Team.findByPk(id);
     if (!team) {
       throw new HttpError(404, "Équipe non trouvée");
-
     }
 
     await team.update({ name, description });
@@ -72,4 +71,4 @@ class Edit {
   }
 }
 
-module.exports = Edit.updateTeam;
+module.exports = EditTeam;

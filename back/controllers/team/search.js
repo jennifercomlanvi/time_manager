@@ -1,17 +1,17 @@
 import { request, summary, tags, responses } from "koa-swagger-decorator";
 
-class Team {
+class TeamUsersWithPermissions {
   @request("get", "/api/v1/teams/user")
   @summary(
     "Récupère les utilisateurs d'une équipe spécifique et leurs permissions"
   )
-  @tags(["Équipe"])
+  @tags(["Team"])
   @responses({
     200: { description: "Utilisateurs récupérés avec succès" },
     404: { description: "Équipe non trouvée" },
     500: { description: "Erreur interne du serveur" },
   })
-  static async getTeamUsersWithPermissions(ctx) {
+  static async index(ctx) {
     const userWithTeams = await ctx.db.User.findByPk(ctx.state.user.id, {
       attributes: ["user_id"],
       include: [
@@ -53,4 +53,4 @@ class Team {
     };
   }
 }
-export default Team.getTeamUsersWithPermissions;
+module.exports = TeamUsersWithPermissions;

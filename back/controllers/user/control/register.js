@@ -51,7 +51,7 @@ class ControlRegister {
     await userControl.destroy();
 
     const user = await ctx.db.User.findByPk(userId);
-    console.log(user)
+    console.log(user);
     if (user) {
       user.user_state = ctx.db.User.USER_STATES.ACTIVE;
       await user.save();
@@ -67,4 +67,4 @@ class ControlRegister {
   }
 }
 
-module.exports = ControlRegister.index;
+module.exports = ControlRegister;

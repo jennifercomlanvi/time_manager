@@ -1,9 +1,9 @@
 import { request, summary, tags, path, responses } from "koa-swagger-decorator";
 
-class Delete {
+class DeleteTeam {
   @request("delete", "/api/v1/team/:id")
   @summary("Supprime une équipe spécifique")
-  @tags(["Équipe"])
+  @tags(["Team"])
   @path({
     id: {
       type: "number",
@@ -16,7 +16,7 @@ class Delete {
     404: { description: "Équipe non trouvée" },
     500: { description: "Erreur interne du serveur" },
   })
-  static async deleteTeam(ctx) {
+  static async index(ctx) {
     const teamId = ctx.params.id;
 
     try {
@@ -35,4 +35,4 @@ class Delete {
   }
 }
 
-export default Delete.deleteTeam;
+module.exports = DeleteTeam;

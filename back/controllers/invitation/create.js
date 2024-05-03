@@ -7,7 +7,7 @@ import { request, summary, tags, body, responses } from "koa-swagger-decorator";
 class Invitation {
   @request("post", "/api/v1/user/invitation/team")
   @summary("Crée une invitation pour rejoindre une équipe")
-  @tags(["User"])
+  @tags(["Invitation"])
   @body({
     email: {
       type: "string",

@@ -7,10 +7,10 @@ import {
   query,
 } from "koa-swagger-decorator";
 
-class All {
+class TasksByProject {
   @request("get", "/api/v1/project/{id}/tasks")
   @summary("Récupère la liste de toutes les tâches associées à un projet")
-  @tags(["Tâche"])
+  @tags(["Task"])
   @query({
     id: { type: "number", description: "ID du projet", required: true },
   })
@@ -19,7 +19,7 @@ class All {
     403: { description: "Accès refusé" },
     404: { description: "Projet non trouvé" },
   })
-  static async getTasksByProject(ctx) {
+  static async index(ctx) {
     const { id } = ctx.params;
     try {
       const project = await ctx.db.Project.findByPk(id);
@@ -50,4 +50,4 @@ class All {
   }
 }
 
-module.exports = All.getTasksByProject;
+module.exports = TasksByProject;

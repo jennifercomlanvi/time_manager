@@ -16,9 +16,9 @@ router.swagger({
 router.mapDir(path.resolve(__dirname, "./controllers"), {
   recursive: true,
 });
-router.get("/", (ctx, next) => {
-  ctx.body = "Hello";
-});
+// router.get("/", (ctx, next) => {
+//   ctx.body = "Hello";
+// });
 
 //Recovery
 router.post("/api/v1/recovery", require("./controllers/user/recovery/send"));
@@ -31,8 +31,8 @@ router.get("/api/v1/refresh", require("./controllers/user/auth/refresh"));
 router.get("/api/v1/renew", auth, require("./controllers/user/auth/renew"));
 
 //Test
-router.get("/api/v1/test", require("./controllers/index"));
-router.get("/test", auth, require("./controllers/index"));
+// router.get("/api/v1/test", require("./controllers/index"));
+// router.get("/test", auth, require("./controllers/index"));
 
 //User
 router.get("/api/v1/user/profile", auth, require("./controllers/user/profil"));
@@ -48,7 +48,7 @@ router.get(
 );
 router.get("/api/v1/user/teams", auth, require("./controllers/user/userTeams"));
 
-//Team
+//Invitation
 router.post(
   "/api/v1/user/invitation/team",
   auth,
@@ -56,18 +56,15 @@ router.post(
   require("./controllers/invitation/create")
 );
 
-router.get(
-  "/api/v1/teams",
-  auth,
-  permissions,
-  require("./controllers/team/all")
-);
+//Team
+// router.get(
+//   "/api/v1/teams",
+//   auth,
+//   permissions,
+//   require("./controllers/team/all")
+// );
 
-router.get(
-  "/api/v1/teams/user",
-  auth,
-  require("./controllers/team/search").default
-);
+router.get("/api/v1/teams/user", auth, require("./controllers/team/search"));
 router.post("/api/v1/team", auth, require("./controllers/team/create"));
 router.put(
   "/api/v1/team/:id",
@@ -79,15 +76,10 @@ router.delete(
   "/api/v1/team/:id",
   auth,
   permissions,
-  require("./controllers/team/delete").default
+  require("./controllers/team/delete")
 );
 
 //UserControl
-router.get(
-  "/api/v1/user/control",
-  auth,
-  require("./controllers/user/control/search")
-);
 router.get(
   "/api/v1/user/control",
   auth,

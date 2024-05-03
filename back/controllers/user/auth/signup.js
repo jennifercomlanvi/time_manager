@@ -16,7 +16,7 @@ const {
 class Register {
   @request("post", "/api/v1/signup")
   @summary("Inscription utilisateur")
-  @tags(["Utilisateur"])
+  @tags(["Authentification"])
   @body({
     name: {
       type: "string",

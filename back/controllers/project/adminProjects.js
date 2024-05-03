@@ -5,7 +5,7 @@ class ProjectAdmin {
   @summary(
     "Récupère les projets des équipes dont l'utilisateur est administrateur"
   )
-  @tags(["Projet"])
+  @tags(["Project"])
   @responses({
     200: { description: "Projets récupérés avec succès" },
     404: {

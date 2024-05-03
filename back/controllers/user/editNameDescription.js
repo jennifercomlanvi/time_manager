@@ -1,4 +1,4 @@
-const {
+import {
   request,
   summary,
   tags,
@@ -6,15 +6,15 @@ const {
   responses,
   path,
   security,
-} = require("koa-swagger-decorator");
-const HttpError = require("../../lib/HttpError");
-const Form = require("../../lib/validation/form");
-const rules = require("../../lib/validation/rules");
+} from "koa-swagger-decorator";
+import HttpError from "../../lib/HttpError";
+import Form from "../../lib/validation/form";
+import { minLen } from "../../lib/validation/rules";
 
-class User {
+class UserEdit {
   @request("put", "/api/v1/user/{uuid}")
   @summary("Modifier le nom et la description d'un utilisateur")
-  @tags(["Utilisateur"])
+  @tags(["User"])
   @path({
     uuid: {
       type: "string",
@@ -41,15 +41,15 @@ class User {
     404: { description: "Utilisateur non trouvé" },
     401: { description: "Non autorisé" },
   })
-  static async updateUser(ctx) {
+  static async index(ctx) {
     const form = new Form();
     form.stringField("name", (value) => {
       if (value)
-        rules.minLen(value, 4, "Le nom doit comporter au moins 4 caractères");
+        minLen(value, 4, "Le nom doit comporter au moins 4 caractères");
     });
     form.stringField("description", (value) => {
       if (value)
-        rules.minLen(
+        minLen(
           value,
           10,
           "La description doit comporter au moins 10 caractères"
@@ -76,4 +76,4 @@ class User {
   }
 }
 
-module.exports = User.updateUser;
+module.exports = UserEdit;

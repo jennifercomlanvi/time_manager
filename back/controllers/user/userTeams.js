@@ -1,9 +1,9 @@
 const { request, summary, tags, responses } = require("koa-swagger-decorator");
 
-class TeamController {
+class UserTeam {
   @request("get", "/api/v1/teams")
   @summary("Récupère toutes les équipes de l'utilisateur")
-  @tags(["Équipe"])
+  @tags(["User"])
   @responses({
     200: { description: "Liste des équipes récupérée avec succès" },
     404: { description: "Utilisateur n'appartient à aucune équipe" },
@@ -36,4 +36,4 @@ class TeamController {
   }
 }
 
-module.exports = TeamController.getUserTeams;
+module.exports = UserTeam;

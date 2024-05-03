@@ -3,7 +3,7 @@ const HttpError = require("../../../lib/HttpError");
 const otp = require("../../../lib/otp");
 const sendEmail = require("../../../emailSender");
 
-class UserControl {
+class UserControlOtp {
   @request("post", "/api/v1/user/control")
   @summary("Renvoie ou génère un nouveau code OTP")
   @tags(["UserControl"])
@@ -47,4 +47,4 @@ class UserControl {
   }
 }
 
-module.exports = UserControl.resendOrGenerateOtp;
+module.exports = UserControlOtp;

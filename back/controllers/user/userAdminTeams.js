@@ -1,9 +1,9 @@
 const { request, summary, tags, responses } = require("koa-swagger-decorator");
 
-class User {
+class UserAdminTeams {
   @request("get", "/api/v1/user/teams/admin")
   @summary("Récupère les équipes où l'utilisateur est admin")
-  @tags(["Équipe"])
+  @tags(["User"])
   @responses({
     200: { description: "Équipes administrées récupérées avec succès" },
     404: { description: "Aucune équipe d'administration trouvée" },
@@ -39,4 +39,4 @@ class User {
   }
 }
 
-module.exports = User.getAdminTeams;
+module.exports = UserAdminTeams;

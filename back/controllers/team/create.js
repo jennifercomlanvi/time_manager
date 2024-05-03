@@ -6,10 +6,10 @@ import {
 } from "../../lib/validation/rules";
 import HttpError from "../../lib/HttpError";
 import { request, summary, body, tags, responses } from "koa-swagger-decorator";
-class Create {
+class CreateTeam {
   @request("post", "/api/v1/team")
   @summary("Crée une nouvelle équipe")
-  @tags(["Équipe"])
+  @tags(["Team"])
   @body({
     name: { type: "string", required: true, description: "Nom de l'équipe" },
     description: {
@@ -67,4 +67,4 @@ class Create {
   }
 }
 // module.exports = Create.index;
-module.exports = Create;
+module.exports = CreateTeam;

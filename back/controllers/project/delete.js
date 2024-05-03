@@ -3,7 +3,7 @@ import { request, summary, tags, path, responses } from "koa-swagger-decorator";
 class DeleteProject {
   @request("delete", "/api/v1/project/{id}")
   @summary("Supprime un projet spécifique")
-  @tags(["Projet"])
+  @tags(["Project"])
   @path({
     id: {
       type: "number",

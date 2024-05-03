@@ -1,10 +1,5 @@
-const {
-  request,
-  summary,
-  tags,
-  body,
-  responses,
-} = require("koa-swagger-decorator");
+import { request, summary, tags, body, responses } from "koa-swagger-decorator";
+
 const otp = require("../../../lib/otp");
 import Form from "../../../lib/validation/form";
 const rules = require("../../../lib/validation/rules");
@@ -13,7 +8,7 @@ const sendEmail = require("../../../emailSender");
 class Recovery {
   @request("post", "/api/v1/recovery")
   @summary("Demande de réinitialisation de mot de passe Etape 1")
-  @tags(["Utilisateur"])
+  @tags(["Recovery"])
   @body({
     email: {
       type: "string",
@@ -82,4 +77,4 @@ class Recovery {
     ctx.body = { is_user: true };
   }
 }
-module.exports = Recovery.index;
+module.exports = Recovery;

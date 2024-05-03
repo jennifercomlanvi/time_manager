@@ -9,7 +9,7 @@ class UserControl {
     200: { description: "UserControl récupéré avec succès" },
     404: { description: "Utilisateur ou UserControl non trouvé" },
   })
-  static async getUserControl(ctx) {
+  static async index(ctx) {
     const userId = ctx.state.user.id;
     try {
       const userControl = await ctx.db.UserControl.findOne({
@@ -38,4 +38,4 @@ class UserControl {
   }
 }
 
-module.exports = UserControl.getUserControl;
+module.exports = UserControl;

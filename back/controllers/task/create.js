@@ -10,10 +10,10 @@ const {
   responses,
 } = require("koa-swagger-decorator");
 
-class Task {
+class CreateTask {
   @request("post", "/api/v1/task")
-  @summary("Crée une nouvelle tâche")
-  @tags(["Tâche"])
+  @summary("Créer une nouvelle tâche")
+  @tags(["Task"])
   @body({
     project: {
       type: "integer",
@@ -108,4 +108,4 @@ class Task {
   }
 }
 
-module.exports = Task.index;
+module.exports = CreateTask;

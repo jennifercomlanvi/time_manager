@@ -3,7 +3,7 @@ import { request, summary, tags, responses } from "koa-swagger-decorator";
 class TeamProject {
   @request("get", "/api/v1/user/projects")
   @summary("Récupère les projets de l'utilisateur et les groupe par équipe")
-  @tags(["Projet"])
+  @tags(["Project"])
   @responses({
     200: { description: "Projets récupérés avec succès" },
     404: { description: "Aucun projet trouvé pour cet utilisateur" },

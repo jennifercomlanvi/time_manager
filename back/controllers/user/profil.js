@@ -1,8 +1,8 @@
 const { request, summary, tags, responses } = require("koa-swagger-decorator");
-class User {
+class UserProfile {
   @request("get", "/api/v1/user/profile")
   @summary("Récupère les informations de l'utilisateur connecté")
-  @tags(["Utilisateurs"])
+  @tags(["User"])
   @responses({
     200: {
       description: "Informations de l'utilisateur récupérées avec succès",
@@ -33,7 +33,7 @@ class User {
     404: { description: "Utilisateur non trouvé" },
     500: { description: "Erreur interne du serveur" },
   })
-  static async getUserProfile(ctx) {
+  static async index(ctx) {
     const userId = ctx.state.user.id;
 
     try {
@@ -63,4 +63,4 @@ class User {
   }
 }
 
-module.exports = User.getUserProfile;
+module.exports = UserProfile;
