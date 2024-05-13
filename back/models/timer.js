@@ -27,11 +27,11 @@ module.exports = (sequelize, DataTypes) => {
       },
       timer_task: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
       },
       timer_project: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
       },
       timer_user: {
         type: DataTypes.INTEGER,

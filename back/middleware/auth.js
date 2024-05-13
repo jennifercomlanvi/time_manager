@@ -16,8 +16,6 @@ function getToken(ctx) {
 }
 
 module.exports = async (ctx, next) => {
-  console.log("Auth middleware hit");
-
   const token = getToken(ctx);
   if (!token) {
     throw new HttpError(401, "Token required");
@@ -28,7 +26,6 @@ module.exports = async (ctx, next) => {
     ctx.state.user = {
       id: ctx.request.jwtPayload.sub,
     };
-    console.log(ctx.request.jwtPayload);
   } catch (err) {
     throw new HttpError(401, err.message);
   }

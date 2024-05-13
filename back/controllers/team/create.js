@@ -1,19 +1,17 @@
 import Form from "../../lib/validation/form";
-import {
-  required as _required,
-  minLen,
-  maxLen,
-} from "../../lib/validation/rules";
+import rules from "../../lib/validation/rules";
 import HttpError from "../../lib/HttpError";
 import {
   request,
   summary,
   body,
   tags,
+  security,
   responses,
   middlewaresAll,
 } from "koa-swagger-decorator";
 import auth from "../../middleware/auth";
+
 class CreateTeam {
   @request("post", "/api/v1/team")
   @summary("Crée une nouvelle équipe")
@@ -27,19 +25,22 @@ class CreateTeam {
       description: "Description de l'équipe",
     },
   })
+  @security([{ BearerAuth: [] }])
   @responses({
     200: { description: "Équipe créée avec succès" },
     400: { description: "Erreur de validation ou l'équipe existe déjà" },
   })
   static async index(ctx) {
     const form = new Form();
-    form.stringField("name", (value) => {
-      _required(value, "Un nom est requis");
-    });
+    form.stringField("name", rules.required);
     form.stringField("description", (value) => {
       if (value) {
-        minLen(value, 10, "La description doit avoir au moins 10 caractères");
-        maxLen(
+        rules.minLen(
+          value,
+          10,
+          "La description doit avoir au moins 10 caractères"
+        );
+        rules.maxLen(
           value,
           255,
           "La description ne doit pas dépasser 255 caractères"
@@ -51,16 +52,14 @@ class CreateTeam {
       throw new HttpError(400, "Validation", form.errors());
     }
 
-    let team = await ctx.db.Team.findOne({
+    const teamExists = await ctx.db.Team.findOne({
       where: { team_name: form.value("name") },
     });
-
-    if (team) {
-      form.setError("name", "Cette équipe existe déjà");
-      throw new HttpError(400, "validation", form.errors());
+    if (teamExists) {
+      throw new HttpError(400, "Cette équipe existe déjà");
     }
 
-    team = await ctx.db.Team.create({
+    const team = await ctx.db.Team.create({
       team_name: form.value("name"),
       team_description: form.value("description"),
     });
@@ -71,9 +70,8 @@ class CreateTeam {
       perm_level: ctx.db.Permission.LEVELS.ADMIN,
     });
 
-    // Envoyer une réponse réussie
     ctx.response.body = { team: team };
   }
 }
-// module.exports = Create.index;
+
 module.exports = CreateTeam;

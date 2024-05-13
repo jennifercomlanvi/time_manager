@@ -46,7 +46,7 @@ module.exports = {
       },
       timer_end: {
         type: Sequelize.DATE,
-        allowNull: false,
+        allowNull: true,
       },
       timer_duration: {
         type: Sequelize.INTEGER,

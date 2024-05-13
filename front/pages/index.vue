@@ -8,7 +8,7 @@
         <template #item="{ item }">
           <a
             v-ripple
-            class="flex align-items-center cursor-pointer px-3 py-2 overflow-hidden relative font-semibold text-lg uppercase"
+            class="flex align-items-center cursor-pointer px-3 py-2 overflow-hidden relative font-light text-sm uppercase"
             style="border-radius: 2rem"
             @click="item.command"
           >
@@ -186,6 +186,7 @@
             label="Documentation API"
             icon="pi pi-book"
             class="font-bold px-5 py-3 p-button-raised p-button-rounded white-space-nowrap"
+            @click="redirectToAPIDocumentation"
           />
         </div>
       </div>
@@ -204,7 +205,9 @@
         </div>
 
         <div class="grid">
-          <div class="col-12 md:col-6 flex align-items-center justify-content-center">
+          <div
+            class="col-12 md:col-6 flex align-items-center justify-content-center"
+          >
             <img
               src="../assets/img/contact3.jpg"
               alt="Contactez-nous"
@@ -362,6 +365,8 @@ const contact = reactive({
   sujet: "",
   message: "",
 });
-
+const redirectToAPIDocumentation = () => {
+  window.location.href = `${import.meta.env.VITE_API_URL}swagger-html`;
+};
 function sendContactForm() {}
 </script>

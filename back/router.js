@@ -51,6 +51,7 @@ router.post(
   require("./controllers/invitation/create")
 );
 
+//Team
 router.get("/api/v1/teams/user", require("./controllers/team/search"));
 router.post("/api/v1/team", require("./controllers/team/create"));
 router.put("/api/v1/team/:id", require("./controllers/team/edit"));
@@ -70,6 +71,15 @@ router.put(
   require("./controllers/user/control/register")
 );
 
+//Permission
+router.post(
+  "/api/v1/permissions",
+  require("./controllers/user/permission/add")
+);
+router.delete(
+  "/api/v1/permissions",
+  require("./controllers/user/permission/delete")
+);
 //Project
 router.get("/api/v1/projects/:id", require("./controllers/project/all"));
 router.get(

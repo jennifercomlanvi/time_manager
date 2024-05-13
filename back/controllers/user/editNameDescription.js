@@ -10,7 +10,7 @@ import {
 } from "koa-swagger-decorator";
 import HttpError from "../../lib/HttpError";
 import Form from "../../lib/validation/form";
-import { minLen } from "../../lib/validation/rules";
+import rules from "../../lib/validation/rules";
 import auth from "../../middleware/auth";
 
 class UserEdit {
@@ -48,11 +48,11 @@ class UserEdit {
     const form = new Form();
     form.stringField("name", (value) => {
       if (value)
-        minLen(value, 4, "Le nom doit comporter au moins 4 caractères");
+        rules.minLen(value, 4, "Le nom doit comporter au moins 4 caractères");
     });
     form.stringField("description", (value) => {
       if (value)
-        minLen(
+        rules.minLen(
           value,
           10,
           "La description doit comporter au moins 10 caractères"

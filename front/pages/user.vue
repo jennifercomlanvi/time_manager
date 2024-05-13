@@ -15,7 +15,7 @@
     <!-- Détail du profil -->
     <div v-show="active === 0">
       <h2>Détail du profil</h2>
-      <form @submit.prevent="onChangeInfo">
+      <form v-if="!loading" @submit.prevent="onChangeInfo">
         <div class="grid">
           <div class="col">
             <div class="field">
