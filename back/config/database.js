@@ -4,7 +4,7 @@ module.exports = {
     password: "web",
     database: "time_manager",
     host: "127.0.0.1",
-    port: 3306, //3307
+    port: 3307, //3307
     dialect: "mariadb",
     dialectOptions: {
       allowPublicKeyRetrieval: true,

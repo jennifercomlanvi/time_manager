@@ -1,0 +1,22 @@
+meta {
+  name: Liste des teams
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{URL}}/api/v1/user/teams
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "name":"TEAM 4",
+    "description":""
+  }
+}

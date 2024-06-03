@@ -1,0 +1,22 @@
+meta {
+  name: Ajouter une équipe user
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{URL}}/api/v1/team
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+    "name":"TEAM 4",
+    "description":"description 4"
+  }
+}

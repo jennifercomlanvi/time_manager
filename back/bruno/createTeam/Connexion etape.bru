@@ -1,0 +1,27 @@
+meta {
+  name: Connexion etape
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{URL}}/api/v1/signin
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "comlanvihilary@gmail.com",
+    "password": "Timem@gager12!",
+    "remember":"false"
+  }
+}
+
+script:post-response {
+  if(res.getStatus() === 200){
+    let data = res.getBody();
+    bru.setVar("access_token",data.access_token);
+    bru.setVar("refresh_token",data.refresh_token);
+  }
+}

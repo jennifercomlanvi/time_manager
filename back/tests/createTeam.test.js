@@ -1,4 +1,3 @@
-// Importez la classe à tester
 import { index } from "../controllers/team/create";
 
 describe("Create Team", () => {
