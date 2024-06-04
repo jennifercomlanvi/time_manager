@@ -78,6 +78,7 @@ class Login {
         expired_at: refreshToken.expired_at,
       });
     }
+    ctx.status = 200;
     ctx.response.body = {
       name: user.user_name,
       uuid: user.user_uuid,

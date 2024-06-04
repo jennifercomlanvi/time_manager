@@ -22,7 +22,6 @@ class TasksByProject {
     404: { description: "Projet non trouvé" },
   })
   static async index(ctx) {
-    console.log("dghj", ctx.params);
     const { id } = ctx.params;
     try {
       const project = await ctx.db.Project.findByPk(id);
@@ -34,7 +33,7 @@ class TasksByProject {
       const tasks = await ctx.db.Task.findAll({
         where: { task_project: id },
       });
-      if (!tasks) {
+      if (tasks.length === 0) {
         ctx.status = 404;
         return;
       }
