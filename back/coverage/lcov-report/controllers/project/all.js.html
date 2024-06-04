@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">7.14% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>1/14</span>
+                <span class='fraction'>14/14</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">87.5% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/6</span>
+                <span class='fraction'>7/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">7.69% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>1/13</span>
+                <span class='fraction'>13/13</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -143,32 +143,32 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -185,7 +185,7 @@
 } from "koa-swagger-decorator";
 import auth from "../../middleware/auth";
 class AllProject {
-<span class="fstat-no" title="function not covered" >  @r</span>equest("get", "/api/v1/projects/{id}")
+  @request("get", "/api/v1/projects/{id}")
   @summary("Récupère la liste des projets d'une équipe")
   @tags(["Project"])
   @middlewaresAll([auth])
@@ -199,32 +199,32 @@ class AllProject {
     500: { description: "Erreur interne du serveur" },
   })
   static async getProjects(ctx) {
-    const teamId = <span class="cstat-no" title="statement not covered" >parseInt(ctx.params.id);</span>
-<span class="cstat-no" title="statement not covered" >    if (!teamId) {</span>
-<span class="cstat-no" title="statement not covered" >      ctx.status = 400;</span>
-<span class="cstat-no" title="statement not covered" >      ctx.body = { error: "ID d'équipe invalide" };</span>
-<span class="cstat-no" title="statement not covered" >      return;</span>
+    const teamId = parseInt(ctx.params.id);
+    if (!teamId) {
+      ctx.status = 400;
+      ctx.body = { error: "ID d'équipe invalide" };
+      return;
     }
 &nbsp;
-    const projects = <span class="cstat-no" title="statement not covered" >await ctx.db.Project.findAll({</span>
+    const projects = await ctx.db.Project.findAll({
       where: { project_team: teamId },
     });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (!projects) {</span>
-<span class="cstat-no" title="statement not covered" >      ctx.status = 404;</span>
-<span class="cstat-no" title="statement not covered" >      return;</span>
+    if (!projects || projects.length === 0) {
+      ctx.status = 404;
+      return;
     }
 &nbsp;
-    const formattedProjects = <span class="cstat-no" title="statement not covered" >projects.map(<span class="fstat-no" title="function not covered" >(p</span>roject) =&gt; (<span class="cstat-no" title="statement not covered" >{</span></span>
+    const formattedProjects = projects.map((project) =&gt; ({
       name: project.project_name,
       description: project.project_description,
       deadline: project.project_deadline
         ? project.project_deadline.toISOString().substring(0, 10)
-        : null,
+        : <span class="branch-1 cbranch-no" title="branch not covered" >null,</span>
     }));
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    ctx.status = 200;</span>
-<span class="cstat-no" title="statement not covered" >    ctx.body = {</span>
+    ctx.status = 200;
+    ctx.body = {
       projects: formattedProjects,
     };
   }
@@ -238,7 +238,7 @@ module.exports = AllProject;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-06-03T21:10:49.561Z
+                at 2024-06-03T21:35:59.324Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

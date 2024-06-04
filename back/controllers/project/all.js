@@ -33,7 +33,7 @@ class AllProject {
       where: { project_team: teamId },
     });
 
-    if (!projects) {
+    if (!projects || projects.length === 0) {
       ctx.status = 404;
       return;
     }

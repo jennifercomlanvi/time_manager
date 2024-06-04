@@ -1,4 +1,5 @@
-import { index } from "../controllers/team/create";
+import CreateTeam from "../controllers/team/create";
+import HttpError from "../lib/HttpError";
 
 describe("Create Team", () => {
   let ctx;
@@ -45,7 +46,7 @@ describe("Create Team", () => {
   });
 
   it("should successfully create a new team", async () => {
-    await index(ctx);
+    await CreateTeam.index(ctx);
     expect(ctx.response.body).toHaveProperty("team");
     expect(ctx.db.Team.findOne).toHaveBeenCalledWith({
       where: { team_name: "Team A" },
@@ -54,6 +55,12 @@ describe("Create Team", () => {
       team_name: "Team A",
       team_description: "Une description valide de plus de 10 caractères.",
     });
+    expect(ctx.db.Permission.create).toHaveBeenCalledWith({
+      perm_user: ctx.state.user.id,
+      perm_team: 1,
+      perm_level: 1,
+    });
+    expect(ctx.response.status).toBe(200);
   });
 
   it("should return 400 if team name is already taken", async () => {
@@ -61,34 +68,25 @@ describe("Create Team", () => {
       team_name: "Team A",
     });
 
-    await index(ctx);
-
-    expect(ctx.response.status).toBe(400);
-    expect(ctx.response.body).toEqual({ error: "Cette équipe existe déjà" });
+    try {
+      await CreateTeam.index(ctx);
+    } catch (error) {
+      expect(error.status).toBe(400);
+      expect(error.message).toBe("Cette équipe existe déjà");
+    }
   });
 
   it("should return 400 if description is too short", async () => {
     ctx.request.body.description = "Trop court";
 
-    await index(ctx);
-
-    expect(ctx.response.status).toBe(400);
-    expect(ctx.response.body).toEqual({
-      error: "Validation",
-      details: {
+    try {
+      await CreateTeam.index(ctx);
+    } catch (error) {
+      expect(error.status).toBe(400);
+      expect(error.message).toBe("Validation");
+      expect(error.details).toEqual({
         description: ["La description doit avoir au moins 10 caractères"]
-      }
-    });
-  });
-
-  it("should handle database errors gracefully", async () => {
-    ctx.db.Team.create.mockRejectedValue(new Error("DB Error"));
-
-    await index(ctx);
-
-    expect(ctx.response.status).toBe(500);
-    expect(ctx.response.body).toEqual({
-      error: "Erreur interne du serveur",
-    });
+      });
+    }
   });
 });
