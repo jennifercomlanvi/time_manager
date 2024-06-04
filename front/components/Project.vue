@@ -237,9 +237,10 @@ const fetchProjects = () => {
 
 // Fonction pour ajouter un projet
 const saveProject = () => {
+  console.log( project.value);
   useHttp
-    .post(`/api/v1/project`, project.value)
-    .then((res) => {
+    .post("/api/v1/project", project.value)
+    .then(() => {
       const team = teamsUsers.value.find(
         (team) => team.team_id === project.value.team,
       );

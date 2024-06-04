@@ -17,11 +17,11 @@ services:
       - front
       - back
 
-  adminer:
-    container_name: time_manager_adminer
-    hostname: adminer
-    image: adminer
-    restart: always
+  # adminer:
+  #   container_name: time_manager_adminer
+  #   hostname: adminer
+  #   image: adminer
+  #   restart: always
 
   back:
     container_name: time_manager_back

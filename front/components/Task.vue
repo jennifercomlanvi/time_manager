@@ -216,6 +216,7 @@ const saveTask = () => {
   useHttp
     .post(`/api/v1/task`, task.value)
     .then((res) => {
+      tasks.value.push(res.task);
       cancelDialog();
       toast.add({
         severity: "success",
