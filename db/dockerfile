@@ -1,4 +1,8 @@
+# Utilise l'image officielle de MariaDB version 10.5
 FROM mariadb:10.5
 
+# Copie le fichier de configuration personnalisé conf.cnf dans le répertoire de configuration de MariaDB
 COPY conf.cnf /etc/mysql/conf.d/99-conf.cnf
+
+# Modifie les permissions du fichier de configuration pour assurer qu'il est lisible par l'utilisateur approprié
 RUN chmod 0644 /etc/mysql/conf.d/99-conf.cnf

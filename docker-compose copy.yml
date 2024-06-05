@@ -1,0 +1,79 @@
+version: '3.9'
+
+services:
+
+  web:
+    container_name: time_manager_web
+    hostname: web
+    restart: always
+    image: nginx:latest
+    environment:
+      - TZ=Europe/Paris
+    ports:
+      - "${IP:-0.0.0.0}:${PORT:-8080}:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    links:
+      - front
+      - back
+
+  # adminer:
+  #   container_name: time_manager_adminer
+  #   hostname: adminer
+  #   image: adminer
+  #   restart: always
+
+  back:
+    container_name: time_manager_back
+    hostname: back
+    build:
+      context: ./back
+      dockerfile: dockerfile
+    ports:
+      - "3001:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+    # depends_on:
+    #   - db
+    # links:
+    #   - db
+
+  front:
+    container_name: time_manager_front
+    hostname: front
+    build:
+      context: ./front
+      dockerfile: dockerfile
+    environment:
+      - NODE_ENV=production
+      - TZ=Europe/Paris
+    ports:
+      - "3000:3000"
+
+  db:
+    container_name: time_manager_db
+    hostname: db
+    restart: always
+    build:
+      context: ./db
+      dockerfile: dockerfile
+    environment:
+      - MYSQL_ROOT_PASSWORD=web
+      - MYSQL_DATABASE=time_manager
+      - TZ=Europe/Paris
+    volumes:
+      - dbdrive:/var/lib/mysql
+    mem_limit: 1024m
+    ports:
+      - "3307:3306"
+    healthcheck:
+      test: mariadb-admin ping -h 127.0.0.1 -u root --password=$$MYSQL_ROOT_PASSWORD
+      start_period: 5s
+      interval: 5s
+      timeout: 5s
+      retries: 55
+
+volumes:
+  dbdrive:
+    driver: local

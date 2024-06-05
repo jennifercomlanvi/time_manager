@@ -1,27 +1,37 @@
+# Utilise l'image officielle Node.js basée sur Debian Slim, version 20.11.0, et la nomme "base"
 FROM node:20.11.0-slim as base
 
+# Définit l'environnement Node.js sur production
 ENV NODE_ENV=production
 
+# Définit le répertoire de travail dans le conteneur à /src
 WORKDIR /src
 
-# Build
+# Phase de construction
 FROM base as build
 
 COPY --link package.json package-lock.json ./
+# Installe les dépendances nécessaires pour la construction du projet (inclut les dépendances de développement)
 RUN npm install --production=false
 
+# Copie tous les autres fichiers et dossiers du projet dans le conteneur
 COPY --link . .
 
+# Exécute le script de build défini dans package.json
 RUN npm run build
+
+# Supprime les dépendances de développement pour réduire la taille de l'image finale
 RUN npm prune
 
 # Run
 FROM base
 
+# Définit le port d'écoute de l'application
 ENV PORT=3000
 
 COPY --from=build /src/.output /src/.output
 # Optional, only needed if you rely on unbundled dependencies
 # COPY --from=build /src/node_modules /src/node_modules
 
+# Définit la commande d'entrée pour démarrer l'application
 CMD [ "node", ".output/server/index.mjs" ]

@@ -2,7 +2,7 @@ import transporter from "./config/emailConfig";
 
 async function sendEmail(to, subject, html) {
   try {
-    let info = await transporter.sendMail({
+    await transporter.sendMail({
       from: '"Time_manager" <timemanager@brevo.com>',
       to,
       subject,

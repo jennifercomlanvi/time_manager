@@ -1,15 +1,27 @@
+# Utilise l'image officielle Node.js basée sur Debian Slim. Version 20.11.0
 FROM node:20.11.0-slim
 
+# Définit l'environnement Node.js sur production
 ENV NODE_ENV=production
+
+# Définit le répertoire de travail dans le conteneur à /src
 WORKDIR /src
 
+# Installe sequelize-cli globalement pour la gestion des migrations et des modèles
 RUN npm i -g sequelize-cli
+
+# Copie les fichiers package.json et package-lock.json dans le conteneur en utilisant le lien pour éviter de dupliquer les fichiers
 COPY --link package.json package-lock.json ./
+
+# Installe les dépendances spécifiées dans package.json
 RUN npm install
 
+# Copie tous les autres fichiers et dossiers du projet dans le conteneur
 COPY --link  . .
+
+# Donne des permissions d'exécution au script startup.sh
 RUN chmod +x startup.sh
-
+# Expose le port 3000 du conteneur (le port sur lequel l'application écoutera)
 EXPOSE 3000
-
+# Définit le point d'entrée du conteneur pour exécuter le script startup.sh lors du démarrage
 ENTRYPOINT [ "./startup.sh" ]

@@ -1,37 +1,30 @@
 version: '3.9'
 
 services:
-
+  # Service Nginx pour le frontend
   web:
-    container_name: time_manager_web
-    hostname: web
-    restart: always
-    image: nginx:latest
+    container_name: time_manager_web # Nom du conteneur
+    hostname: web # Nom d'hôte du conteneur
+    restart: always # Politique de redémarrage : toujours redémarrer le conteneur en cas de plantage
+    image: nginx:latest # Utilise l'image Nginx la plus récente
     environment:
-      - TZ=Europe/Paris
+      - TZ=Europe/Paris # Définit le fuseau horaire
     ports:
-      - "${IP:-0.0.0.0}:${PORT:-8080}:80"
+      - "${IP:-0.0.0.0}:${PORT:-8080}:80"  # Expose le port 80 du conteneur sur le port 8080
     volumes:
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf # Monte le fichier de configuration Nginx
     links:
-      - front
-      - back
+      - front # Lie ce service au service front
+      - back # Lie ce service au service back
 
-  # adminer:
-  #   container_name: time_manager_adminer
-  #   hostname: adminer
-  #   image: adminer
-  #   restart: always
-
+  # Service backend utilisant Node.js avec Koa
   back:
-    container_name: time_manager_back
-    hostname: back
+    container_name: time_manager_back  # Nom du conteneur
+    hostname: back # Nom d'hôte du conteneur
     build:
-      context: ./back
-      dockerfile: dockerfile
-    ports:
-      - "3001:3000"
-    depends_on:
+      context: ./back # Chemin du contexte de construction
+      dockerfile: dockerfile # Fichier Dockerfile pour construire l'image
+    depends_on:  # Dépend du service de base de données, avec vérification
       db:
         condition: service_healthy
     # depends_on:
@@ -39,41 +32,41 @@ services:
     # links:
     #   - db
 
+  # Service frontend utilisant Nuxt.js
   front:
-    container_name: time_manager_front
-    hostname: front
+    container_name: time_manager_front # Nom du conteneur
+    hostname: front # Nom d'hôte du conteneur
     build:
-      context: ./front
-      dockerfile: dockerfile
+      context: ./front # Chemin du contexte de construction
+      dockerfile: dockerfile # Fichier Dockerfile pour construire l'image
     environment:
-      - NODE_ENV=production
-      - TZ=Europe/Paris
-    ports:
-      - "3000:3000"
+      - NODE_ENV=production  # Définit l'environnement à utiliser
+      - TZ=Europe/Paris # Définit le fuseau horaire
 
+  # Service base de données utilisant MariaDB
   db:
-    container_name: time_manager_db
-    hostname: db
-    restart: always
+    container_name: time_manager_db # Nom du conteneur
+    hostname: db # Nom d'hôte du conteneur
+    restart: always # Politique de redémarrage : toujours redémarrer
     build:
-      context: ./db
-      dockerfile: dockerfile
+      context: ./db # Chemin du contexte de construction
+      dockerfile: dockerfile # Fichier Dockerfile pour construire l'image
     environment:
-      - MYSQL_ROOT_PASSWORD=web
-      - MYSQL_DATABASE=time_manager
-      - TZ=Europe/Paris
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD} # Mot de passe root de MySQL
+      - MYSQL_DATABASE=time_manager # Nom de la base de données à créer
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - TZ=Europe/Paris  # Définit le fuseau horaire
     volumes:
-      - dbdrive:/var/lib/mysql
-    mem_limit: 1024m
-    ports:
-      - "3307:3306"
-    healthcheck:
-      test: mariadb-admin ping -h 127.0.0.1 -u root --password=$$MYSQL_ROOT_PASSWORD
-      start_period: 5s
-      interval: 5s
-      timeout: 5s
-      retries: 55
+      - dbdrive:/var/lib/mysql # Monte le volume de données pour la persistance
+    mem_limit: 1024m # Limite de mémoire pour le conteneur
+    healthcheck: # Vérification de l'état du service de base de données
+      test: mariadb-admin ping -h 127.0.0.1 -u root --password=$$MYSQL_ROOT_PASSWORD # Commande de test
+      start_period: 5s # Temps d'attente avant le début des tests
+      interval: 5s # Intervalle entre chaque test
+      timeout: 5s # Délai avant l'expiration d'un test
+      retries: 55 # Nombre de tentatives avant de considérer le service comme défaillant
 
 volumes:
   dbdrive:
-    driver: local
+    driver: local # Définit le pilote de volume comme local
