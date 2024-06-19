@@ -104,7 +104,6 @@ function logUser() {
       remember: form.remember,
     })
     .then((r) => {
-      console.log(r);
       authTokenStore.setToken(r);
       const path = route.query.redirect
         ? { path: route.query.redirect }
@@ -121,7 +120,6 @@ function logUser() {
 }
 
 function registerUser() {
-  console.log(form);
   useHttp
     .post("/api/v1/signup", {
       name: form.name,

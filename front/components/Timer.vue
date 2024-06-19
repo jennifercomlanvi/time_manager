@@ -4,8 +4,8 @@
     <div class="card">
       <div class="time-sheet-container">
         <div class="time-sheet-header">
-          <PButton icon="pi pi pi-arrow-left" @click="goToPreviousDay" />
-          <h2>Aujourd'hui, {{ todayFormatted }}</h2>
+          <PButton icon="pi pi-arrow-left" @click="goToPreviousDay" />
+          <h2>{{ todayFormatted }}</h2>
 
           <PButton
             icon="pi pi-arrow-right"
@@ -18,29 +18,14 @@
             class="start-button"
             @click="startTimer"
           />
-          <!-- <div>{{ currentTime }}</div> -->
           <div>{{ elapsedTime }}</div>
         </div>
-
-        <!-- <PButton
-          label="+ Ajouter un journal de temps"
-          @click="toggleTimeEntryCard"
-        /> -->
-
-        <!-- <p v-if="!timeEntries.length">
-          Aucun temps suivi pour cette journée. Démarrer un nouveau journal de
-          temps.
-        </p> -->
-
-        <!-- Ici, vous mettez vos composants pour lister les journaux de temps existants -->
 
         <PCard>
           <template #title>Ajouter un journal de temps</template>
           <template #content
             ><PSplitter style="height: 300px">
-              <PSplitterPanel class="pt-4 px-2"
-                :size="75"
-              >
+              <PSplitterPanel class="pt-4 px-2" :size="50">
                 <div class="flex flex-column">
                   <div class="field">
                     <PDropdown
@@ -62,23 +47,55 @@
                       class="w-full"
                     />
                   </div>
-                <PTextarea v-model="comment" placeholder="Commentaire" autoResize rows="5" cols="30" />
-
+                  <PTextarea
+                    v-model="comment"
+                    placeholder="Commentaire"
+                    autoResize
+                    rows="5"
+                    cols="30"
+                  />
                 </div>
-                
               </PSplitterPanel>
-              <PSplitterPanel
-                class="flex align-items-center justify-content-center"
-                :size="25"
-              >
-                Panel 2
+              <PSplitterPanel class="pt-4 px-2" :size="50">
+                <div class="formgrid grid">
+                  <div class="field col-12">
+                    <PInputGroup>
+                      <PInputGroupAddon>
+                        <i class="pi pi-hourglass"></i>
+                      </PInputGroupAddon>
+                      <PInputMask mask="99:99" placeholder="hh:mm" />
+                    </PInputGroup>
+                  </div>
+
+                  <div class="field col-12 md:col-6">
+                    <PInputGroup>
+                      <PInputGroupAddon>
+                        <i class="pi pi-clock"></i>
+                      </PInputGroupAddon>
+                      <PInputMask mask="99:99" placeholder="Heure de début" />
+                    </PInputGroup>
+                  </div>
+
+                  <div class="field col-12 md:col-6">
+                    <PInputGroup>
+                      <PInputGroupAddon>
+                        <i class="pi pi-clock"></i>
+                      </PInputGroupAddon>
+                      <PInputMask mask="99:99" placeholder="Heure de fin" />
+                    </PInputGroup>
+                  </div>
+
+                  <div class="field col-12">
+                    <!-- <PCalendar dateFormat="dd/mm/yy" /> -->
+                    <PCalendar showIcon :showOnFocus="false" class="w-full" />
+                  </div>
+                </div>
               </PSplitterPanel>
             </PSplitter>
           </template>
           <template #footer>
             <div class="flex gap-3 mt-1">
               <PButton label="Démarrer la minuterie" @click="startTimer" />
-              <!-- <PButton label="Démarrer et fermer" @click="startTimerAndClose" /> -->
               <PButton label="Annuler" @click="toggleTimeEntryCard" />
             </div>
           </template>
@@ -87,6 +104,7 @@
     </div>
   </div>
 </template>
+
 <script setup>
 const showTimeEntryCard = ref(false);
 const startTime = ref(null);
@@ -125,23 +143,20 @@ const getProjects = () => {
     });
 };
 getProjects();
+
 const fetchTasksForSelectedProject = () => {
   if (!selectedProject.value) {
     tasks.value = [];
     return;
   }
-    useHttp.get(`/api/v1/project/${selectedProject.value.id}/tasks`)
+  useHttp
+    .get(`/api/v1/project/${selectedProject.value.id}/tasks`)
     .then((res) => {
-        tasks.value = res.tasks || [];
-      }
-    )
+      tasks.value = res.tasks || [];
+    })
     .catch((e) => {
       console.log(e);
-    })
-    .finally(() => {
-      // loading.value = false;
     });
-  
 };
 
 watch(selectedProject, (newVal, oldVal) => {
@@ -149,7 +164,7 @@ watch(selectedProject, (newVal, oldVal) => {
     fetchTasksForSelectedProject();
   }
 });
-// Fonction pour formater le temps écoulé en HH:MM:SS
+
 function formatTime(duration) {
   const hours = Math.floor(duration / 3600)
     .toString()
@@ -161,7 +176,6 @@ function formatTime(duration) {
   return `${hours}:${minutes}:${seconds}`;
 }
 
-// Démarrer le minuteur
 const startTimer = () => {
   if (timerInterval.value) clearInterval(timerInterval.value);
   startTime.value = Date.now();
@@ -171,13 +185,13 @@ const startTimer = () => {
   }, 1000);
 };
 
-// Arrêter le minuteur
 const stopTimer = () => {
   if (timerInterval.value) {
     clearInterval(timerInterval.value);
     timerInterval.value = null;
   }
 };
+
 const isToday = computed(() => {
   const now = new Date();
   now.setHours(0, 0, 0, 0);
@@ -206,12 +220,16 @@ const currentTime = computed(() => {
 });
 
 const goToPreviousDay = () => {
-  selectedDate.value.setDate(selectedDate.value.getDate() - 1);
+  selectedDate.value = new Date(
+    selectedDate.value.setDate(selectedDate.value.getDate() - 1),
+  );
 };
 
 const goToNextDay = () => {
   if (!isToday.value) {
-    selectedDate.value.setDate(selectedDate.value.getDate() + 1);
+    selectedDate.value = new Date(
+      selectedDate.value.setDate(selectedDate.value.getDate() + 1),
+    );
   }
 };
 
@@ -220,25 +238,19 @@ const startTimerAndClose = () => {
   showTimeEntryDialog.value = false;
 };
 
-// Nettoyer à la destruction du composant
 onUnmounted(() => {
   if (timerInterval.value) clearInterval(timerInterval.value);
 });
 </script>
-<style scoped>
-.time-sheet-container {
-  /* Votre CSS ici */
-}
 
+<style scoped>
 .time-sheet-header {
-  /* Votre CSS ici */
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
 .time-entry-card {
-  /* Votre CSS pour la carte d'entrée de temps */
   margin-top: 1em; /* Espace au-dessus de la carte */
 }
 </style>
